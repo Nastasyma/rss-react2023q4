@@ -13,6 +13,7 @@
   --font-weight-regular: #{$font-weight-regular};
   --font-weight-medium: #{$font-weight-medium};
   --font-weight-bold: #{$font-weight-bold};
+  --color-primary-text: #{$color-primary-light};
 }
 
 body {
@@ -22,9 +23,16 @@ body {
   justify-content: space-between;
   width: 100%;
   min-height: 100vh;
+  background:
+    center/cover no-repeat,
+    rgba(0, 0, 0, 0.5);
+  background-image: url('../assets/images/bg.jpg');
+  background-blend-mode: multiply;
+  background-attachment: fixed;
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
   line-height: var(--font-line-height-primary);
+  color: var(--color-primary-text);
 }
 
 a {
