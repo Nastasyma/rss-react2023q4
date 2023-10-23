@@ -1,5 +1,11 @@
+import HomePage from './pages/HomePage/HomePage';
+
 function App() {
-  return <div>rss-react2023q4</div>;
+  return (
+    <>
+      <HomePage />
+    </>
+  );
 }
 
 export default App;
