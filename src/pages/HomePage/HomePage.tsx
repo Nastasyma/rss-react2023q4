@@ -20,34 +20,34 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 
   componentDidMount() {
     const searchText = localStorage.getItem('search-text-mushrooms');
-    if (searchText && searchText.trim() !== '') {
-      axios
-        .get<ICard[]>(
-          `https://mock-server-api-nastasyma.vercel.app/catalog/?title_like=${searchText}`
-        )
-        .then((response) => {
-          this.setState({ cards: response.data });
-        })
-        .catch((error) => {
-          console.error('Error fetching filtered cards:', error);
-        });
-    } else {
-      axios
-        .get<ICard[]>('https://mock-server-api-nastasyma.vercel.app/catalog')
-        .then((response) => {
-          this.setState({ cards: response.data });
-        })
-        .catch((error) => {
-          console.error('Error fetching cards:', error);
-        });
-    }
+    this.fetchCards(searchText ? searchText : undefined);
   }
+
+  handleSearch = (value: string) => {
+    localStorage.setItem('search-text-mushrooms', value);
+    this.fetchCards(value);
+  };
+
+  fetchCards = (searchText?: string) => {
+    let url = 'https://mock-server-api-nastasyma.vercel.app/catalog';
+    if (searchText && searchText.trim() !== '') {
+      url += `?title_like=${searchText}`;
+    }
+    axios
+      .get<ICard[]>(url)
+      .then((response) => {
+        this.setState({ cards: response.data });
+      })
+      .catch((error) => {
+        console.error('Error fetching cards:', error);
+      });
+  };
   render() {
     const { cards } = this.state;
 
     return (
       <main className={styles.main}>
-        <Search />
+        <Search onSearch={this.handleSearch.bind(this)} />
         <CardsList cards={cards} />
       </main>
     );

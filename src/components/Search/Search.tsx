@@ -2,7 +2,9 @@ import { ChangeEvent, Component, FormEvent } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
 
-type SearchProps = Record<string, never>;
+interface SearchProps {
+  onSearch: (value: string) => void;
+}
 interface SearchState {
   inputValue: string;
 }
@@ -27,8 +29,9 @@ class Search extends Component<SearchProps, SearchState> {
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { inputValue } = this.state;
-    localStorage.setItem('search-text-mushrooms', inputValue);
+    this.props.onSearch(inputValue);
   };
+
   render() {
     return (
       <form className={styles.searchForm} onSubmit={this.handleSubmit}>
