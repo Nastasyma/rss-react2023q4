@@ -43,7 +43,7 @@ class Search extends Component<SearchProps, SearchState> {
           onChange={this.handleInputChange.bind(this)}
         />
         <button type="submit" className={styles.searchBtn}>
-          <SearchIcon width="20" height="20" />
+          <SearchIcon />
         </button>
       </form>
     );

@@ -2,12 +2,14 @@ import { Component } from 'react';
 import styles from './HomePage.module.scss';
 import Search from '../../components/Search/Search';
 import CardsList from '../../components/CardsList/CardsList';
+import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import axios from 'axios';
 import { ICard } from '../../utils/types';
 
 type HomePageProps = Record<string, never>;
 interface HomePageState {
   cards: ICard[];
+  isLoading: boolean;
 }
 
 class HomePage extends Component<HomePageProps, HomePageState> {
@@ -15,6 +17,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
     super(props);
     this.state = {
       cards: [] as ICard[],
+      isLoading: false,
     };
   }
 
@@ -33,22 +36,31 @@ class HomePage extends Component<HomePageProps, HomePageState> {
     if (searchText && searchText.trim() !== '') {
       url += `?title_like=${searchText}`;
     }
+
+    this.setState({ isLoading: true });
+
     axios
       .get<ICard[]>(url)
       .then((response) => {
-        this.setState({ cards: response.data });
+        this.setState({ cards: response.data, isLoading: false });
       })
-      .catch((error) => {
-        console.error('Error fetching cards:', error);
+      .catch(() => {
+        this.setState({ isLoading: false });
       });
   };
   render() {
-    const { cards } = this.state;
+    const { cards, isLoading } = this.state;
 
     return (
       <main className={styles.main}>
         <Search onSearch={this.handleSearch.bind(this)} />
-        <CardsList cards={cards} />
+        {isLoading ? (
+          <div className={styles.loadingContainer}>
+            <LoadingIcon />
+          </div>
+        ) : (
+          <CardsList cards={cards} />
+        )}
       </main>
     );
   }
