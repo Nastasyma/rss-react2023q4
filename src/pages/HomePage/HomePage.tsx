@@ -16,7 +16,7 @@ class HomePage extends Component<HomePageProps, HomePageState> {
   constructor(props: HomePageProps) {
     super(props);
     this.state = {
-      cards: [] as ICard[],
+      cards: [],
       isLoading: false,
     };
   }

@@ -16,7 +16,7 @@ class Card extends Component<CardProps> {
     const { title, edibility, image, habitat, season, description } = this.props.data;
 
     return (
-      <div className={styles.cardWrapper}>
+      <div className={styles.card}>
         <div className={styles.cardImg}>
           <img src={image} alt={`${title} image`} />
         </div>
