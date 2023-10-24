@@ -1,34 +1,39 @@
 import { Component } from 'react';
 import styles from './Card.module.scss';
-import Img from '../../assets/images/cep.jpg';
+import { ICard } from '../../utils/types';
 import KnifeIcon from '../../assets/images/knife-and-spoon.svg?react';
 import TreeIcon from '../../assets/images/tree.svg?react';
 import SeasonsIcon from '../../assets/images/seansons.svg?react';
 
-class Card extends Component {
+interface CardProps {
+  data: ICard;
+}
+class Card extends Component<CardProps> {
+  constructor(props: CardProps) {
+    super(props);
+  }
   render() {
+    const { title, edibility, image, habitat, season, description } = this.props.data;
+
     return (
       <div className={styles.cardWrapper}>
         <div className={styles.cardImg}>
-          <img src={Img} alt="Mushroom Image" />
+          <img src={image} alt={`${title} image`} />
         </div>
-        <h2>Cep</h2>
+        <h2>{title}</h2>
         <div className={styles.cardIcon}>
-          <KnifeIcon width="20" height="20" />
-          <span>Edible</span>
-        </div>
-        <div className={styles.cardIcon}>
-          <TreeIcon width="20" height="20" />
-          <span>Coniferous and mixed forests</span>
+          <KnifeIcon />
+          <span>{edibility}</span>
         </div>
         <div className={styles.cardIcon}>
-          <SeasonsIcon width="20" height="20" />
-          <span>June - September</span>
+          <TreeIcon />
+          <span>{habitat}</span>
         </div>
-        <div className={styles.cardDescription}>
-          The most colorful representative of the mushroom kingdom. According to some sources, it
-          earned its name because its flesh remains marbled white even after cooking.
+        <div className={styles.cardIcon}>
+          <SeasonsIcon />
+          <span>{season}</span>
         </div>
+        <div className={styles.cardDescription}>{description}</div>
       </div>
     );
   }
