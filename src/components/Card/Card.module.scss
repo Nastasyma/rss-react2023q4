@@ -1,0 +1,37 @@
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+  width: 270px;
+  background-color: var(--color-primary-bg-light);
+  box-shadow: 4px 3px 8px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+
+  .cardImg {
+    max-width: 250px;
+    display: flex;
+    align-self: center;
+
+    img {
+      width: 100%;
+      display: flex;
+      border-radius: 10px;
+    }
+  }
+
+  .cardIcon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cardDescription {
+    margin-top: 6px;
+    display: -webkit-box;
+    max-height: 70px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
