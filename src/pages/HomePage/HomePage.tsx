@@ -3,7 +3,6 @@ import styles from './HomePage.module.scss';
 import Search from '../../components/Search/Search';
 import CardsList from '../../components/CardsList/CardsList';
 import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
-import axios from 'axios';
 import { ICard } from '../../utils/types';
 
 type HomePageProps = Record<string, never>;
@@ -39,10 +38,10 @@ class HomePage extends Component<HomePageProps, HomePageState> {
 
     this.setState({ isLoading: true });
 
-    axios
-      .get<ICard[]>(url)
-      .then((response) => {
-        this.setState({ cards: response.data, isLoading: false });
+    fetch(url)
+      .then((response) => response.json())
+      .then((data: ICard[]) => {
+        this.setState({ cards: data, isLoading: false });
       })
       .catch(() => {
         this.setState({ isLoading: false });
