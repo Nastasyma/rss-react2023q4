@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import style from './ErrorButton.module.scss';
 
 interface ErrorButtonProps {
   title: string;
@@ -22,10 +23,14 @@ class ErrorButton extends Component<ErrorButtonProps, ErrorButtonState> {
 
   render() {
     if (this.state.hasError) {
-      throw new Error('Custom Error');
+      throw new Error('Too much caffeine injected into the system!');
     }
 
-    return <button onClick={this.handleClick}>{this.props.title}</button>;
+    return (
+      <button title="Click to throw error" className={style.errorButton} onClick={this.handleClick}>
+        {this.props.title}
+      </button>
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import { Component, ReactNode } from 'react';
+import FallBackUIComponent from './FallBackUI/FallBackUIComponent';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -7,6 +8,7 @@ interface ErrorBoundaryProps {
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  error: string;
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -14,15 +16,20 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     super(props);
     this.state = {
       hasError: false,
+      error: '',
     };
   }
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return {
+      hasError: true,
+      error: error.toString(),
+    };
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback;
+      return <FallBackUIComponent errorText={this.state.error} />;
     }
 
     return this.props.children;

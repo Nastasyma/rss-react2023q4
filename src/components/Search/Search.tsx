@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
-import ErrorButton from '../Error/ErrorButton';
+import ErrorButton from '../Error/ErrorButton/ErrorButton';
 
 interface SearchProps {
   onSearch: (value: string) => void;
