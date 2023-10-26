@@ -1,6 +1,7 @@
 import { ChangeEvent, Component, FormEvent } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
+import CrossIcon from '../../assets/images/cross.svg?react';
 import ErrorButton from '../Error/ErrorButton/ErrorButton';
 
 interface SearchProps {
@@ -28,6 +29,10 @@ class Search extends Component<SearchProps, SearchState> {
     this.setState({ inputValue });
   };
 
+  handleClearInput = () => {
+    this.setState({ inputValue: '' });
+  };
+
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { inputValue } = this.state;
@@ -45,6 +50,11 @@ class Search extends Component<SearchProps, SearchState> {
             className={styles.searchInput}
             onChange={this.handleInputChange.bind(this)}
           />
+          {this.state.inputValue && (
+            <button type="button" className={styles.clearInputBtn} onClick={this.handleClearInput}>
+              <CrossIcon />
+            </button>
+          )}
           <button type="submit" className={styles.searchBtn}>
             <SearchIcon />
           </button>

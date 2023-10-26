@@ -18,10 +18,13 @@ class FallBackUIComponent extends Component<FallBackUIProps> {
     return (
       <div className={styles.fallbackContainer}>
         <div className={styles.fallback}>
-          <h2>{this.props.errorText}</h2>
-          <button className={styles.reloadBtn} onClick={this.handleReload}>
-            Reload App
-          </button>
+          <div className={styles.fallbackText}>
+            <h2>Something went wrong...</h2>
+            <span className={styles.fallbackError}>{this.props.errorText}</span>
+            <button className={styles.reloadBtn} onClick={this.handleReload}>
+              Reload App
+            </button>
+          </div>
         </div>
       </div>
     );
