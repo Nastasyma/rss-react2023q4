@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin: 0 auto;
+  width: 400px;
   gap: 20px;
 
   .searchForm {
@@ -9,10 +11,9 @@
     display: flex;
     box-shadow: 4px 3px 8px 0px rgba(34, 60, 80, 0.2);
     border-radius: 5px;
-    max-width: 400px;
     width: 100%;
 
-    @media screen and (max-width: 360px) {
+    @media screen and (max-width: 450px) {
       max-width: 300px;
     }
 
