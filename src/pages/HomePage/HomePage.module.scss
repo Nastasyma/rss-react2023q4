@@ -1,0 +1,17 @@
+.main {
+  max-width: var(--width-main-container);
+  width: 100%;
+  padding: 20px;
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+
+    svg {
+      width: 20vw;
+      height: 20vh;
+    }
+  }
+}
