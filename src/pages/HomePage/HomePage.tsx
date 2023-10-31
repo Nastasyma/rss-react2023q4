@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './HomePage.module.scss';
 import Search from '../../components/Search/Search';
 import CardsList from '../../components/CardsList/CardsList';
@@ -17,54 +17,57 @@ function HomePage(): JSX.Element {
 
   const [, setSearchParams] = useSearchParams();
 
+  const fetchCards = useCallback(
+    async (searchText?: string, page = 1) => {
+      let url = `https://mock-server-api-nastasyma.vercel.app/catalog?_limit=4&_page=${page}`;
+      if (searchText && searchText.trim() !== '') {
+        url += `&title_like=${searchText}`;
+      }
+
+      setSearchParams((searchParams) => {
+        searchParams.set('page', `${page}`);
+        return searchParams;
+      });
+
+      setIsLoading(true);
+      setIsSearchError(false);
+
+      try {
+        const response = await fetch(url);
+        const data: ICard[] = await response.json();
+
+        if (data.length === 0) {
+          setCards([]);
+          setIsSearchError(true);
+        } else {
+          setCards(data);
+          const totalCountHeader = response.headers.get('X-Total-Count');
+          const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
+          const calculatedTotalPages = Math.ceil(totalCount / 4);
+          setTotalPages(calculatedTotalPages);
+        }
+      } catch (error) {
+        setIsSearchError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setSearchParams]
+  );
+
   useEffect(() => {
     const searchText = localStorage.getItem('search-text-mushrooms');
     fetchCards(searchText ? searchText : undefined, currentPage);
-  }, [currentPage]);
+  }, [currentPage, fetchCards]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handleSearch = (value: string) => {
     localStorage.setItem('search-text-mushrooms', value);
     setCurrentPage(1);
     fetchCards(value);
-  };
-
-  const fetchCards = async (searchText?: string, page = 1) => {
-    let url = `https://mock-server-api-nastasyma.vercel.app/catalog?_limit=4&_page=${page}`;
-    if (searchText && searchText.trim() !== '') {
-      url += `&title_like=${searchText}`;
-    }
-
-    setSearchParams((searchParams) => {
-      searchParams.set('page', `${page}`);
-      return searchParams;
-    });
-
-    setIsLoading(true);
-    setIsSearchError(false);
-
-    try {
-      const response = await fetch(url);
-      const data: ICard[] = await response.json();
-
-      if (data.length === 0) {
-        setCards([]);
-        setIsSearchError(true);
-      } else {
-        setCards(data);
-        const totalCountHeader = response.headers.get('X-Total-Count');
-        const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-        const calculatedTotalPages = Math.ceil(totalCount / 4);
-        setTotalPages(calculatedTotalPages);
-      }
-    } catch (error) {
-      setIsSearchError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
   };
 
   return (
