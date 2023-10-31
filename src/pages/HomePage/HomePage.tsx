@@ -7,6 +7,7 @@ import { ICard } from '../../utils/types';
 import NoResults from '../../components/Error/NoResults/NoResults';
 import Pagination from '../../components/Pagination/Pagination';
 import { useSearchParams } from 'react-router-dom';
+import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
 
 function HomePage(): JSX.Element {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -14,12 +15,14 @@ function HomePage(): JSX.Element {
   const [isSearchError, setIsSearchError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
 
   const [, setSearchParams] = useSearchParams();
 
   const fetchCards = useCallback(
     async (searchText?: string, page = 1) => {
-      let url = `https://mock-server-api-nastasyma.vercel.app/catalog?_limit=4&_page=${page}`;
+      let url = `https://mock-server-api-nastasyma.vercel.app/catalog?_limit=${itemsPerPage}&_page=${page}`;
       if (searchText && searchText.trim() !== '') {
         url += `&title_like=${searchText}`;
       }
@@ -43,8 +46,9 @@ function HomePage(): JSX.Element {
           setCards(data);
           const totalCountHeader = response.headers.get('X-Total-Count');
           const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-          const calculatedTotalPages = Math.ceil(totalCount / 4);
+          const calculatedTotalPages = Math.ceil(totalCount / itemsPerPage);
           setTotalPages(calculatedTotalPages);
+          setTotalCountHeader(totalCountHeader);
         }
       } catch (error) {
         setIsSearchError(true);
@@ -52,7 +56,7 @@ function HomePage(): JSX.Element {
         setIsLoading(false);
       }
     },
-    [setSearchParams]
+    [setSearchParams, itemsPerPage]
   );
 
   useEffect(() => {
@@ -70,9 +74,24 @@ function HomePage(): JSX.Element {
     fetchCards(value);
   };
 
+  const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (value !== itemsPerPage) {
+      setItemsPerPage(value);
+      setCurrentPage(1);
+      const calculatedTotalPages = Math.ceil(cards.length / value);
+      setTotalPages(calculatedTotalPages);
+    }
+  };
+
   return (
     <main className={styles.main}>
       <Search onSearch={handleSearch} />
+      <ItemsPerPage
+        value={itemsPerPage}
+        max={totalCountHeader !== null ? totalCountHeader : undefined}
+        onChange={handleItemsPerPageChange}
+      />
       {isLoading ? (
         <div className={styles.loadingContainer}>
           <LoadingIcon />
