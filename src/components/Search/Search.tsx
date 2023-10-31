@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
 import CrossIcon from '../../assets/images/cross.svg?react';
@@ -7,62 +7,52 @@ import ErrorButton from '../Error/ErrorButton/ErrorButton';
 interface SearchProps {
   onSearch: (value: string) => void;
 }
-interface SearchState {
-  inputValue: string;
-  error: Error | null;
-}
-class Search extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = { inputValue: '', error: null };
-  }
+function Search({ onSearch }: SearchProps): JSX.Element {
+  const [inputValue, setInputValue] = useState('');
 
-  componentDidMount(): void {
+  useEffect(() => {
     const searchText = localStorage.getItem('search-text-mushrooms');
     if (searchText) {
-      this.setState({ inputValue: searchText });
+      setInputValue(searchText);
     }
-  }
+  }, []);
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    this.setState({ inputValue });
+    setInputValue(inputValue);
   };
 
-  handleClearInput = () => {
-    this.setState({ inputValue: '' });
+  const handleClearInput = () => {
+    setInputValue('');
   };
 
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { inputValue } = this.state;
-    this.props.onSearch(inputValue);
+    onSearch(inputValue);
   };
 
-  render() {
-    return (
-      <div className={styles.searchWrapper}>
-        <form className={styles.searchForm} onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Search"
-            value={this.state.inputValue}
-            className={styles.searchInput}
-            onChange={this.handleInputChange.bind(this)}
-          />
-          {this.state.inputValue && (
-            <button type="button" className={styles.clearInputBtn} onClick={this.handleClearInput}>
-              <CrossIcon />
-            </button>
-          )}
-          <button type="submit" className={styles.searchBtn}>
-            <SearchIcon />
+  return (
+    <div className={styles.searchWrapper}>
+      <form className={styles.searchForm} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Search"
+          value={inputValue}
+          className={styles.searchInput}
+          onChange={handleInputChange}
+        />
+        {inputValue && (
+          <button type="button" className={styles.clearInputBtn} onClick={handleClearInput}>
+            <CrossIcon />
           </button>
-        </form>
-        <ErrorButton title="Click me!" />
-      </div>
-    );
-  }
+        )}
+        <button type="submit" className={styles.searchBtn}>
+          <SearchIcon />
+        </button>
+      </form>
+      <ErrorButton title="Click me!" />
+    </div>
+  );
 }
 
 export default Search;

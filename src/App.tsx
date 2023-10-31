@@ -1,7 +1,7 @@
 import ErrorBoundary from './components/Error/ErrorBoundary';
 import HomePage from './pages/HomePage/HomePage';
 
-function App() {
+function App(): JSX.Element {
   return (
     <ErrorBoundary>
       <HomePage />
