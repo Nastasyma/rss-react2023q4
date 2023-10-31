@@ -21,6 +21,7 @@ function HomePage(): JSX.Element {
 
   const handleSearch = (value: string) => {
     localStorage.setItem('search-text-mushrooms', value);
+    setCurrentPage(1);
     fetchCards(value);
   };
 
@@ -44,8 +45,8 @@ function HomePage(): JSX.Element {
         setCards(data);
         const totalCountHeader = response.headers.get('X-Total-Count');
         const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-        const totalPages = Math.ceil(totalCount / 4);
-        setTotalPages(totalPages);
+        const calculatedTotalPages = Math.ceil(totalCount / 4);
+        setTotalPages(calculatedTotalPages);
       }
     } catch (error) {
       setIsSearchError(true);
