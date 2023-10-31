@@ -6,6 +6,7 @@ import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import { ICard } from '../../utils/types';
 import NoResults from '../../components/Error/NoResults/NoResults';
 import Pagination from '../../components/Pagination/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 function HomePage(): JSX.Element {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -13,6 +14,8 @@ function HomePage(): JSX.Element {
   const [isSearchError, setIsSearchError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const searchText = localStorage.getItem('search-text-mushrooms');
@@ -30,6 +33,11 @@ function HomePage(): JSX.Element {
     if (searchText && searchText.trim() !== '') {
       url += `&title_like=${searchText}`;
     }
+
+    setSearchParams((searchParams) => {
+      searchParams.set('page', `${page}`);
+      return searchParams;
+    });
 
     setIsLoading(true);
     setIsSearchError(false);

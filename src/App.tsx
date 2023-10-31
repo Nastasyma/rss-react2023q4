@@ -1,10 +1,11 @@
+import { RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './components/Error/ErrorBoundary';
-import HomePage from './pages/HomePage/HomePage';
+import router from './router';
 
 function App(): JSX.Element {
   return (
     <ErrorBoundary>
-      <HomePage />
+      <RouterProvider router={router} />
     </ErrorBoundary>
   );
 }
