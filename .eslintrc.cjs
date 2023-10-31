@@ -7,6 +7,8 @@ module.exports = {
     node: true,
   },
   extends: [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
@@ -35,7 +37,8 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-var-requires": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "error"
   },
   settings: {
     react: {
