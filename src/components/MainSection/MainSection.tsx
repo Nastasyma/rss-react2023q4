@@ -5,7 +5,7 @@ import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import { ICard } from '../../utils/types';
 import NoResults from '../../components/Error/NoResults/NoResults';
 import Pagination from '../../components/Pagination/Pagination';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
 import { fetchCards } from '../../utils/api';
 
@@ -25,6 +25,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
   const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
+  const id = searchParams.get('mushroom');
 
   const createCards = useCallback(
     async (page = 1) => {
@@ -58,28 +59,33 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
   }, [currentPage, createCards]);
 
   return (
-    <div className={styles.main}>
-      <ItemsPerPage
-        count={totalCountHeader}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-      />
-      {isLoading ? (
-        <div className={styles.loadingContainer}>
-          <LoadingIcon />
-        </div>
-      ) : isSearchError ? (
-        <NoResults />
-      ) : (
-        <>
-          <Pagination
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setSearchParams={setSearchParams}
+    <div className={styles.mainContainer}>
+      <div className={styles.cardsContainer}>
+        <div>
+          <ItemsPerPage
+            count={totalCountHeader}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
           />
-          <CardsList cards={cards} />
-        </>
-      )}
+          {isLoading ? (
+            <div className={styles.loadingContainer}>
+              <LoadingIcon />
+            </div>
+          ) : isSearchError ? (
+            <NoResults />
+          ) : (
+            <>
+              <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setSearchParams={setSearchParams}
+              />
+              <CardsList cards={cards} />
+            </>
+          )}
+        </div>
+        {id ? <Outlet /> : ''}
+      </div>
     </div>
   );
 }

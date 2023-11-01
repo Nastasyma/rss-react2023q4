@@ -12,3 +12,11 @@ export async function fetchCards(searchText?: string | null, page = 1, itemsPerP
 
   return { data, totalCountHeader };
 }
+
+export async function fetchDetailedCard(id: string) {
+  const url = `https://mock-server-api-nastasyma.vercel.app/catalog/${id}`;
+
+  const response = await fetch(url);
+  const data: ICard = await response.json();
+  return data;
+}

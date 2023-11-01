@@ -32,7 +32,10 @@ function Search({ onSearch }: SearchProps): JSX.Element {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     localStorage.setItem('search-text-mushrooms', inputValue);
     event.preventDefault();
-    setSearchParams({ page: '1' });
+    setSearchParams((searchParams) => {
+      searchParams.set('page', '1');
+      return searchParams;
+    });
     onSearch(inputValue);
   };
 

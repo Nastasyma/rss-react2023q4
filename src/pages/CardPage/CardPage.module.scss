@@ -1,0 +1,16 @@
+.cardContainer {
+  width: 500px;
+  padding: 20px 20px 20px 0;
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+
+    svg {
+      width: 15vw;
+      height: 15vh;
+    }
+  }
+}

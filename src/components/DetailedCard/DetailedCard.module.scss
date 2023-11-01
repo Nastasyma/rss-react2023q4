@@ -1,0 +1,39 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 20px;
+  width: 500px;
+  height: 100%;
+  background-color: var(--color-primary-bg-light);
+  box-shadow: 4px 3px 8px 0px rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+
+  .cardImg {
+    max-width: 260px;
+    display: flex;
+    align-self: center;
+
+    img {
+      width: 100%;
+      display: flex;
+      border-radius: 10px;
+    }
+  }
+
+  .cardIcon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .cardDescription {
+    margin-top: 6px;
+  }
+}

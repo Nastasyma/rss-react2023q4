@@ -1,28 +1,18 @@
-import styles from './Card.module.scss';
 import { ICard } from '../../utils/types';
+import styles from './DetailedCard.module.scss';
 import KnifeIcon from '../../assets/images/knife-and-spoon.svg?react';
 import TreeIcon from '../../assets/images/tree.svg?react';
 import SeasonsIcon from '../../assets/images/seansons.svg?react';
-import { useSearchParams } from 'react-router-dom';
 
-interface CardProps {
-  data: ICard;
+interface DetailedCardProps {
+  card: ICard;
 }
 
-function Card({ data }: CardProps): JSX.Element {
-  const { title, edibility, image, habitat, season, description, id } = data;
-  const [, setSearchParams] = useSearchParams();
+function DetailedCard({ card }: DetailedCardProps): JSX.Element {
+  const { title, edibility, image, habitat, season, description } = card;
 
   return (
-    <div
-      className={styles.card}
-      onClick={() => {
-        setSearchParams((searchParams) => {
-          searchParams.set('mushroom', id.toString());
-          return searchParams;
-        });
-      }}
-    >
+    <div className={styles.card}>
       <div className={styles.cardImg}>
         <img src={image} alt={`${title} image`} />
       </div>
@@ -44,4 +34,4 @@ function Card({ data }: CardProps): JSX.Element {
   );
 }
 
-export default Card;
+export default DetailedCard;

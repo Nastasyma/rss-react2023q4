@@ -16,7 +16,10 @@ function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
     const value = parseInt(event.target.value);
     if (value !== itemsPerPage) {
       setItemsPerPage(value);
-      setSearchParams({ page: '1' });
+      setSearchParams((searchParams) => {
+        searchParams.set('page', '1');
+        return searchParams;
+      });
       localStorage.setItem('itemsPerPage-mushrooms', value.toString());
     }
   };

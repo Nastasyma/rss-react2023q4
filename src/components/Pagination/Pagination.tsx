@@ -9,7 +9,10 @@ interface PaginationProps {
 
 function Pagination({ totalPages, currentPage, setSearchParams }: PaginationProps): JSX.Element {
   const handlePageChange = (page: number) => {
-    setSearchParams({ page: page.toString() });
+    setSearchParams((searchParams) => {
+      searchParams.set('page', page.toString());
+      return searchParams;
+    });
   };
 
   const handlePrevPage = () => {
