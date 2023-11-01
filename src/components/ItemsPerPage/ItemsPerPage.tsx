@@ -1,20 +1,23 @@
+import { useSearchParams } from 'react-router-dom';
 import styles from './ItemsPerPage.module.scss';
 
 interface ItemsPerPageProps {
   count: string | null;
   itemsPerPage: number;
   setItemsPerPage: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
-  const { count, itemsPerPage, setItemsPerPage, setCurrentPage } = props;
+  const { count, itemsPerPage, setItemsPerPage } = props;
+
+  const [, setSearchParams] = useSearchParams();
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
     if (value !== itemsPerPage) {
       setItemsPerPage(value);
-      setCurrentPage(1);
+      setSearchParams({ page: '1' });
+      localStorage.setItem('itemsPerPage-mushrooms', value.toString());
     }
   };
 

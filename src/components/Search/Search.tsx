@@ -2,20 +2,23 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
 import CrossIcon from '../../assets/images/cross.svg?react';
-import ErrorButton from '../Error/ErrorButton/ErrorButton';
+import { useSearchParams } from 'react-router-dom';
 
 interface SearchProps {
+  searchText: string | null;
   onSearch: (value: string) => void;
 }
 function Search({ onSearch }: SearchProps): JSX.Element {
   const [inputValue, setInputValue] = useState('');
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const searchText = localStorage.getItem('search-text-mushrooms');
     if (searchText) {
       setInputValue(searchText);
+      onSearch(searchText);
     }
-  }, []);
+  }, [onSearch]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -27,7 +30,9 @@ function Search({ onSearch }: SearchProps): JSX.Element {
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    localStorage.setItem('search-text-mushrooms', inputValue);
     event.preventDefault();
+    setSearchParams({ page: '1' });
     onSearch(inputValue);
   };
 
@@ -50,7 +55,6 @@ function Search({ onSearch }: SearchProps): JSX.Element {
           <SearchIcon />
         </button>
       </form>
-      <ErrorButton title="Click me!" />
     </div>
   );
 }

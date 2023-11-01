@@ -1,21 +1,26 @@
+import { SetURLSearchParams } from 'react-router-dom';
 import styles from './Pagination.module.scss';
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
-  onPageChange: (page: number) => void;
+  setSearchParams: SetURLSearchParams;
 }
 
-function Pagination({ totalPages, currentPage, onPageChange }: PaginationProps): JSX.Element {
+function Pagination({ totalPages, currentPage, setSearchParams }: PaginationProps): JSX.Element {
+  const handlePageChange = (page: number) => {
+    setSearchParams({ page: page.toString() });
+  };
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      handlePageChange(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      handlePageChange(currentPage + 1);
     }
   };
 

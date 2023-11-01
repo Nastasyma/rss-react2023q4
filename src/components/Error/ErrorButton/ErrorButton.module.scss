@@ -1,6 +1,11 @@
 .errorButton {
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 10px;
   border: 1px solid var(--color-input-border);
   border-radius: 5px;
   background-color: var(--color-input-border);
