@@ -27,11 +27,6 @@ function HomePage(): JSX.Element {
         url += `&title_like=${searchText}`;
       }
 
-      setSearchParams((searchParams) => {
-        searchParams.set('page', `${page}`);
-        return searchParams;
-      });
-
       setIsLoading(true);
       setIsSearchError(false);
 
@@ -56,7 +51,7 @@ function HomePage(): JSX.Element {
         setIsLoading(false);
       }
     },
-    [setSearchParams, itemsPerPage]
+    [itemsPerPage]
   );
 
   useEffect(() => {
@@ -66,31 +61,24 @@ function HomePage(): JSX.Element {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setSearchParams({ page: page.toString() });
   };
 
   const handleSearch = (value: string) => {
     localStorage.setItem('search-text-mushrooms', value);
     setCurrentPage(1);
+    setSearchParams({ page: '1', search: value });
     fetchCards(value);
-  };
-
-  const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value);
-    if (value !== itemsPerPage) {
-      setItemsPerPage(value);
-      setCurrentPage(1);
-      const calculatedTotalPages = Math.ceil(cards.length / value);
-      setTotalPages(calculatedTotalPages);
-    }
   };
 
   return (
     <main className={styles.main}>
       <Search onSearch={handleSearch} />
       <ItemsPerPage
-        value={itemsPerPage}
-        max={totalCountHeader !== null ? totalCountHeader : undefined}
-        onChange={handleItemsPerPageChange}
+        count={totalCountHeader}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        setCurrentPage={setCurrentPage}
       />
       {isLoading ? (
         <div className={styles.loadingContainer}>
@@ -100,12 +88,12 @@ function HomePage(): JSX.Element {
         <NoResults />
       ) : (
         <>
-          <CardsList cards={cards} />
           <Pagination
             totalPages={totalPages}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />
+          <CardsList cards={cards} />
         </>
       )}
     </main>
