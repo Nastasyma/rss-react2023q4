@@ -29,7 +29,7 @@ function CardPage(): JSX.Element {
     <div className={styles.cardContainer}>
       {isLoading ? (
         <div className={styles.loadingContainer}>
-          <LoadingIcon />
+          <LoadingIcon className={styles.loadingIcon} />
         </div>
       ) : card ? (
         <DetailedCard card={card} />

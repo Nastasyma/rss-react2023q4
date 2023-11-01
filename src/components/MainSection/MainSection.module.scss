@@ -1,20 +1,19 @@
 .mainContainer {
   .cardsContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+
+  .loadingContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    height: 60vh;
 
-    .loadingContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 60vh;
-
-      svg {
-        width: 20vw;
-        height: 20vh;
-      }
+    .loadingIcon {
+      width: 20vw;
+      height: 20vh;
     }
   }
 }

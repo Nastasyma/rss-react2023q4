@@ -1,14 +1,18 @@
 .cardContainer {
+  width: 100%;
   width: 500px;
-  padding: 20px 20px 20px 0;
+  display: flex;
+  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+  padding-top: 155px;
 
   .loadingContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40vh;
 
-    svg {
+    .loadingIcon {
       width: 15vw;
       height: 15vh;
     }

@@ -60,7 +60,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
 
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.cardsContainer}>
+      <div className={id ? styles.cardsContainer : ''}>
         <div>
           <ItemsPerPage
             count={totalCountHeader}
@@ -69,7 +69,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
           />
           {isLoading ? (
             <div className={styles.loadingContainer}>
-              <LoadingIcon />
+              <LoadingIcon className={styles.loadingIcon} />
             </div>
           ) : isSearchError ? (
             <NoResults />
