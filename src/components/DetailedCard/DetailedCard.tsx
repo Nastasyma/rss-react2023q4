@@ -14,6 +14,7 @@ function DetailedCard({ card }: DetailedCardProps): JSX.Element {
     <div className={styles.card}>
       <div className={styles.cardInfo}>
         <button
+          className={styles.closeBtn}
           type="button"
           onClick={() => {
             setSearchParams((searchParams) => {

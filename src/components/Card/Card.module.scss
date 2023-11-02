@@ -4,9 +4,10 @@
   gap: 2px;
   padding: 20px;
   width: 300px;
-  background-color: var(--color-primary-bg-light);
+  background-color: var(--color-primary-bg);
   box-shadow: 4px 3px 8px 0px rgba(34, 60, 80, 0.2);
   border-radius: 10px;
+  cursor: pointer;
 
   .cardImg {
     max-width: 260px;
