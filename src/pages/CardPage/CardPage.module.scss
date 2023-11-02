@@ -8,6 +8,15 @@
   padding-top: 155px;
   height: 100%;
 
+  @media (max-width: 1000px) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    max-width: 350px;
+    padding-top: 0;
+  }
+
   .loadingContainer {
     display: flex;
     justify-content: flex-start;
