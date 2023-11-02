@@ -41,7 +41,9 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
         } else {
           setCards(data);
           const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-          const calculatedTotalPages = Math.ceil(totalCount / itemsPerPage);
+          const calculatedTotalPages = !isNaN(itemsPerPage)
+            ? Math.ceil(totalCount / itemsPerPage)
+            : 0;
           setTotalPages(calculatedTotalPages);
           setTotalCountHeader(totalCountHeader);
         }
@@ -61,7 +63,18 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
   return (
     <div className={styles.mainContainer}>
       <div className={id ? styles.cardsContainer : ''}>
-        <div>
+        <div className={styles.cardsList}>
+          {id && (
+            <div
+              className={styles.overlay}
+              onClick={() => {
+                setSearchParams((searchParams) => {
+                  searchParams.delete('mushroom');
+                  return searchParams;
+                });
+              }}
+            />
+          )}
           <ItemsPerPage
             count={totalCountHeader}
             itemsPerPage={itemsPerPage}
