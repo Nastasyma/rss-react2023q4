@@ -6,15 +6,17 @@
   justify-content: center;
   align-items: center;
   padding-top: 155px;
+  padding-bottom: 30px;
+  height: 100%;
 
   .loadingContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-self: flex-start;
 
     .loadingIcon {
-      width: 15vw;
-      height: 15vh;
+      width: 100px;
+      height: 100px;
     }
   }
 }
