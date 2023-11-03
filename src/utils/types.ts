@@ -7,7 +7,3 @@ export interface ICard {
   season: string;
   description: string;
 }
-
-export enum RoutesName {
-  home = '/',
-}
