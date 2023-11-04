@@ -3,24 +3,21 @@ import styles from './ItemsPerPage.module.scss';
 
 interface ItemsPerPageProps {
   count: string | null;
-  itemsPerPage: number;
-  setItemsPerPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
-  const { count, itemsPerPage, setItemsPerPage } = props;
-
-  const [, setSearchParams] = useSearchParams();
+  const { count } = props;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const itemsPerPage = parseInt(searchParams.get('limit') || '0');
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
     if (value !== itemsPerPage) {
-      setItemsPerPage(value);
       setSearchParams((searchParams) => {
         searchParams.set('page', '1');
+        searchParams.set('limit', value.toString());
         return searchParams;
       });
-      localStorage.setItem('itemsPerPage-mushrooms', value.toString());
     }
   };
 

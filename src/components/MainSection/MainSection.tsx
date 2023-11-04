@@ -17,15 +17,11 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(
-    localStorage.getItem('itemsPerPage-mushrooms')
-      ? parseInt(localStorage.getItem('itemsPerPage-mushrooms')!)
-      : 4
-  );
   const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const id = searchParams.get('mushroom');
+  const limit = searchParams.get('limit') || '0';
 
   const createCards = useCallback(
     async (page = 1) => {
@@ -33,7 +29,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
       setIsSearchError(false);
 
       try {
-        const { data, totalCountHeader } = await fetchCards(searchText, page, itemsPerPage);
+        const { data, totalCountHeader } = await fetchCards(searchText, page, parseInt(limit));
 
         if (data.length === 0) {
           setCards([]);
@@ -41,8 +37,8 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
         } else {
           setCards(data);
           const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-          const calculatedTotalPages = !isNaN(itemsPerPage)
-            ? Math.ceil(totalCount / itemsPerPage)
+          const calculatedTotalPages = !isNaN(parseInt(limit))
+            ? Math.ceil(totalCount / parseInt(limit))
             : 0;
           setTotalPages(calculatedTotalPages);
           setTotalCountHeader(totalCountHeader);
@@ -53,12 +49,19 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
         setIsLoading(false);
       }
     },
-    [itemsPerPage, searchText]
+    [limit, searchText]
   );
 
   useEffect(() => {
     createCards(currentPage);
-  }, [currentPage, createCards]);
+    if (searchParams.toString() === '') {
+      setSearchParams((searchParams) => {
+        searchParams.set('page', '1');
+        searchParams.set('limit', '4');
+        return searchParams;
+      });
+    }
+  }, [currentPage, createCards, searchParams, setSearchParams]);
 
   return (
     <div className={styles.mainContainer}>
@@ -75,11 +78,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
               }}
             />
           )}
-          <ItemsPerPage
-            count={totalCountHeader}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-          />
+          <ItemsPerPage count={totalCountHeader} />
           {isLoading ? (
             <div className={styles.loadingContainer}>
               <LoadingIcon className={styles.loadingIcon} />

@@ -13,8 +13,13 @@ function HomePage(): JSX.Element {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
   const id = searchParams.get('mushroom');
+  const limit = searchParams.get('limit') || '0';
 
-  if ((page && isNaN(Number(page))) || (id && isNaN(Number(id)))) {
+  if (
+    (page && isNaN(Number(page))) ||
+    (id && isNaN(Number(id))) ||
+    (limit && isNaN(Number(limit)))
+  ) {
     return <ErrorPage />;
   }
 
