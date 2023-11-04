@@ -54,14 +54,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
 
   useEffect(() => {
     createCards(currentPage);
-    if (searchParams.toString() === '') {
-      setSearchParams((searchParams) => {
-        searchParams.set('page', '1');
-        searchParams.set('limit', '4');
-        return searchParams;
-      });
-    }
-  }, [currentPage, createCards, searchParams, setSearchParams]);
+  }, [currentPage, createCards]);
 
   return (
     <div className={styles.mainContainer}>
