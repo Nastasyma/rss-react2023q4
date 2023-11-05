@@ -4,7 +4,7 @@ import Search from '../../components/Search/Search';
 import MainSection from '../../components/MainSection/MainSection';
 import { useEffect, useState } from 'react';
 import ErrorButton from '../../components/Error/ErrorButton/ErrorButton';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
 
 function HomePage(): JSX.Element {
@@ -15,6 +15,8 @@ function HomePage(): JSX.Element {
   const id = searchParams.get('mushroom');
   const limit = searchParams.get('limit') || '0';
 
+  const location = useLocation();
+
   useEffect(() => {
     if (searchParams.toString() === '') {
       setSearchParams((searchParams) => {
@@ -23,7 +25,7 @@ function HomePage(): JSX.Element {
         return searchParams;
       });
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, location]);
 
   if (
     (page && isNaN(Number(page))) ||
