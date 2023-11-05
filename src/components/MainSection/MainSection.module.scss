@@ -1,0 +1,40 @@
+.mainContainer {
+  position: relative;
+
+  .cardsContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+
+    @media (max-width: 1000px) {
+      display: flex;
+    }
+  }
+
+  .cardsList {
+    position: relative;
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+  }
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+
+    .loadingIcon {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
