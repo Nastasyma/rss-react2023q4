@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import styles from './MainSection.module.scss';
 import CardsList from '../../components/CardsList/CardsList';
 import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
-import { ICard } from '../../utils/types';
 import NoResults from '../../components/Error/NoResults/NoResults';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
 import { fetchCards } from '../../utils/api';
+import { CardsContext } from '../../context/CardsContext';
+import { SearchContext } from '../../context/SearchContext';
 
-interface MainSectionProps {
-  searchText: string | null;
-}
-function MainSection({ searchText }: MainSectionProps): JSX.Element {
-  const [cards, setCards] = useState<ICard[]>([]);
+function MainSection(): JSX.Element {
+  const { cards, setCards } = useContext(CardsContext) || { cards: [], setCards: () => {} };
+  const searchContext = useContext(SearchContext);
+  const searchText = searchContext ? searchContext.searchText : '';
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -49,7 +49,7 @@ function MainSection({ searchText }: MainSectionProps): JSX.Element {
         setIsLoading(false);
       }
     },
-    [limit, searchText]
+    [limit, searchText, setCards]
   );
 
   useEffect(() => {

@@ -2,14 +2,15 @@ import styles from './HomePage.module.scss';
 import Search from '../../components/Search/Search';
 
 import MainSection from '../../components/MainSection/MainSection';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ErrorButton from '../../components/Error/ErrorButton/ErrorButton';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
+import { SearchProvider } from '../../context/SearchContext';
+import { CardsProvider } from '../../context/CardsContext';
+import { DetailedCardProvider } from '../../context/DetailedCardContext';
 
 function HomePage(): JSX.Element {
-  const [searchText, setSearchText] = useState<string | null>(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page');
   const id = searchParams.get('mushroom');
@@ -37,9 +38,15 @@ function HomePage(): JSX.Element {
 
   return (
     <main className={styles.main}>
-      <Search onSearch={setSearchText} searchText={searchText} />
-      <ErrorButton title="Click me!" />
-      <MainSection searchText={searchText} />
+      <SearchProvider>
+        <Search />
+        <ErrorButton title="Click me!" />
+        <CardsProvider>
+          <DetailedCardProvider>
+            <MainSection />
+          </DetailedCardProvider>
+        </CardsProvider>
+      </SearchProvider>
     </main>
   );
 }

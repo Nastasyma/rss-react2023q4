@@ -1,14 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
-import { ICard } from '../../utils/types';
 import styles from './DetailedCard.module.scss';
+import { useContext } from 'react';
+import { DetailedCardContext } from '../../context/DetailedCardContext';
 
-interface DetailedCardProps {
-  card: ICard;
-}
-
-function DetailedCard({ card }: DetailedCardProps): JSX.Element {
-  const { title, image, description } = card;
+function DetailedCard(): JSX.Element {
   const [, setSearchParams] = useSearchParams();
+  const { card } = useContext(DetailedCardContext) || {};
 
   return (
     <div className={styles.card}>
@@ -26,10 +23,10 @@ function DetailedCard({ card }: DetailedCardProps): JSX.Element {
           Close
         </button>
         <div className={styles.cardImg}>
-          <img src={image} alt={`${title} image`} />
+          <img src={card?.image} alt={`${card?.title} image`} />
         </div>
-        <h2>{title}</h2>
-        <div className={styles.cardDescription}>{description}</div>
+        <h2>{card?.title}</h2>
+        <div className={styles.cardDescription}>{card?.description}</div>
       </div>
     </div>
   );

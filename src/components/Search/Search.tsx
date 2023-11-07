@@ -1,24 +1,22 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import styles from './Search.module.scss';
 import SearchIcon from '../../assets/images/search.svg?react';
 import CrossIcon from '../../assets/images/cross.svg?react';
 import { useSearchParams } from 'react-router-dom';
+import { SearchContext } from '../../context/SearchContext';
 
-interface SearchProps {
-  searchText: string | null;
-  onSearch: (value: string) => void;
-}
-function Search({ onSearch }: SearchProps): JSX.Element {
+function Search(): JSX.Element {
+  const searchContext = useContext(SearchContext);
   const [inputValue, setInputValue] = useState('');
   const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    const searchText = localStorage.getItem('search-text-mushrooms');
-    if (searchText) {
-      setInputValue(searchText);
-      onSearch(searchText);
+    const storedSearchText = localStorage.getItem('search-text-mushrooms');
+    if (storedSearchText) {
+      setInputValue(storedSearchText);
+      searchContext?.setSearchText(storedSearchText);
     }
-  }, [onSearch]);
+  }, [searchContext]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -36,7 +34,7 @@ function Search({ onSearch }: SearchProps): JSX.Element {
       searchParams.set('page', '1');
       return searchParams;
     });
-    onSearch(inputValue);
+    searchContext?.setSearchText(inputValue);
   };
 
   return (

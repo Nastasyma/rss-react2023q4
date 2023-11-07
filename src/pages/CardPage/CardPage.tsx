@@ -1,22 +1,27 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import DetailedCard from '../../components/DetailedCard/DetailedCard';
 import styles from './CardPage.module.scss';
-import { ICard } from '../../utils/types';
 import { useSearchParams } from 'react-router-dom';
 import { fetchDetailedCard } from '../../utils/api';
 import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
+import { DetailedCardContext } from '../../context/DetailedCardContext';
 
 function CardPage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
-  const [card, setCard] = useState<ICard | null>(null);
+  const detailedCard = useContext(DetailedCardContext);
+  const detailedCardRef = useRef(detailedCard);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('mushroom');
 
+  useEffect(() => {
+    detailedCardRef.current = detailedCard;
+  }, [detailedCard]);
+
   const createCard = useCallback(async () => {
-    if (id) {
+    if (detailedCardRef.current && id) {
       setIsLoading(true);
       const data = await fetchDetailedCard(id);
-      setCard(data);
+      detailedCardRef.current.setCard(data);
       setIsLoading(false);
     }
   }, [id]);
@@ -31,8 +36,8 @@ function CardPage(): JSX.Element {
         <div className={styles.loadingContainer}>
           <LoadingIcon className={styles.loadingIcon} />
         </div>
-      ) : card ? (
-        <DetailedCard card={card} />
+      ) : detailedCard && detailedCard.card ? (
+        <DetailedCard />
       ) : null}
     </div>
   );
