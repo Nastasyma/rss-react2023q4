@@ -6,7 +6,7 @@ type CardsContextType = {
   setCards: (setCards: ICard[]) => void;
 };
 
-export const CardsContext = createContext<CardsContextType | null>(null);
+export const CardsContext = createContext<CardsContextType>(null!);
 
 export function CardsProvider({ children }: PropsWithChildren): JSX.Element {
   const [cards, setCards] = useState<ICard[]>([]);

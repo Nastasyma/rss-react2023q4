@@ -11,7 +11,7 @@ import { CardsContext } from '../../context/CardsContext';
 import { SearchContext } from '../../context/SearchContext';
 
 function MainSection(): JSX.Element {
-  const { cards, setCards } = useContext(CardsContext) || { cards: [], setCards: () => {} };
+  const { cards, setCards } = useContext(CardsContext);
   const searchContext = useContext(SearchContext);
   const searchText = searchContext ? searchContext.searchText : '';
   const [isLoading, setIsLoading] = useState(false);

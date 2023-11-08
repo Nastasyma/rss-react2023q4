@@ -14,7 +14,7 @@ function Search(): JSX.Element {
     const storedSearchText = localStorage.getItem('search-text-mushrooms');
     if (storedSearchText) {
       setInputValue(storedSearchText);
-      searchContext?.setSearchText(storedSearchText);
+      searchContext.setSearchText(storedSearchText);
     }
   }, [searchContext]);
 
@@ -34,7 +34,7 @@ function Search(): JSX.Element {
       searchParams.set('page', '1');
       return searchParams;
     });
-    searchContext?.setSearchText(inputValue);
+    searchContext.setSearchText(inputValue);
   };
 
   return (

@@ -5,7 +5,7 @@ type SearchContextType = {
   setSearchText: (text: string) => void;
 };
 
-export const SearchContext = createContext<SearchContextType | null>(null);
+export const SearchContext = createContext<SearchContextType>(null!);
 
 export function SearchProvider({ children }: PropsWithChildren): JSX.Element {
   const [searchText, setSearchText] = useState<string>('');
