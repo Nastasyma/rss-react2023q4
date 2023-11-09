@@ -70,6 +70,6 @@ describe('SearchProvider', () => {
     );
 
     const childComponent = screen.getByText('Child Component');
-    expect(childComponent).toBeTruthy();
+    expect(childComponent).toBeInTheDocument();
   });
 });

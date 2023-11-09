@@ -16,6 +16,7 @@ function Card({ data }: CardProps): JSX.Element {
   return (
     <div
       className={styles.card}
+      data-testid="card"
       onClick={() => {
         setSearchParams((searchParams) => {
           searchParams.set('mushroom', id.toString());
