@@ -48,11 +48,16 @@ function Search(): JSX.Element {
           onChange={handleInputChange}
         />
         {inputValue && (
-          <button type="button" className={styles.clearInputBtn} onClick={handleClearInput}>
+          <button
+            type="button"
+            className={styles.clearInputBtn}
+            onClick={handleClearInput}
+            data-testid="clear-button"
+          >
             <CrossIcon />
           </button>
         )}
-        <button type="submit" className={styles.searchBtn}>
+        <button type="submit" className={styles.searchBtn} data-testid="submit-button">
           <SearchIcon />
         </button>
       </form>
