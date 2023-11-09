@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, describe, vi } from 'vitest';
-import '@testing-library/jest-dom';
 import Pagination from '../components/Pagination/Pagination';
 
 describe('Pagination component', () => {

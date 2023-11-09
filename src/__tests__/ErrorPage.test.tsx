@@ -1,29 +1,20 @@
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import '@testing-library/jest-dom';
-import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import AppRouter from '../router';
 
 describe('ErrorPage component', () => {
   it('Ensure that the 404 page is displayed when navigating to an invalid route', () => {
-    const invalidRoute = '/invalid-route';
+    render(
+      <MemoryRouter initialEntries={['/invalid-route']}>
+        <AppRouter />
+      </MemoryRouter>
+    );
 
-    const route = {
-      path: invalidRoute,
-      element: <ErrorPage />,
-    };
+    const error = screen.getByTestId('error-page');
 
-    const config = {
-      initialEntries: [invalidRoute],
-    };
-
-    const router = createMemoryRouter([route], config);
-
-    render(<RouterProvider router={router} />);
-
-    const errorHeading = screen.getByText('No results found');
-
-    expect(errorHeading).toBeInTheDocument();
+    expect(error).toBeInTheDocument();
   });
 });

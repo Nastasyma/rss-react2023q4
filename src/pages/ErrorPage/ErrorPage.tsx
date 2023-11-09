@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function ErrorPage(): JSX.Element {
   return (
-    <div className={styles.errorContainer}>
+    <div className={styles.errorContainer} data-testid="error-page">
       <h2>No results found</h2>
       <img src={MushhromGif} alt="mushroom gif" />
       <Link to="/">
