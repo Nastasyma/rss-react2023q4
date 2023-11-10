@@ -37,7 +37,7 @@ function HomePage(): JSX.Element {
   }
 
   return (
-    <main className={styles.main}>
+    <main className={styles.main} data-testid="home-page">
       <SearchProvider>
         <Search />
         <ErrorButton title="Click me!" />
