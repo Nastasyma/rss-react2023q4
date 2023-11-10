@@ -5,6 +5,7 @@ import { expect, it, vi } from 'vitest';
 import { ICard } from '../utils/types';
 import { BrowserRouter } from 'react-router-dom';
 import { CardsContext } from '../context/CardsContext';
+import { DetailedCardProvider } from '../context/DetailedCardContext';
 
 describe('CardsList component', () => {
   it('renders the specified number of cards', () => {
@@ -41,7 +42,9 @@ describe('CardsList component', () => {
     render(
       <BrowserRouter>
         <CardsContext.Provider value={{ cards: mockCards, setCards: vi.fn() }}>
-          <CardsList />
+          <DetailedCardProvider>
+            <CardsList />
+          </DetailedCardProvider>
         </CardsContext.Provider>
       </BrowserRouter>
     );
@@ -56,7 +59,9 @@ describe('CardsList component', () => {
     render(
       <BrowserRouter>
         <CardsContext.Provider value={{ cards: mockCards, setCards: vi.fn() }}>
-          <CardsList />
+          <DetailedCardProvider>
+            <CardsList />
+          </DetailedCardProvider>
         </CardsContext.Provider>
       </BrowserRouter>
     );

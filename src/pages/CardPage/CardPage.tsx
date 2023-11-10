@@ -31,7 +31,7 @@ function CardPage(): JSX.Element {
   }, [createCard]);
 
   return (
-    <div className={styles.cardContainer}>
+    <div className={styles.cardContainer} data-testid="detailed-card">
       {isLoading ? (
         <div className={styles.loadingContainer}>
           <LoadingIcon className={styles.loadingIcon} />
