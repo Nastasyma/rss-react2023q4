@@ -1,16 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import CardsList from '../components/CardsList/CardsList';
 import { describe } from 'node:test';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { ICard } from '../utils/types';
 import { BrowserRouter } from 'react-router-dom';
-import { SearchProvider } from '../context/SearchContext';
-import { CardsProvider } from '../context/CardsContext';
-import { DetailedCardProvider } from '../context/DetailedCardContext';
+import { CardsContext } from '../context/CardsContext';
 
 describe('CardsList component', () => {
   it('renders the specified number of cards', () => {
-    const cards: ICard[] = [
+    const mockCards: ICard[] = [
       {
         id: 1,
         title: 'Card 1',
@@ -42,13 +40,9 @@ describe('CardsList component', () => {
 
     render(
       <BrowserRouter>
-        <SearchProvider>
-          <CardsProvider>
-            <DetailedCardProvider>
-              <CardsList cards={cards} />
-            </DetailedCardProvider>
-          </CardsProvider>
-        </SearchProvider>
+        <CardsContext.Provider value={{ cards: mockCards, setCards: vi.fn() }}>
+          <CardsList />
+        </CardsContext.Provider>
       </BrowserRouter>
     );
 
@@ -56,22 +50,18 @@ describe('CardsList component', () => {
     expect(cardElements).toHaveLength(3);
   });
 
-  // it('displays appropriate message if no cards are present', () => {
-  //   const cards: ICard[] = [];
+  it('displays appropriate message if no cards are present', () => {
+    const mockCards: ICard[] = [];
 
-  //   render(
-  //     <BrowserRouter>
-  //       <SearchProvider>
-  //         <CardsProvider>
-  //           <DetailedCardProvider>
-  //             <CardsList cards={cards} />
-  //           </DetailedCardProvider>
-  //         </CardsProvider>
-  //       </SearchProvider>
-  //     </BrowserRouter>
-  //   );
+    render(
+      <BrowserRouter>
+        <CardsContext.Provider value={{ cards: mockCards, setCards: vi.fn() }}>
+          <CardsList />
+        </CardsContext.Provider>
+      </BrowserRouter>
+    );
 
-  //   const noResultsElement = screen.getByTestId('no-results');
-  //   expect(noResultsElement).toBeInTheDocument();
-  // });
+    const noResultsElement = screen.getByTestId('no-results');
+    expect(noResultsElement).toBeInTheDocument();
+  });
 });

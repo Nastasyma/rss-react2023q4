@@ -1,16 +1,15 @@
 import styles from './CardsList.module.scss';
 import Card from '../Card/Card';
-import { ICard } from '../../utils/types';
+import { useContext } from 'react';
+import { CardsContext } from '../../context/CardsContext';
+import NoResults from '../Error/NoResults/NoResults';
 
-type CardsListProps = {
-  cards: ICard[];
-};
-function CardsList({ cards }: CardsListProps): JSX.Element {
+function CardsList(): JSX.Element {
+  const { cards } = useContext(CardsContext);
+
   return (
     <div className={styles.cardsList}>
-      {cards.map((card) => (
-        <Card key={card.id} data={card} />
-      ))}
+      {cards.length ? cards.map((card) => <Card key={card.id} data={card} />) : <NoResults />}
     </div>
   );
 }
