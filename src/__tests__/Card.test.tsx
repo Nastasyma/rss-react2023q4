@@ -10,27 +10,7 @@ import '@testing-library/jest-dom';
 import CardPage from '../pages/CardPage/CardPage';
 import MainSection from '../components/MainSection/MainSection';
 import { fetchDetailedCard } from '../utils/api';
-
-const mockCardsData: ICard[] = [
-  {
-    id: 1,
-    title: 'Card 1',
-    edibility: 'Edible',
-    image: 'card-image.jpg',
-    habitat: [],
-    season: 'June',
-    description: 'Card description',
-  },
-  {
-    id: 2,
-    title: 'Card 2',
-    edibility: 'Edible',
-    image: 'card-image.jpg',
-    habitat: [],
-    season: 'June',
-    description: 'Card description',
-  },
-];
+import { mockCardsData } from '../utils/mockCards';
 
 describe('Card component', () => {
   it('card component renders the relevant card data', () => {

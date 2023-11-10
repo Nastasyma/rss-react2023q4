@@ -33,7 +33,7 @@ function CardPage(): JSX.Element {
   return (
     <div className={styles.cardContainer} data-testid="detailed-card">
       {isLoading ? (
-        <div className={styles.loadingContainer}>
+        <div className={styles.loadingContainer} data-testid="loading-icon">
           <LoadingIcon className={styles.loadingIcon} />
         </div>
       ) : detailedCard && detailedCard.card ? (

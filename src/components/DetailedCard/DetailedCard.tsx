@@ -12,6 +12,7 @@ function DetailedCard(): JSX.Element {
       <div className={styles.cardInfo}>
         <button
           className={styles.closeBtn}
+          data-testid="close-btn"
           type="button"
           onClick={() => {
             setSearchParams((searchParams) => {
