@@ -4,7 +4,7 @@ import { expect, it } from 'vitest';
 import ItemsPerPage from '../components/ItemsPerPage/ItemsPerPage';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('ItemsPerPage', () => {
+describe('ItemsPerPage component', () => {
   it('updates the search params when input changes', () => {
     render(
       <BrowserRouter>

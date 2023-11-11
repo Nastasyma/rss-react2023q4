@@ -15,7 +15,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/__tests__/coverage',
       all: true,
-      // include: ['**/*.tsx'],
+      exclude: ['src/main.tsx', 'src/utils/types.ts', 'src/vite-env.d.ts', '.eslintrc.cjs'],
     },
   },
   resolve: {

@@ -44,7 +44,7 @@ vi.mock('../utils/api', () => ({
   }),
 }));
 
-describe('DetailedCard', () => {
+describe('DetailedCard component', () => {
   it('displays a loading indicator while fetching data', async () => {
     render(
       <BrowserRouter>
