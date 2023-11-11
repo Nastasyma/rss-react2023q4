@@ -1,0 +1,59 @@
+@import './normalize.scss';
+@import './variables.scss';
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --font-family-primary: #{$font-family-primary};
+  --font-line-height-primary: #{$font-line-height-primary};
+  --font-weight-regular: #{$font-weight-regular};
+  --font-weight-medium: #{$font-weight-medium};
+  --font-weight-bold: #{$font-weight-bold};
+  --font-size-primary: #{$font-size-primary};
+  --font-size-middle: #{$font-size-middle};
+  --font-size-h2: #{$font-size-h2};
+  --color-primary-bg: #{$color-primary-bg};
+  --color-secondary-bg: #{$color-secondary-bg};
+  --color-primary-light: #{$color-primary-light};
+  --color-primary-dark: #{$color-primary-dark};
+  --color-input-border: #{$color-input-border};
+  --color-button-hover: #{$color-button-hover};
+  --color-error-text: #{$color-error-text};
+  --width-main-container: #{$width-main-container};
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
+  background:
+    center/cover no-repeat,
+    rgba(0, 0, 0, 0.2);
+  background-image: url('../assets/images/bg.jpg');
+  background-blend-mode: multiply;
+  background-attachment: fixed;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-primary);
+  line-height: var(--font-line-height-primary);
+  color: var(--color-primary-dark);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+a {
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}

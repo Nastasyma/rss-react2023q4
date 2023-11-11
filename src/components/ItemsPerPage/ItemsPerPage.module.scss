@@ -1,0 +1,16 @@
+.itemsPerPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px 0 20px;
+
+  input {
+    width: 60px;
+    padding: 6px;
+    border: 2px solid var(--color-input-border);
+    border-radius: 5px;
+    background-color: var(--color-primary-bg);
+    outline-color: var(--color-input-border);
+  }
+}
