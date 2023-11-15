@@ -1,11 +1,11 @@
 import styles from './CardsList.module.scss';
 import Card from '../Card/Card';
-import { useContext } from 'react';
-import { CardsContext } from '../../context/CardsContext';
 import NoResults from '../Error/NoResults/NoResults';
+import { useSelector } from 'react-redux';
+import { selectCards } from '../../store/cardList/cardListSelector';
 
 function CardsList(): JSX.Element {
-  const { cards } = useContext(CardsContext);
+  const cards = useSelector(selectCards);
 
   return (
     <div className={styles.cardsList}>
