@@ -19,9 +19,13 @@ export const cardsListSlice = createSlice({
       const { cardsList } = action.payload;
       state.cardsList = cardsList;
     },
+    setIsCardsLoading: (state, action) => {
+      const { isLoading } = action.payload;
+      state.isLoading = isLoading;
+    },
   },
 });
 
 export const { reducer: cardsListReducer } = cardsListSlice;
 
-export const { setCardsList } = cardsListSlice.actions;
+export const { setCardsList, setIsCardsLoading } = cardsListSlice.actions;

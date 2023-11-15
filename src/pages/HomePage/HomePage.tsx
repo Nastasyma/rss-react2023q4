@@ -6,8 +6,6 @@ import { useEffect } from 'react';
 import ErrorButton from '../../components/Error/ErrorButton/ErrorButton';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import { SearchProvider } from '../../context/SearchContext';
-import { CardsProvider } from '../../context/CardsContext';
 import { DetailedCardProvider } from '../../context/DetailedCardContext';
 
 function HomePage(): JSX.Element {
@@ -38,15 +36,11 @@ function HomePage(): JSX.Element {
 
   return (
     <main className={styles.main} data-testid="home-page">
-      <SearchProvider>
-        <Search />
-        <ErrorButton title="Click me!" />
-        <CardsProvider>
-          <DetailedCardProvider>
-            <MainSection />
-          </DetailedCardProvider>
-        </CardsProvider>
-      </SearchProvider>
+      <Search />
+      <ErrorButton title="Click me!" />
+      <DetailedCardProvider>
+        <MainSection />
+      </DetailedCardProvider>
     </main>
   );
 }

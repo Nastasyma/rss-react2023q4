@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './MainSection.module.scss';
 import CardsList from '../../components/CardsList/CardsList';
 import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
-import { SearchContext } from '../../context/SearchContext';
 import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiSlice } from '../../store/apiSlice';
-import { setCardsList } from '../../store/cardList/cardListSlice';
+import { setCardsList, setIsCardsLoading } from '../../store/cardList/cardListSlice';
+import { selectIsCardsLoading } from '../../store/cardList/cardListSelector';
+import { selectSearchText } from '../../store/search/searchTextSelector';
 
 function MainSection(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
-  const searchContext = useContext(SearchContext);
-  const searchText = searchContext ? searchContext.searchText : '';
+  const isLoadingCards = useSelector(selectIsCardsLoading);
+  const searchText = useSelector(selectSearchText);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,6 +45,8 @@ function MainSection(): JSX.Element {
         cardsList: data?.cards || [],
       })
     );
+
+    dispatch(setIsCardsLoading({ isLoading: isFetching }));
   }, [data, dispatch, currentPage, limit, searchText, isFetching]);
 
   return (
@@ -62,7 +65,7 @@ function MainSection(): JSX.Element {
             />
           )}
           <ItemsPerPage count={totalCountHeader} />
-          {isFetching ? (
+          {isLoadingCards ? (
             <div className={styles.loadingContainer}>
               <LoadingIcon className={styles.loadingIcon} />
             </div>
