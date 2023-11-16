@@ -1,7 +1,7 @@
 import { ICard } from './types';
 
 export const mockCardData: ICard = {
-  title: 'Card 1',
+  title: 'Mushroom',
   edibility: 'Edible',
   image: 'mushroom.jpg',
   habitat: ['Forest'],
@@ -23,6 +23,15 @@ export const mockCardsData: ICard[] = [
   {
     id: 2,
     title: 'Card 2',
+    edibility: 'Edible',
+    image: 'card-image.jpg',
+    habitat: [],
+    season: 'June',
+    description: 'Card description',
+  },
+  {
+    id: 3,
+    title: 'Card 3',
     edibility: 'Edible',
     image: 'card-image.jpg',
     habitat: [],

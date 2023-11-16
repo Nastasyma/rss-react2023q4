@@ -1,12 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, describe, vi } from 'vitest';
 import Pagination from '../components/Pagination/Pagination';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 describe('Pagination component', () => {
   it('when clicking on the "Next" button, updates URL query parameter', () => {
     const setSearchParamsMock = vi.fn();
 
-    render(<Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />);
+    render(
+      <Provider store={store}>
+        <Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />
+      </Provider>
+    );
 
     const nextPageButton = screen.getByText('Next');
 
@@ -19,7 +25,11 @@ describe('Pagination component', () => {
   it('when clicking on the "Prev" button, updates URL query parameter', () => {
     const setSearchParamsMock = vi.fn();
 
-    render(<Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />);
+    render(
+      <Provider store={store}>
+        <Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />
+      </Provider>
+    );
 
     const prevPageButton = screen.getByText('Prev');
 

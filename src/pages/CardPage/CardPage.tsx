@@ -6,7 +6,7 @@ import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import { apiSlice } from '../../store/apiSlice';
 import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCardDetails, setIsDetailsLoading } from '../../store/details/detailsSlice';
+import { setCardDetailsId, setIsDetailsLoading } from '../../store/details/detailsSlice';
 import { selectDetailsId, selectIsDetailsLoading } from '../../store/details/detailsSelector';
 
 function CardPage(): JSX.Element {
@@ -20,7 +20,7 @@ function CardPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(
-      setCardDetails({
+      setCardDetailsId({
         cardDetailsId: data?.id,
       })
     );

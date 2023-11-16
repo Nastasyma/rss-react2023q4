@@ -14,7 +14,7 @@ export const cardDetailsSlice = createSlice({
   name: 'cardDetails',
   initialState,
   reducers: {
-    setCardDetails: (state, action) => {
+    setCardDetailsId: (state, action) => {
       const { cardDetailsId } = action.payload;
       state.cardDetailsId = cardDetailsId;
     },
@@ -27,4 +27,4 @@ export const cardDetailsSlice = createSlice({
 
 export const { reducer: cardDetailsReducer } = cardDetailsSlice;
 
-export const { setCardDetails, setIsDetailsLoading } = cardDetailsSlice.actions;
+export const { setCardDetailsId, setIsDetailsLoading } = cardDetailsSlice.actions;

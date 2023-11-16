@@ -8,7 +8,7 @@ function DetailedCard(): JSX.Element {
   const [, setSearchParams] = useSearchParams();
   const id = useSelector(selectDetailsId);
 
-  const { data } = apiSlice.useGetDetailedCardQuery(id.toString() || '');
+  const { data } = apiSlice.useGetDetailedCardQuery(id?.toString() || '');
 
   return (
     <div className={styles.card}>
