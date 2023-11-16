@@ -4,21 +4,20 @@ import SearchIcon from '../../assets/images/search.svg?react';
 import CrossIcon from '../../assets/images/cross.svg?react';
 import { useSearchParams } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSearchText } from '../../store/search/searchTextSlice';
+import { selectSearchText } from '../../store/search/searchTextSelector';
+import { setPage } from '../../store/cardList/cardListSlice';
 
 function Search(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
+  const searchText = useSelector(selectSearchText);
   const [inputValue, setInputValue] = useState('');
   const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    const storedSearchText = localStorage.getItem('search-text-mushrooms');
-    if (storedSearchText) {
-      setInputValue(storedSearchText);
-      dispatch(setSearchText({ searchText: storedSearchText }));
-    }
-  }, [dispatch]);
+    setInputValue(searchText);
+  }, [searchText]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -36,6 +35,7 @@ function Search(): JSX.Element {
       searchParams.set('page', '1');
       return searchParams;
     });
+    dispatch(setPage({ page: 1 }));
     dispatch(setSearchText({ searchText: inputValue }));
   };
 

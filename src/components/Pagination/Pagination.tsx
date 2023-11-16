@@ -1,5 +1,8 @@
 import { SetURLSearchParams } from 'react-router-dom';
 import styles from './Pagination.module.scss';
+import { AppDispatch } from '../../store/store';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../../store/cardList/cardListSlice';
 
 interface PaginationProps {
   totalPages: number;
@@ -8,11 +11,13 @@ interface PaginationProps {
 }
 
 function Pagination({ totalPages, currentPage, setSearchParams }: PaginationProps): JSX.Element {
+  const dispatch: AppDispatch = useDispatch();
   const handlePageChange = (page: number) => {
     setSearchParams((searchParams) => {
       searchParams.set('page', page.toString());
       return searchParams;
     });
+    dispatch(setPage({ page: page }));
   };
 
   const handlePrevPage = () => {

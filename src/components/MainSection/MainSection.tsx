@@ -8,7 +8,12 @@ import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
 import { AppDispatch } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiSlice } from '../../store/apiSlice';
-import { setCardsList, setIsCardsLoading } from '../../store/cardList/cardListSlice';
+import {
+  setCardsList,
+  setIsCardsLoading,
+  setItemsPerPage,
+  setPage,
+} from '../../store/cardList/cardListSlice';
 import { selectIsCardsLoading } from '../../store/cardList/cardListSelector';
 import { selectSearchText } from '../../store/search/searchTextSelector';
 
@@ -48,6 +53,11 @@ function MainSection(): JSX.Element {
 
     dispatch(setIsCardsLoading({ isLoading: isFetching }));
   }, [data, dispatch, currentPage, limit, searchText, isFetching]);
+
+  useEffect(() => {
+    dispatch(setItemsPerPage({ itemsPerPage: parseInt(searchParams.get('limit') || '0') }));
+    dispatch(setPage({ page: parseInt(searchParams.get('page') || '0') }));
+  }, [searchParams, dispatch]);
 
   return (
     <div className={styles.mainContainer}>

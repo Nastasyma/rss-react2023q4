@@ -5,7 +5,7 @@ type Search = {
 };
 
 const initialState: Search = {
-  searchText: '',
+  searchText: localStorage.getItem('search-text-mushrooms') ?? '',
 };
 
 export const searchTextSlice = createSlice({
