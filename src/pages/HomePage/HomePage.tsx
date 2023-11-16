@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import ErrorButton from '../../components/Error/ErrorButton/ErrorButton';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import { DetailedCardProvider } from '../../context/DetailedCardContext';
 import { AppDispatch } from '../../store/store';
 import { useDispatch } from 'react-redux';
 import { setItemsPerPage, setPage } from '../../store/cardList/cardListSlice';
@@ -44,9 +43,7 @@ function HomePage(): JSX.Element {
     <main className={styles.main} data-testid="home-page">
       <Search />
       <ErrorButton title="Click me!" />
-      <DetailedCardProvider>
-        <MainSection />
-      </DetailedCardProvider>
+      <MainSection />
     </main>
   );
 }
