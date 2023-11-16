@@ -19,16 +19,16 @@ function Search(): JSX.Element {
     setInputValue(searchText);
   }, [searchText]);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const inputValue = event.target.value;
     setInputValue(inputValue);
   };
 
-  const handleClearInput = () => {
+  const handleClearInput = (): void => {
     setInputValue('');
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     localStorage.setItem('search-text-mushrooms', inputValue);
     event.preventDefault();
     setSearchParams((searchParams) => {

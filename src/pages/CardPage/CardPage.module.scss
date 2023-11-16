@@ -5,14 +5,12 @@
   align-self: flex-start;
   justify-content: center;
   align-items: center;
-  padding-top: 155px;
-  height: 100%;
 
   @media (max-width: 1000px) {
     position: absolute;
-    top: 50%;
+    top: 0;
     right: 50%;
-    transform: translate(50%, -50%);
+    transform: translate(50%);
     z-index: 2;
     max-width: 350px;
     padding-top: 0;

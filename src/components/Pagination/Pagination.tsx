@@ -12,7 +12,7 @@ interface PaginationProps {
 
 function Pagination({ totalPages, currentPage, setSearchParams }: PaginationProps): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number): void => {
     setSearchParams((searchParams) => {
       searchParams.set('page', page.toString());
       return searchParams;
