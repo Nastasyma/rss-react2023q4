@@ -1,41 +1,26 @@
-## React. Tests/Context API
+## Redux. RTK.
 
-The task should be based on the previous task.
+Task should be based on the previous task.
 
 ### What should be done:
 
-1. Create a separate branch for this task from the previous task's branch.
-2. Implement custom state management using the Context API.
-   - Utilize the created context to store both the value entered in the Search component and the list of items received from the API;
-   - Ensure that all components that need to access this data use the context.
-3. Add and configure test runner: Jest or Vitest. Test runner should show the test coverage. You should aim to reach at least 80% of the test coverage.
-4. Add testing library: React Testing Library. You should add tests for the several scenarios keeping in mind that mocked data should be used instead of real API calls.
-5. Tests for the Card List component:
-   - Verify that the component renders the specified number of cards;
-   - Check that an appropriate message is displayed if no cards are present.
-6. Tests for the Card component:
-   - Ensure that the card component renders the relevant card data;
-   - Validate that clicking on a card opens a detailed card component;
-   - Check that clicking triggers an additional API call to fetch detailed information.
-7. Tests for the Detailed Card component:
-   - Check that a loading indicator is displayed while fetching data;
-   - Make sure the detailed card component correctly displays the detailed card data;
-   - Ensure that clicking the close button hides the component.
-8. Tests for the Pagination component:
-   - Make sure the component updates URL query parameter when page changes.
-9. Tests for the Search component:
-   - Verify that clicking the Search button saves the entered value to the local storage;
-   - Check that the component retrieves the value from the local storage upon mounting.
-10. Tests for the 404 Page component:
-
-- Ensure that the 404 page is displayed when navigating to an invalid route.
-
-11. Lastly, update Husky to run tests on the pre-push hook, ensuring that tests are automatically executed before any code is pushed.
+1. Create a separate branch for this task from the previous branch task.
+2. Redux Integration
+   - Integrate Redux into your application. You'll need to set up the Redux store and reducers using Redux Toolkit.
+3. Connect Components. Connect the relevant components to the Redux store. Components should be able to access and modify the following data:
+   - Save search value on CTA (Call to Action) button click.
+   - Save items per page.
+   - RTK Query Implementation: Use Redux Toolkit Query (RTK Query) to make API calls and cache the results. This will modify your previous API call implementation.
+4. Loading Flags
+   - Implement separate loading flags in the Redux store for the main page and details page. These flags should indicate whether data is being loaded.
+5. Test Updates
+   - Update your tests to accommodate the changes introduced by Redux and RTK Query.
+   - Test the functionality related to Redux state and API calls.
 
 ### Questions
 
 You should be using Discord as the main mean of the communication.
-Also we will try to collect your questions regarding the 3rd Module using special form, which will be provided via the Discord with the 3rd Module start. Questions will be collected in Module 03 section of the same spreadsheet. Please, check answers carefully before posting the question, may be your question has been answered already.
+Also we will try to collect your questions regarding the 4th Module using special form, which will be provided via the Discord with the 4th Module start. Questions will be collected in Module 04 section of the same spreadsheet. Please, check answers carefully before posting the question, may be your question has been answered already.
 We will try to conduct a session for each module providing answers for some questions.
 
 ### Score
@@ -68,13 +53,12 @@ Run app and check that the functionality is working (cross-check)
 
 ##### Student can get 100 points:
 
-- Custom state management using the Context API is implemented - **5 points**
-- The Search component value is stored in the context - **5 points**
-- The list of items received from the API is stored in the context - **5 points**
-- The context is used in components that need access to the data - **5 points**
-- React Testing Library and Jest or Vitest are added and configured - **10 points**
-- Test cases - **60 points** (5 points per each)
-- Husky runs tests on pre-push - **10 points**
+- Redux is integrated to the app with the help of Redux Toolkit - **30 points**
+- Search is saved in the store - **5 points**
+- Items per page is saved in the store - **5 points**
+- Loading indicators are shown, loading flags are saved in the store, - **10 points**
+- When either search or items per page is changed, application makes a new call using RTK Query to fetch the data - **25 points**
+- Tests had been modified to test the functionality using Redux and RTK Query - **25 points**
 
 ##### Penalties:
 
@@ -83,24 +67,24 @@ Run app and check that the functionality is working (cross-check)
 - Usage of _ts-ignore_: **-20 points per each**
 - Direct DOM manipulations inside the React components: **-50 points per each**
 - Presence of _code-smells_ (God-object, chunks of duplicate code), commented code sections: **-10 points per each**
-- Usage of Redux or other state management libraries: **-100 points**
 - Usage of component libraries, e.g. Material UI, Ant Design: **-100 points**
 - Test coverage is less than 80%: **-30 points**
 - Commits after the deadline: **-40 points**
 
 ### Repository requirements
 
-- the task should be done in **your personal private repository**
-- in the repository create a branch from the **previous task** branch with the name of the task and work in the created branch
-- the commits history should reflect the process of app creating [Commits requirements](https://docs.rs.school/#/git-convention?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-%D0%B8%D0%BC%D0%B5%D0%BD%D0%B0%D0%BC-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2) [RU]
-- after finishing development it’s necessary to make Pull Request from app’s branch to `main` branch [Pull Request requirements](https://docs.rs.school/#/pull-request-review-process?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-pull-request-pr) [RU]
-- after completing the module, private repository should be exposed for the duration of the cross-check (please check the schedule), when the cross-check is finished, repository should be made private again
+- The task should be completed in **your personal private repository**.
+- In the repository, create a branch from the **previous task** branch using the task's name and work within this newly created branch.
+- The commit history should reflect the process of creating the app. Refer to [Commit requirements](https://docs.rs.school/#/git-convention?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-%D0%B8%D0%BC%D0%B5%D0%BD%D0%B0%D0%BC-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2) [RU] for details.
+- Once development is complete, you need to create a Pull Request from the current task branch to the previous task branch. Refer to [Pull Request requirements](https://docs.rs.school/#/pull-request-review-process?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-pull-request-pr) [RU] for details.
+- After completing the module, private repository should be exposed for the duration of the cross-check (please check the schedule). When the cross-check is finished, repository should be made private again.
+
   **Do not merge Pull Request from the development branch to the `main` branch**
 
-### Useful links
+### Theory
 
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- [Vitest](https://vitest.dev/guide/)
-- [Jest](https://jestjs.io/docs/getting-started)
-- [Mock Service Worker](https://mswjs.io/docs/)
-- [Pattern for writing good tests](https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/)
+- Redux Toolkit Docs - [Start with configureStore](https://redux-toolkit.js.org/api/configureStore)
+- RTK Query - [Overview](https://redux-toolkit.js.org/rtk-query/overview)
+- [Redux - Writing tests](https://redux.js.org/usage/writing-tests)
+- [How to test RTK Query with react testing library](https://dev.to/ifeanyichima/-testing-components-with-a-request-for-rtk-query-using-msw-and-react-testing-library-5a8n)
+- React Testing Library - [Mock API Calls - Mock Service Worker](https://www.youtube.com/watch?v=oMv2eAGWtZU)

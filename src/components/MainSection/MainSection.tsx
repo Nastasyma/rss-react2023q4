@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { apiSlice } from '../../store/apiSlice';
 import {
   setCardsList,
-  setIsCardsLoading,
+  setIsMainLoading,
   setItemsPerPage,
   setPage,
 } from '../../store/cardList/cardListSlice';
@@ -51,7 +51,7 @@ function MainSection(): JSX.Element {
       })
     );
 
-    dispatch(setIsCardsLoading({ isMainLoading: isFetching }));
+    dispatch(setIsMainLoading({ isMainLoading: isFetching }));
   }, [data, dispatch, currentPage, limit, searchText, isFetching]);
 
   useEffect(() => {

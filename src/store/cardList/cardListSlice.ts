@@ -23,7 +23,7 @@ export const cardsListSlice = createSlice({
       const { cardsList } = action.payload;
       state.cardsList = cardsList;
     },
-    setIsCardsLoading: (state, action) => {
+    setIsMainLoading: (state, action) => {
       const { isMainLoading } = action.payload;
       state.isMainLoading = isMainLoading;
     },
@@ -40,4 +40,4 @@ export const cardsListSlice = createSlice({
 
 export const { reducer: cardsListReducer } = cardsListSlice;
 
-export const { setCardsList, setIsCardsLoading, setItemsPerPage, setPage } = cardsListSlice.actions;
+export const { setCardsList, setIsMainLoading, setItemsPerPage, setPage } = cardsListSlice.actions;
