@@ -1,5 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import styles from './ItemsPerPage.module.scss';
+import { AppDispatch } from '../../store/store';
+import { useDispatch } from 'react-redux';
+import { setItemsPerPage, setPage } from '../../store/cardList/cardListSlice';
 
 interface ItemsPerPageProps {
   count: string | null;
@@ -7,6 +10,7 @@ interface ItemsPerPageProps {
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
   const { count } = props;
+  const dispatch: AppDispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const itemsPerPage = parseInt(searchParams.get('limit') || '0');
 
@@ -18,6 +22,8 @@ function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
         searchParams.set('limit', value.toString());
         return searchParams;
       });
+      dispatch(setItemsPerPage({ itemsPerPage: value }));
+      dispatch(setPage({ page: 1 }));
     }
   };
 

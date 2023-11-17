@@ -1,17 +1,18 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { vi, expect, it, describe } from 'vitest';
+import { expect, it, describe } from 'vitest';
 import Search from '../components/Search/Search';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { SearchContext, SearchProvider } from '../context/SearchContext';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Search component', () => {
   it('saves the entered value to local storage when clicking the search button', () => {
     render(
-      <Router>
-        <SearchContext.Provider value={{ searchText: '', setSearchText: vi.fn() }}>
+      <BrowserRouter>
+        <Provider store={store}>
           <Search />
-        </SearchContext.Provider>
-      </Router>
+        </Provider>
+      </BrowserRouter>
     );
 
     const inputElement = screen.getByPlaceholderText('Search');
@@ -27,11 +28,11 @@ describe('Search component', () => {
     localStorage.setItem('search-text-mushrooms', 'test');
 
     render(
-      <Router>
-        <SearchContext.Provider value={{ searchText: '', setSearchText: vi.fn() }}>
+      <BrowserRouter>
+        <Provider store={store}>
           <Search />
-        </SearchContext.Provider>
-      </Router>
+        </Provider>
+      </BrowserRouter>
     );
 
     const inputElement = screen.getByPlaceholderText('Search') as HTMLInputElement;
@@ -43,11 +44,11 @@ describe('Search component', () => {
 
   it('clears the input value when clicking the clear button', () => {
     render(
-      <Router>
-        <SearchContext.Provider value={{ searchText: '', setSearchText: vi.fn() }}>
+      <BrowserRouter>
+        <Provider store={store}>
           <Search />
-        </SearchContext.Provider>
-      </Router>
+        </Provider>
+      </BrowserRouter>
     );
 
     const searchInput = screen.getByPlaceholderText('Search') as HTMLInputElement;
@@ -58,18 +59,5 @@ describe('Search component', () => {
     fireEvent.click(clearButton);
 
     expect(searchInput.value).toBe('');
-  });
-});
-
-describe('SearchProvider', () => {
-  it('renders children', () => {
-    render(
-      <SearchProvider>
-        <div>Child Component</div>
-      </SearchProvider>
-    );
-
-    const childComponent = screen.getByText('Child Component');
-    expect(childComponent).toBeInTheDocument();
   });
 });

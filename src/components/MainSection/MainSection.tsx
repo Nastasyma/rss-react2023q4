@@ -1,19 +1,26 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './MainSection.module.scss';
 import CardsList from '../../components/CardsList/CardsList';
 import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import Pagination from '../../components/Pagination/Pagination';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
-import { fetchCards } from '../../utils/api';
-import { CardsContext } from '../../context/CardsContext';
-import { SearchContext } from '../../context/SearchContext';
+import { AppDispatch } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiSlice } from '../../store/apiSlice';
+import {
+  setCardsList,
+  setIsMainLoading,
+  setItemsPerPage,
+  setPage,
+} from '../../store/cardList/cardListSlice';
+import { selectIsCardsLoading } from '../../store/cardList/cardListSelector';
+import { selectSearchText } from '../../store/search/searchTextSelector';
 
 function MainSection(): JSX.Element {
-  const { setCards } = useContext(CardsContext);
-  const searchContext = useContext(SearchContext);
-  const searchText = searchContext ? searchContext.searchText : '';
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+  const isLoadingCards = useSelector(selectIsCardsLoading);
+  const searchText = useSelector(selectSearchText);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,30 +28,36 @@ function MainSection(): JSX.Element {
   const id = searchParams.get('mushroom');
   const limit = searchParams.get('limit') || '0';
 
-  const createCards = useCallback(
-    async (page = 1) => {
-      setIsLoading(true);
-
-      try {
-        const { data, totalCountHeader } = await fetchCards(searchText, page, parseInt(limit));
-
-        setCards(data);
-        const totalCount = totalCountHeader ? parseInt(totalCountHeader) : 0;
-        const calculatedTotalPages = !isNaN(parseInt(limit))
-          ? Math.ceil(totalCount / parseInt(limit))
-          : 0;
-        setTotalPages(calculatedTotalPages);
-        setTotalCountHeader(totalCountHeader);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [limit, searchText, setCards]
-  );
+  const { data, isFetching } = apiSlice.useGetCardsQuery({
+    searchText,
+    page: currentPage,
+    itemsPerPage: parseInt(limit),
+  });
 
   useEffect(() => {
-    createCards(currentPage);
-  }, [currentPage, createCards]);
+    if (data) {
+      setTotalCountHeader(data.totalCount.toString());
+      const calculatedTotalPages = !isNaN(parseInt(limit))
+        ? Math.ceil(data.totalCount / parseInt(limit))
+        : 0;
+      setTotalPages(calculatedTotalPages);
+    }
+  }, [data, limit, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      setCardsList({
+        cardsList: data?.cards || [],
+      })
+    );
+
+    dispatch(setIsMainLoading({ isMainLoading: isFetching }));
+  }, [data, dispatch, currentPage, limit, searchText, isFetching]);
+
+  useEffect(() => {
+    dispatch(setItemsPerPage({ itemsPerPage: parseInt(searchParams.get('limit') || '0') }));
+    dispatch(setPage({ page: parseInt(searchParams.get('page') || '0') }));
+  }, [searchParams, dispatch]);
 
   return (
     <div className={styles.mainContainer}>
@@ -62,7 +75,7 @@ function MainSection(): JSX.Element {
             />
           )}
           <ItemsPerPage count={totalCountHeader} />
-          {isLoading ? (
+          {isLoadingCards ? (
             <div className={styles.loadingContainer}>
               <LoadingIcon className={styles.loadingIcon} />
             </div>

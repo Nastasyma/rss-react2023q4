@@ -7,7 +7,7 @@ interface ErrorButtonProps {
 function ErrorButton({ title }: ErrorButtonProps): JSX.Element {
   const [hasError, setHasError] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setHasError(true);
   };
 

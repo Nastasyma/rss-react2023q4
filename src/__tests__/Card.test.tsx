@@ -2,34 +2,23 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
 import { describe } from 'node:test';
 import Card from '../components/Card/Card';
-import { ICard } from '../utils/types';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { DetailedCardProvider } from '../context/DetailedCardContext';
-import { CardsContext } from '../context/CardsContext';
 import '@testing-library/jest-dom';
 import CardPage from '../pages/CardPage/CardPage';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 import MainSection from '../components/MainSection/MainSection';
-import { fetchDetailedCard } from '../utils/api';
-import { mockCardsData } from '../utils/mockCards';
+import { mockCardData, mockCardsData } from '../utils/mockCards';
+import { apiSlice } from '../store/apiSlice';
 
 describe('Card component', () => {
   it('card component renders the relevant card data', () => {
-    const mockCardData: ICard = {
-      title: 'Mushroom',
-      edibility: 'Edible',
-      image: 'mushroom.jpg',
-      habitat: ['Forest'],
-      season: 'Spring',
-      description: 'A delicious mushroom',
-      id: 1,
-    };
-
     const { getByText, getByAltText } = render(
-      <BrowserRouter>
-        <DetailedCardProvider>
+      <Provider store={store}>
+        <BrowserRouter>
           <Card data={mockCardData} />
-        </DetailedCardProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     );
 
     expect(getByText('Mushroom')).toBeInTheDocument();
@@ -39,17 +28,15 @@ describe('Card component', () => {
 
   it('clicking on a card opens a detailed card component', async () => {
     render(
-      <BrowserRouter>
-        <CardsContext.Provider value={{ cards: mockCardsData, setCards: vi.fn() }}>
-          <DetailedCardProvider>
-            <Routes>
-              <Route path={'/'} element={<MainSection />}>
-                <Route path="" element={<CardPage />} />
-              </Route>
-            </Routes>
-          </DetailedCardProvider>
-        </CardsContext.Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path={'/'} element={<MainSection />}>
+              <Route path="" element={<CardPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     );
 
     await waitFor(async () => {
@@ -63,61 +50,37 @@ describe('Card component', () => {
     });
   });
 
-  vi.mock('../utils/api', () => ({
-    fetchCards: vi.fn().mockResolvedValue([
-      {
-        id: 1,
-        title: 'Card 1',
-        edibility: 'Edible',
-        image: 'card-image.jpg',
-        habitat: [],
-        season: 'June',
-        description: 'Card description',
-      },
-      {
-        id: 2,
-        title: 'Card 2',
-        edibility: 'Edible',
-        image: 'card-image.jpg',
-        habitat: [],
-        season: 'June',
-        description: 'Card description',
-      },
-    ]),
-    fetchDetailedCard: vi.fn().mockImplementation(async () => {
-      const data = {
-        id: 1,
-        title: 'Card 1',
-        edibility: 'Edible',
-        image: 'card-image.jpg',
-        habitat: [],
-        season: 'June',
-        description: 'Card description',
-      };
-      return data;
-    }),
-  }));
-
   it('clicking on a card triggers an additional API call to fetch detailed information', async () => {
+    vi.spyOn(apiSlice, 'useGetCardsQuery').mockReturnValue({
+      data: {
+        cards: mockCardsData,
+        totalCount: mockCardsData.length,
+      },
+      refetch: vi.fn(),
+    });
+
+    vi.spyOn(apiSlice, 'useGetDetailedCardQuery').mockReturnValue({
+      data: mockCardData,
+      refetch: vi.fn(),
+    });
+
     render(
-      <BrowserRouter>
-        <CardsContext.Provider value={{ cards: mockCardsData, setCards: vi.fn() }}>
-          <DetailedCardProvider>
-            <Routes>
-              <Route path={'/'} element={<MainSection />}>
-                <Route path="" element={<CardPage />} />
-              </Route>
-            </Routes>
-          </DetailedCardProvider>
-        </CardsContext.Provider>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path={'/'} element={<MainSection />}>
+              <Route path="" element={<CardPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     );
 
-    await waitFor(async () => {
+    await waitFor(() => {
       const cardElement = screen.getAllByTestId('card')[0];
       fireEvent.click(cardElement);
     });
 
-    expect(fetchDetailedCard).toBeCalled();
+    await waitFor(() => expect(apiSlice.useGetDetailedCardQuery).toHaveBeenCalled());
   });
 });

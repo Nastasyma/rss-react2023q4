@@ -1,62 +1,32 @@
 import { describe } from 'node:test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { expect, it, vi } from 'vitest';
+import { vi, expect, it } from 'vitest';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { DetailedCardContext, DetailedCardProvider } from '../context/DetailedCardContext';
-import DetailedCard from '../components/DetailedCard/DetailedCard';
-import { CardsContext } from '../context/CardsContext';
 import MainSection from '../components/MainSection/MainSection';
 import CardPage from '../pages/CardPage/CardPage';
-import { mockCardData, mockCardsData } from '../utils/mockCards';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { store } from '../store/store';
+import thunk from 'redux-thunk';
+import { mockCardData } from '../utils/mockCards';
+import DetailedCard from '../components/DetailedCard/DetailedCard';
+import { apiSlice } from '../store/apiSlice';
 
-vi.mock('../utils/api', () => ({
-  fetchCards: vi.fn().mockResolvedValue([
-    {
-      id: 1,
-      title: 'Card 1',
-      edibility: 'Edible',
-      image: 'card-image.jpg',
-      habitat: [],
-      season: 'June',
-      description: 'Card description',
-    },
-    {
-      id: 2,
-      title: 'Card 2',
-      edibility: 'Edible',
-      image: 'card-image.jpg',
-      habitat: [],
-      season: 'June',
-      description: 'Card description',
-    },
-  ]),
-  fetchDetailedCard: vi.fn().mockImplementation(async () => {
-    const data = {
-      id: 1,
-      title: 'Card 1',
-      edibility: 'Edible',
-      image: 'card-image.jpg',
-      habitat: [],
-      season: 'June',
-      description: 'Card description',
-    };
-    return data;
-  }),
-}));
+setupListeners(store.dispatch);
+const mockStore = configureMockStore([thunk]);
 
 describe('DetailedCard component', () => {
   it('displays a loading indicator while fetching data', async () => {
     render(
       <BrowserRouter>
-        <CardsContext.Provider value={{ cards: mockCardsData, setCards: vi.fn() }}>
-          <DetailedCardProvider>
-            <Routes>
-              <Route path={'/'} element={<MainSection />}>
-                <Route path="" element={<CardPage />} />
-              </Route>
-            </Routes>
-          </DetailedCardProvider>
-        </CardsContext.Provider>
+        <Provider store={store}>
+          <Routes>
+            <Route path={'/'} element={<MainSection />}>
+              <Route path="" element={<CardPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -71,14 +41,27 @@ describe('DetailedCard component', () => {
     });
   });
 
-  it('correctly displays the detailed card data', () => {
+  it('correctly displays the detailed card data', async () => {
+    const detailsStore = mockStore({
+      details: {
+        cardDetailsId: 1,
+        isDetailsLoading: false,
+      },
+    });
+
+    vi.spyOn(apiSlice, 'useGetDetailedCardQuery').mockReturnValue({
+      data: mockCardData,
+      refetch: vi.fn(),
+    });
+
     render(
       <BrowserRouter>
-        <DetailedCardContext.Provider value={{ card: mockCardData, setCard: vi.fn() }}>
+        <Provider store={detailsStore}>
           <DetailedCard />
-        </DetailedCardContext.Provider>
+        </Provider>
       </BrowserRouter>
     );
+
     expect(screen.getByText(mockCardData.title)).toBeInTheDocument();
     expect(screen.getByAltText(`${mockCardData.title} image`)).toBeInTheDocument();
   });
@@ -86,15 +69,13 @@ describe('DetailedCard component', () => {
   it('hides the component when close button is clicked', async () => {
     render(
       <BrowserRouter>
-        <CardsContext.Provider value={{ cards: mockCardsData, setCards: vi.fn() }}>
-          <DetailedCardProvider>
-            <Routes>
-              <Route path={'/'} element={<MainSection />}>
-                <Route path="" element={<CardPage />} />
-              </Route>
-            </Routes>
-          </DetailedCardProvider>
-        </CardsContext.Provider>
+        <Provider store={store}>
+          <Routes>
+            <Route path={'/'} element={<MainSection />}>
+              <Route path="" element={<CardPage />} />
+            </Route>
+          </Routes>
+        </Provider>
       </BrowserRouter>
     );
 
@@ -102,9 +83,10 @@ describe('DetailedCard component', () => {
       fireEvent.click(screen.getAllByTestId('card')[0]);
     });
 
-    expect(screen.queryByTestId('detailed-card')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByText('Close'));
+    await waitFor(async () => {
+      expect(screen.queryByTestId('detailed-card')).toBeInTheDocument();
+      fireEvent.click(screen.getByText('Close'));
+    });
 
     await waitFor(() => {
       expect(screen.queryByTestId('detailed-card')).not.toBeInTheDocument();

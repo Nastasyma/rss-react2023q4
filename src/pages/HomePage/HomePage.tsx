@@ -6,11 +6,12 @@ import { useEffect } from 'react';
 import ErrorButton from '../../components/Error/ErrorButton/ErrorButton';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import { SearchProvider } from '../../context/SearchContext';
-import { CardsProvider } from '../../context/CardsContext';
-import { DetailedCardProvider } from '../../context/DetailedCardContext';
+import { AppDispatch } from '../../store/store';
+import { useDispatch } from 'react-redux';
+import { setItemsPerPage, setPage } from '../../store/cardList/cardListSlice';
 
 function HomePage(): JSX.Element {
+  const dispatch: AppDispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page');
   const id = searchParams.get('mushroom');
@@ -25,8 +26,10 @@ function HomePage(): JSX.Element {
         searchParams.set('limit', '4');
         return searchParams;
       });
+      dispatch(setItemsPerPage({ itemsPerPage: 4 }));
+      dispatch(setPage({ page: 1 }));
     }
-  }, [searchParams, setSearchParams, location]);
+  }, [searchParams, setSearchParams, location, dispatch]);
 
   if (
     (page && isNaN(Number(page))) ||
@@ -38,15 +41,9 @@ function HomePage(): JSX.Element {
 
   return (
     <main className={styles.main} data-testid="home-page">
-      <SearchProvider>
-        <Search />
-        <ErrorButton title="Click me!" />
-        <CardsProvider>
-          <DetailedCardProvider>
-            <MainSection />
-          </DetailedCardProvider>
-        </CardsProvider>
-      </SearchProvider>
+      <Search />
+      <ErrorButton title="Click me!" />
+      <MainSection />
     </main>
   );
 }
