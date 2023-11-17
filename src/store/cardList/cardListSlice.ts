@@ -5,14 +5,14 @@ type CardList = {
   cardsList: ICard[];
   itemsPerPage: number;
   page: number;
-  isLoading: boolean;
+  isMainLoading: boolean;
 };
 
 const initialState: CardList = {
   cardsList: [],
   itemsPerPage: 0,
   page: 0,
-  isLoading: false,
+  isMainLoading: false,
 };
 
 export const cardsListSlice = createSlice({
@@ -24,8 +24,8 @@ export const cardsListSlice = createSlice({
       state.cardsList = cardsList;
     },
     setIsCardsLoading: (state, action) => {
-      const { isLoading } = action.payload;
-      state.isLoading = isLoading;
+      const { isMainLoading } = action.payload;
+      state.isMainLoading = isMainLoading;
     },
     setItemsPerPage: (state, action) => {
       const { itemsPerPage } = action.payload;

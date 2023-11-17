@@ -15,7 +15,7 @@ describe('CardsList component', () => {
     const store = mockStore({
       cards: {
         cardsList: mockCardsData,
-        isLoading: false,
+        isMainLoading: false,
         itemsPerPage: 10,
         page: 1,
       },
@@ -39,7 +39,7 @@ describe('CardsList component', () => {
     const store = mockStore({
       cards: {
         cardsList: mockCards,
-        isLoading: false,
+        isMainLoading: false,
         itemsPerPage: 10,
         page: 1,
       },

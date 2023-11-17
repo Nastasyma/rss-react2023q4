@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type cardDetails = {
   cardDetailsId: number;
-  isLoading: boolean;
+  isDetailsLoading: boolean;
 };
 
 const initialState: cardDetails = {
   cardDetailsId: 0,
-  isLoading: false,
+  isDetailsLoading: false,
 };
 
 export const cardDetailsSlice = createSlice({
@@ -19,8 +19,8 @@ export const cardDetailsSlice = createSlice({
       state.cardDetailsId = cardDetailsId;
     },
     setIsDetailsLoading: (state, action) => {
-      const { isLoading } = action.payload;
-      state.isLoading = isLoading;
+      const { isDetailsLoading } = action.payload;
+      state.isDetailsLoading = isDetailsLoading;
     },
   },
 });

@@ -51,7 +51,7 @@ function MainSection(): JSX.Element {
       })
     );
 
-    dispatch(setIsCardsLoading({ isLoading: isFetching }));
+    dispatch(setIsCardsLoading({ isMainLoading: isFetching }));
   }, [data, dispatch, currentPage, limit, searchText, isFetching]);
 
   useEffect(() => {

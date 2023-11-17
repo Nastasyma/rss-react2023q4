@@ -45,7 +45,7 @@ describe('DetailedCard component', () => {
     const detailsStore = mockStore({
       details: {
         cardDetailsId: 1,
-        isLoading: false,
+        isDetailsLoading: false,
       },
     });
 

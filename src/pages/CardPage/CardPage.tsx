@@ -16,7 +16,7 @@ function CardPage(): JSX.Element {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('mushroom');
 
-  const { data, isLoading } = apiSlice.useGetDetailedCardQuery(id || '');
+  const { data, isFetching } = apiSlice.useGetDetailedCardQuery(id || '');
 
   useEffect(() => {
     dispatch(
@@ -24,8 +24,8 @@ function CardPage(): JSX.Element {
         cardDetailsId: data?.id,
       })
     );
-    dispatch(setIsDetailsLoading({ isLoading }));
-  }, [data, dispatch, isLoading]);
+    dispatch(setIsDetailsLoading({ isDetailsLoading: isFetching }));
+  }, [data, dispatch, isFetching]);
 
   return (
     <div className={styles.cardContainer} data-testid="detailed-card">
