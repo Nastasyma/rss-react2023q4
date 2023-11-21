@@ -1,91 +1,40 @@
-## React. Next.JS/SSR/SSG
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-### Disclaimer:
+## Getting Started
 
-In this task you going to use Next.js Pages API instead of brand-new APP dir API. The main motivation of it is stability and wide community around this solution. Pages API still supportable by Next.JS team. This decision will help you avoid unnecessary problems and questions regarding server-side components. Anyway, if you are interested in deep dive into APP API you can read about it [here](https://nextjs.org/docs/app/building-your-application/routing) and [here](https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md).
+First, run the development server:
 
-### What should be done:
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-1. Create a separate branch for this task from the previous branch task.
-2. Migrate the app to the Next.JS retaining the functionality.
-   - You must enable server-side rendering for all the pages.
-3. Switch from react-router to Next.JS router (react-router lib must be removed).
-4. Update tests to make it work with Next.JS.
-5. You must use **Pages API** instead of **new APP API**.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Questions
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-You should be using Discord as the main mean of the communication.
-Also, we will try to collect your questions regarding the 5th Module using special form, which will be provided via the Discord with the 6th Module start. Questions will be collected in Module 06 section of the same spreadsheet. Please, check answers carefully before posting the question, may be your question has been answered already.
-We will try to conduct a session for each module providing answers for some questions.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-Please **check the answers carefully before posting** a question, as your question might have already been answered. We will strive to hold a session for each module, providing answers to some of the questions.
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-### Score
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-The task will be checked during cross-check and cross-code-review.
+## Learn More
 
-#### Cross-code-review process
+To learn more about Next.js, take a look at the following resources:
 
-1. Clone the repository you are going to review
-2. Install all the required dependencies
-3. Run linting using special command in package.json file, output should not produce any errors or warnings
-4. Run tests using special command in package.json file, all tests should pass, test coverage should be shown after running all the tests
-5. Review the code. Pay attention at the following "code smells": props drilling; large, complex components aka "god" components; direct DOM manipulation, etc.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-When reviewing the code try pay attention at the following principles:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-- Write code as simply as possible: KISS
-- Avoid unnecessary repetition: DRY
-- Delete what is not needed: YAGNI
+## Deploy on Vercel
 
-We also need to mention the [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single-responsibility_principle) and other [SOLID](https://en.wikipedia.org/wiki/SOLID) principles
-Please, check [this article](https://dmitripavlutin.com/7-architectural-attributes-of-a-reliable-react-component/) for reference
-Last, but not least - check the presence of the comments. Ideally there shouldn't be any comments at all. Sometimes people just comment code which is not needed. So why not to remove it entirely? In case you will need to restore this code, you can always refer to the git history. And more - [comments are lies](https://blog.devgenius.io/code-should-be-the-one-version-of-the-truth-dont-add-comments-b0bcd8631a9a)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-#### Cross-check process
-
-Run app and check that the functionality is working (cross-check)
-
-#### Points
-
-##### Student can get 100 points:
-
-- The app migrated to the Next.JS - **25 points**
-- All retaining functionality works as expected from previous tasks - **25 points**
-- Pages API has been used for all pages - **20 points**
-- All pages with state receive it via getServerSideProps - **10 points**
-- Tests had been modified to work with SSR - **20 points**
-
-##### Penalties:
-
-- TypeScript isn't used: **-95 points**
-- Usage of _any_: **-20 points per each**
-- Usage of _ts-ignore_: **-20 points per each**
-- Direct DOM manipulations inside the React components: **-50 points per each**
-- Presence of _code-smells_ (God-object, chunks of duplicate code), commented code sections: **-10 points per each**
-- Usage of component libraries, e.g. Material UI, Ant Design: **-100 points**
-- Test coverage is less than 80%: **-30 points**
-- Next.js isn't used: **-100 points**
-- Usage of client state on page: **-20 points** per each
-- Pages API isn't used: **-50 points**
-- Commits after the deadline: **-40 points**
-
-### Repository requirements
-
-- The task should be completed in **your personal private repository**.
-- In the repository, create a branch from the **previous task** branch using the task's name and work within this newly created branch.
-- The commit history should reflect the process of creating the app. Refer to [Commit requirements](https://docs.rs.school/#/git-convention?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-%D0%B8%D0%BC%D0%B5%D0%BD%D0%B0%D0%BC-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2) [RU] for details.
-- Once development is complete, you need to create a Pull Request from the current task branch to the previous task branch. Refer to [Pull Request requirements](https://docs.rs.school/#/pull-request-review-process?id=%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-pull-request-pr) [RU] for details.
-- After completing the module, private repository should be exposed for the duration of the cross-check (please check the schedule). When the cross-check is finished, repository should be made private again.
-
-  **Do not merge Pull Request from the development branch to the `main` branch**
-
-### Theory
-
-- [SSR vs SSG](https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation)
-- [Next.JS](https://nextjs.org/)
-- [Pages API](https://nextjs.org/docs/pages)
-- [RTK with server side rendering](https://redux-toolkit.js.org/rtk-query/usage/server-side-rendering)
-- [RTK Query + Next.JS example](https://github.com/phryneas/ssr-experiments/tree/main/nextjs-blog)
-- [Webinar: Next.js - Your next step in React](https://www.youtube.com/watch?v=_iAApVcgr88)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
