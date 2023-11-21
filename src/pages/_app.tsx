@@ -1,5 +1,4 @@
 import ErrorBoundary from "@/components/Error/ErrorBoundary";
-import Layout from "@/components/Layout/Layout";
 import { store } from "@/store/store";
 import "@/styles/global.scss";
 import type { AppProps } from "next/app";

@@ -6,12 +6,13 @@ import { setSearchText } from "../../store/search/searchTextSlice";
 import { selectSearchText } from "../../store/search/searchTextSelector";
 import { setPage } from "../../store/cardList/cardListSlice";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 function Search(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
   const searchText = useSelector(selectSearchText);
   const [inputValue, setInputValue] = useState("");
-  // const [, setSearchParams] = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     setInputValue(searchText);
@@ -29,10 +30,10 @@ function Search(): JSX.Element {
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     localStorage.setItem("search-text-mushrooms", inputValue);
     event.preventDefault();
-    // setSearchParams((searchParams) => {
-    //   searchParams.set('page', '1');
-    //   return searchParams;
-    // });
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: "1" },
+    });
     dispatch(setPage({ page: 1 }));
     dispatch(setSearchText({ searchText: inputValue }));
   };
