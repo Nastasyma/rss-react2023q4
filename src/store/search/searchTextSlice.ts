@@ -4,8 +4,10 @@ type Search = {
   searchText: string;
 };
 
+const isBrowser = typeof window !== 'undefined';
+
 const initialState: Search = {
-  searchText: '',
+  searchText: isBrowser ? localStorage.getItem('search-text-mushrooms') || '' : '',
 };
 
 export const searchTextSlice = createSlice({

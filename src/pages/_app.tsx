@@ -1,14 +1,16 @@
 import ErrorBoundary from "@/components/Error/ErrorBoundary";
-import { store } from "@/store/store";
+import { wrapper } from "@/store/store";
 import "@/styles/global.scss";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+
   return (
     <ErrorBoundary>
       <Provider store={store}>
-        <Component {...pageProps} />
+      <Component {...props.pageProps} />
       </Provider>
     </ErrorBoundary>
   );

@@ -1,11 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ICard } from '../utils/types';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export const apiSlice = createApi({
   reducerPath: 'cardsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mock-server-api-nastasyma.vercel.app',
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
+  },
   endpoints: (builder) => ({
     getCards: builder.query<
       { cards: ICard[]; totalCount: number },
@@ -31,3 +37,11 @@ export const apiSlice = createApi({
     }),
   }),
 });
+
+export const {
+  useGetCardsQuery,
+  useGetDetailedCardQuery,
+  util: { getRunningQueriesThunk },
+} = apiSlice;
+
+export const { getCards, getDetailedCard } = apiSlice.endpoints;
