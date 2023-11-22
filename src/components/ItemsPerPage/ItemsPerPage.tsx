@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 interface ItemsPerPageProps {
-  count: string | null;
+  count?: number;
 }
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {

@@ -1,18 +1,19 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./Search.module.scss";
 import { AppDispatch } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSearchText } from "../../store/search/searchTextSlice";
-import { selectSearchText } from "../../store/search/searchTextSelector";
 import { setPage } from "../../store/cardList/cardListSlice";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 function Search(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
-  const searchText = useSelector(selectSearchText);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchText = searchParams.get("search") || "";
 
   useEffect(() => {
     setInputValue(searchText);
@@ -28,12 +29,14 @@ function Search(): JSX.Element {
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    localStorage.setItem("search-text-mushrooms", inputValue);
     event.preventDefault();
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, page: "1" },
+      query: { ...router.query, page: "1", search: inputValue },
     });
+    if (inputValue === "") {
+      delete router.query.search
+    }
     dispatch(setPage({ page: 1 }));
     dispatch(setSearchText({ searchText: inputValue }));
   };

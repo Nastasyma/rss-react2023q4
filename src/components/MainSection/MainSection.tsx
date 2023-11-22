@@ -1,19 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './MainSection.module.scss';
 import Pagination from '../../components/Pagination/Pagination';
-// import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
-import { AppDispatch, wrapper } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetCardsQuery } from '../../store/apiSlice';
-import {
-  setCardsList,
-  setIsMainLoading,
-  setItemsPerPage,
-  setPage,
-} from '../../store/cardList/cardListSlice';
-import { selectIsCardsLoading } from '../../store/cardList/cardListSelector';
-import { selectSearchText } from '../../store/search/searchTextSelector';
+import {  useSelector } from 'react-redux';
+import { selectIsCardsLoading, selectPage } from '../../store/cardList/cardListSelector';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import CardsList from '../CardsList/CardsList';
@@ -22,7 +12,7 @@ import { IData } from '@/utils/types';
 function MainSection({ data }: { data: IData }): JSX.Element {
   const isLoadingCards = useSelector(selectIsCardsLoading);
   const id = useSearchParams().get('mushroom');
-  console.log(data)
+  const page = useSelector(selectPage) || 1;
 
   return (
     <div className={styles.mainContainer}>
@@ -39,17 +29,17 @@ function MainSection({ data }: { data: IData }): JSX.Element {
               }}
             />
           )} */}
-          <ItemsPerPage count={'10'} />
+          <ItemsPerPage count={data.totalCount} />
           {isLoadingCards ? (
             <div className={styles.loadingContainer}>
               <Image src="/assets/images/gear-spinner.svg" alt="loading" width={100} height={100} />
             </div>
           ) : (
             <>
-              {/* <Pagination
-                totalPages={4}
-                currentPage={1}
-              /> */}
+              <Pagination
+                totalPages={Number(data.totalPages)}
+                currentPage={page}
+              />
               <CardsList cards={data.cards}/>
             </>
           )}

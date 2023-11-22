@@ -31,13 +31,11 @@ import { getCards, getRunningQueriesThunk } from "@/store/apiSlice";
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { searchText, page, limit } = context.query;
+    const { search, page, limit } = context.query;
 
     const { data } = await store.dispatch(
       getCards.initiate({
-        searchText: Array.isArray(searchText)
-          ? searchText[0]
-          : searchText || "",
+        searchText: Array.isArray(search) ? search[0] : search || "",
         page: page ? parseInt(page as string) : 1,
         itemsPerPage: limit ? parseInt(limit as string) : 4,
       })
@@ -49,6 +47,7 @@ export const getServerSideProps: GetServerSideProps =
       props: {
         cards: data?.cards || [],
         totalCount: data?.totalCount || 0,
+        totalPages: data?.totalPages || 0,
       },
     };
   });

@@ -11,4 +11,5 @@ export interface ICard {
 export interface IData {
   cards: ICard[];
   totalCount?: number;
+  totalPages?: number;
 };

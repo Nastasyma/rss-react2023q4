@@ -1,34 +1,41 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICard } from '../utils/types';
-import { HYDRATE } from 'next-redux-wrapper';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ICard } from "../utils/types";
+import { HYDRATE } from "next-redux-wrapper";
 
 export const apiSlice = createApi({
-  reducerPath: 'cardsApi',
+  reducerPath: "cardsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mock-server-api-nastasyma.vercel.app',
+    baseUrl: "https://mock-server-api-nastasyma.vercel.app",
   }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
-      return action.payload[reducerPath]
+      return action.payload[reducerPath];
     }
   },
   endpoints: (builder) => ({
     getCards: builder.query<
-      { cards: ICard[]; totalCount: number },
+      { cards: ICard[]; totalCount: number; totalPages: number },
       { searchText?: string; page?: number; itemsPerPage?: number }
     >({
       query: ({ searchText, page = 1, itemsPerPage = 4 }) => ({
-        url: '/catalog',
+        url: "/catalog",
         params: {
           _limit: itemsPerPage,
           _page: page,
-          ...(searchText && searchText.trim() !== '' ? { title_like: searchText } : {}),
+          ...(searchText && searchText.trim() !== ""
+            ? { title_like: searchText }
+            : {}),
         },
       }),
-      transformResponse(response: ICard[], meta) {
+      transformResponse(response: ICard[], meta, context) {
+        const totalCount = Number(meta?.response?.headers.get("X-Total-Count"));
+        const itemsPerPage = context.itemsPerPage || 4;
+        const totalPages = Math.ceil(totalCount / itemsPerPage);
+
         return {
           cards: response,
-          totalCount: Number(meta?.response?.headers.get('X-Total-Count')),
+          totalCount,
+          totalPages,
         };
       },
     }),
