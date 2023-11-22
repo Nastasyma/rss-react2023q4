@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICard } from "../utils/types";
 import { HYDRATE } from "next-redux-wrapper";
+import { setCardsList, setTotalCount, setTotalPages } from "./cardList/cardListSlice";
 
 export const apiSlice = createApi({
   reducerPath: "cardsApi",
@@ -14,7 +15,7 @@ export const apiSlice = createApi({
   },
   endpoints: (builder) => ({
     getCards: builder.query<
-      { cards: ICard[]; totalCount: number; totalPages: number },
+      { cardsList: ICard[]; totalCount: number; totalPages: number },
       { searchText?: string; page?: number; itemsPerPage?: number }
     >({
       query: ({ searchText, page = 1, itemsPerPage = 4 }) => ({
@@ -33,10 +34,17 @@ export const apiSlice = createApi({
         const totalPages = Math.ceil(totalCount / itemsPerPage);
 
         return {
-          cards: response,
+          cardsList: response,
           totalCount,
           totalPages,
         };
+      },
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        const data = await queryFulfilled;
+
+        dispatch(setCardsList({ cardsList: data.data.cardsList }));
+        dispatch(setTotalCount({ totalCount: data.data.totalCount }));
+        dispatch(setTotalPages({ totalPages: data.data.totalPages }));
       },
     }),
     getDetailedCard: builder.query<ICard, string>({

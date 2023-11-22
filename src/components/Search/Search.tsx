@@ -1,15 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./Search.module.scss";
-import { AppDispatch } from "../../store/store";
-import { useDispatch } from "react-redux";
-import { setSearchText } from "../../store/search/searchTextSlice";
-import { setPage } from "../../store/cardList/cardListSlice";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 
 function Search(): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -30,15 +25,18 @@ function Search(): JSX.Element {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    const query = { ...router.query };
+    query.page = "1";
+    query.search = inputValue;
+
+    if (inputValue === "") {
+      delete query.search;
+    }
+
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, page: "1", search: inputValue },
+      query,
     });
-    if (inputValue === "") {
-      delete router.query.search
-    }
-    dispatch(setPage({ page: 1 }));
-    dispatch(setSearchText({ searchText: inputValue }));
   };
 
   return (
@@ -58,7 +56,12 @@ function Search(): JSX.Element {
             onClick={handleClearInput}
             data-testid="clear-button"
           >
-            <Image src="/assets/images/cross.svg" alt="clear" width={16} height={16} />
+            <Image
+              src="/assets/images/cross.svg"
+              alt="clear"
+              width={16}
+              height={16}
+            />
           </button>
         )}
         <button
@@ -66,7 +69,13 @@ function Search(): JSX.Element {
           className={styles.searchBtn}
           data-testid="submit-button"
         >
-          <Image src="/assets/images/search.svg" alt="search" width={20} height={20} className={styles.searchIcon} />
+          <Image
+            src="/assets/images/search.svg"
+            alt="search"
+            width={20}
+            height={20}
+            className={styles.searchIcon}
+          />
         </button>
       </form>
     </div>

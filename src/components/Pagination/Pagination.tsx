@@ -1,8 +1,5 @@
 
 import styles from './Pagination.module.scss';
-import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
-import { setPage } from '../../store/cardList/cardListSlice';
 import { useRouter } from 'next/router';
 
 interface PaginationProps {
@@ -11,7 +8,6 @@ interface PaginationProps {
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const handlePageChange = (page: number): void => {
     router.push({
@@ -21,7 +17,6 @@ function Pagination({ totalPages, currentPage }: PaginationProps): JSX.Element {
         page: String(page),
       },
     });
-    dispatch(setPage({ page }));
   };
 
   const handlePrevPage = () => {
