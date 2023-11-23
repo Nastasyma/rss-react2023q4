@@ -1,4 +1,3 @@
-
 import styles from './Pagination.module.scss';
 import { useRouter } from 'next/router';
 

@@ -1,12 +1,12 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import styles from "./Search.module.scss";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import styles from './Search.module.scss';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 function Search(): JSX.Element {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const router = useRouter();
-  const searchText = router.query.search?.toString() || "";
+  const searchText = router.query.search?.toString() || '';
 
   useEffect(() => {
     setInputValue(searchText);
@@ -18,16 +18,16 @@ function Search(): JSX.Element {
   };
 
   const handleClearInput = (): void => {
-    setInputValue("");
+    setInputValue('');
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const query = { ...router.query };
-    query.page = "1";
+    query.page = '1';
     query.search = inputValue;
 
-    if (inputValue === "") {
+    if (inputValue === '') {
       delete query.search;
     }
 
@@ -54,19 +54,10 @@ function Search(): JSX.Element {
             onClick={handleClearInput}
             data-testid="clear-button"
           >
-            <Image
-              src="/assets/images/cross.svg"
-              alt="clear"
-              width={16}
-              height={16}
-            />
+            <Image src="/assets/images/cross.svg" alt="clear" width={16} height={16} />
           </button>
         )}
-        <button
-          type="submit"
-          className={styles.searchBtn}
-          data-testid="submit-button"
-        >
+        <button type="submit" className={styles.searchBtn} data-testid="submit-button">
           <Image
             src="/assets/images/search.svg"
             alt="search"

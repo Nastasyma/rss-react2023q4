@@ -1,9 +1,9 @@
-import ErrorBoundary from "@/components/Error/ErrorBoundary";
-import { wrapper } from "@/store/store";
-import Head from "next/head";
-import "@/styles/global.scss";
-import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
+import ErrorBoundary from '@/components/Error/ErrorBoundary';
+import { wrapper } from '@/store/store';
+import Head from 'next/head';
+import '@/styles/global.scss';
+import type { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
 
 export default function App({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);

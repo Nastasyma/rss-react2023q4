@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ICard } from "../../utils/types";
-import { HYDRATE } from "next-redux-wrapper";
+import { createSlice } from '@reduxjs/toolkit';
+import { ICard } from '../../utils/types';
+import { HYDRATE } from 'next-redux-wrapper';
 
 type CardList = {
   cardsList: ICard[];
@@ -15,7 +15,7 @@ const initialState: CardList = {
 };
 
 export const cardsListSlice = createSlice({
-  name: "cardList",
+  name: 'cardList',
   initialState,
   reducers: {
     setCardsList: (state, action) => {
@@ -41,7 +41,6 @@ export const cardsListSlice = createSlice({
   },
 });
 
-export const { reducer: cardsListReducer } = cardsListSlice;
+export const { reducer: cardsListReducer, actions } = cardsListSlice;
 
-export const { setCardsList, setTotalPages, setTotalCount } =
-  cardsListSlice.actions;
+export const { setCardsList, setTotalPages, setTotalCount } = cardsListSlice.actions;

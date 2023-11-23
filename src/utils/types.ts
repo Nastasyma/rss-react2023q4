@@ -13,4 +13,6 @@ export interface IData {
   totalCount?: number;
   totalPages?: number;
   detailedCard?: ICard;
-};
+  isCardsLoading?: boolean;
+  isDetailedCardLoading?: boolean;
+}

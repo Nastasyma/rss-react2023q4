@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from "react";
-import Search from "../Search/Search";
-import ErrorButton from "../Error/ErrorButton/ErrorButton";
-import styles from "./Layout.module.scss";
+import React, { PropsWithChildren } from 'react';
+import Search from '../Search/Search';
+import ErrorButton from '../Error/ErrorButton/ErrorButton';
+import styles from './Layout.module.scss';
 
 function Layout({ children }: PropsWithChildren): JSX.Element {
   return (
@@ -14,6 +14,6 @@ function Layout({ children }: PropsWithChildren): JSX.Element {
       </main>
     </>
   );
-};
+}
 
 export default Layout;
