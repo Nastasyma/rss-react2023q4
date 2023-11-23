@@ -6,14 +6,12 @@ type CardList = {
   cardsList: ICard[];
   totalPages: number;
   totalCount: number;
-  isMainLoading: boolean;
 };
 
 const initialState: CardList = {
   cardsList: [],
   totalPages: 0,
   totalCount: 0,
-  isMainLoading: false,
 };
 
 export const cardsListSlice = createSlice({
@@ -23,10 +21,6 @@ export const cardsListSlice = createSlice({
     setCardsList: (state, action) => {
       const { cardsList } = action.payload;
       state.cardsList = cardsList;
-    },
-    setIsMainLoading: (state, action) => {
-      const { isMainLoading } = action.payload;
-      state.isMainLoading = isMainLoading;
     },
     setTotalPages: (state, action) => {
       const { totalPages } = action.payload;
@@ -49,5 +43,5 @@ export const cardsListSlice = createSlice({
 
 export const { reducer: cardsListReducer } = cardsListSlice;
 
-export const { setCardsList, setIsMainLoading, setTotalPages, setTotalCount } =
+export const { setCardsList, setTotalPages, setTotalCount } =
   cardsListSlice.actions;

@@ -2,12 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type cardDetails = {
   cardDetailsId: number;
-  isDetailsLoading: boolean;
 };
 
 const initialState: cardDetails = {
   cardDetailsId: 0,
-  isDetailsLoading: false,
 };
 
 export const cardDetailsSlice = createSlice({
@@ -18,13 +16,9 @@ export const cardDetailsSlice = createSlice({
       const { cardDetailsId } = action.payload;
       state.cardDetailsId = cardDetailsId;
     },
-    setIsDetailsLoading: (state, action) => {
-      const { isDetailsLoading } = action.payload;
-      state.isDetailsLoading = isDetailsLoading;
-    },
   },
 });
 
 export const { reducer: cardDetailsReducer } = cardDetailsSlice;
 
-export const { setCardDetailsId, setIsDetailsLoading } = cardDetailsSlice.actions;
+export const { setCardDetailsId } = cardDetailsSlice.actions;

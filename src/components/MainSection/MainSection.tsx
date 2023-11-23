@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import styles from "./MainSection.module.scss";
 import Pagination from "../../components/Pagination/Pagination";
 import ItemsPerPage from "../../components/ItemsPerPage/ItemsPerPage";
-import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import CardsList from "../CardsList/CardsList";
 import { IData } from "@/utils/types";
 
 function MainSection({ data }: { data: IData }): JSX.Element {
   // const isLoadingCards = useSelector(selectIsCardsLoading);
   // const id = useSearchParams().get('mushroom');
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") || "1";
+  const router = useRouter();
+  const page = router.query.page || "1";
 
   return (
     <div className={styles.mainContainer}>

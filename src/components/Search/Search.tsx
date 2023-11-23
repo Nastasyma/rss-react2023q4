@@ -2,13 +2,11 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./Search.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSearchParams } from "next/navigation";
 
 function Search(): JSX.Element {
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const searchText = searchParams.get("search") || "";
+  const searchText = router.query.search?.toString() || "";
 
   useEffect(() => {
     setInputValue(searchText);

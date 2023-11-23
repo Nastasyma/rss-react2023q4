@@ -1,7 +1,6 @@
 
 import styles from './ItemsPerPage.module.scss';
 // import { setItemsPerPage, setPage } from '../../store/cardList/cardListSlice';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 interface ItemsPerPageProps {
@@ -10,9 +9,8 @@ interface ItemsPerPageProps {
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
   const { count } = props;
-  const searchParams = useSearchParams();
-  const itemsPerPage = parseInt(searchParams.get('limit') || '0');
   const router = useRouter();
+  const itemsPerPage = parseInt(router.query.limit as string || '0');
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
