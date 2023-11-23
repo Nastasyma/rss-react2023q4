@@ -1,20 +1,19 @@
-import { useRouter } from "next/router";
-import styles from "./MainSection.module.scss";
-import Pagination from "../../components/Pagination/Pagination";
-import ItemsPerPage from "../../components/ItemsPerPage/ItemsPerPage";
-import CardsList from "../CardsList/CardsList";
-import { IData } from "@/utils/types";
-import DetailedCard from "../DetailedCard/DetailedCard";
+import { useRouter } from 'next/router';
+import styles from './MainSection.module.scss';
+import Pagination from '../../components/Pagination/Pagination';
+import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
+import CardsList from '../CardsList/CardsList';
+import { IData } from '@/utils/types';
+import DetailedCard from '../DetailedCard/DetailedCard';
 
 function MainSection({ data }: { data: IData }): JSX.Element {
   const router = useRouter();
-  const page = router.query.page || "1";
+  const page = router.query.page || '1';
   const id = router.query.mushroom;
-  console.log(data.detailedCard);
 
   return (
     <div className={styles.mainContainer}>
-      <div className={id ? styles.cardsContainer : ""}>
+      <div className={id ? styles.cardsContainer : ''}>
         <div className={styles.cardsList}>
           {id && (
             <div
@@ -26,10 +25,7 @@ function MainSection({ data }: { data: IData }): JSX.Element {
             />
           )}
           <ItemsPerPage count={data.totalCount} />
-          <Pagination
-            totalPages={Number(data.totalPages)}
-            currentPage={Number(page)}
-          />
+          <Pagination totalPages={Number(data.totalPages)} currentPage={Number(page)} />
           <CardsList cards={data.cards} />
         </div>
         {id ? <DetailedCard data={data.detailedCard} /> : null}
