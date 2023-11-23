@@ -54,7 +54,13 @@ function Search(): JSX.Element {
             onClick={handleClearInput}
             data-testid="clear-button"
           >
-            <Image src="/assets/images/cross.svg" alt="clear" width={16} height={16} />
+            <Image
+              src="/assets/images/cross.svg"
+              alt="clear"
+              width={16}
+              height={16}
+              priority={true}
+            />
           </button>
         )}
         <button type="submit" className={styles.searchBtn} data-testid="submit-button">
@@ -64,6 +70,7 @@ function Search(): JSX.Element {
             width={20}
             height={20}
             className={styles.searchIcon}
+            priority={true}
           />
         </button>
       </form>

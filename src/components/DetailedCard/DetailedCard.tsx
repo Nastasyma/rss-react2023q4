@@ -25,13 +25,7 @@ function DetailedCard({ data }: DetailedCardProps): JSX.Element {
             Close
           </button>
           <div className={styles.cardImg}>
-            <Image
-              src={data?.image || ''}
-              alt={`${data?.title} image`}
-              width={350}
-              height={350}
-              layout="responsive"
-            />
+            <Image src={data?.image || ''} alt={`${data?.title} image`} width={350} height={350} />
           </div>
           <h2>{data?.title}</h2>
           <div className={styles.cardDescription}>{data?.description}</div>

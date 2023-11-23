@@ -4,6 +4,8 @@ import { IData } from '@/utils/types';
 import { GetServerSideProps } from 'next';
 import { getCards, getDetailedCard, getRunningQueriesThunk } from '@/store/apiSlice';
 import Layout from '@/components/Layout/Layout';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
@@ -29,13 +31,21 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
         totalCount: store.getState().cards.totalCount,
         totalPages: store.getState().cards.totalPages,
         detailedCard: store.getState().details.detailedCard,
-        isCardsLoading: true,
       },
     };
   }
 );
 
 export default function Home(data: IData) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const queryParams = router.query;
+    if (Object.keys(queryParams).length === 0) {
+      router.push(`?page=1&limit=4`);
+    }
+  }, [router]);
+
   return (
     <>
       <Layout>

@@ -3,8 +3,11 @@ import ErrorBoundary from '@/components/Error/ErrorBoundary';
 import Head from 'next/head';
 import '@/styles/global.scss';
 import type { AppProps } from 'next/app';
+import { wrapper } from '@/store/store';
+import { Provider } from 'react-redux';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
   return (
     <>
       <Head>
@@ -15,7 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <ErrorBoundary>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...props.pageProps} />
+        </Provider>
       </ErrorBoundary>
     </>
   );

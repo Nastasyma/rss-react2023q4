@@ -26,7 +26,7 @@ function Card({ data }: CardProps): JSX.Element {
       }}
     >
       <div className={styles.cardImg}>
-        <Image src={image} alt={`${title} image`} width={260} height={260} />
+        <Image src={image} alt={`${title} image`} width={260} height={260} priority={true} />
       </div>
       <h2>{title}</h2>
       <div className={styles.cardIcon}>
@@ -35,15 +35,28 @@ function Card({ data }: CardProps): JSX.Element {
           alt="Knife and spoon icon"
           width={20}
           height={20}
+          priority={true}
         />
         <span>{edibility}</span>
       </div>
       <div className={styles.cardIcon}>
-        <Image src="assets/images/tree.svg" alt="Tree icon" width={20} height={20} />
+        <Image
+          src="assets/images/tree.svg"
+          alt="Tree icon"
+          width={20}
+          height={20}
+          priority={true}
+        />
         <span>{habitat}</span>
       </div>
       <div className={styles.cardIcon}>
-        <Image src="assets/images/seasons.svg" alt="Seasons icon" width={20} height={20} />
+        <Image
+          src="assets/images/seasons.svg"
+          alt="Seasons icon"
+          width={20}
+          height={20}
+          priority={true}
+        />
         <span>{season}</span>
       </div>
       <div className={styles.cardDescription}>{description}</div>
