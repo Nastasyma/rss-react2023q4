@@ -9,7 +9,8 @@ export interface ICard {
 }
 
 export interface IData {
-  cards: ICard[];
+  cards?: ICard[];
   totalCount?: number;
   totalPages?: number;
+  detailedCard?: ICard;
 };

@@ -4,37 +4,37 @@ import Pagination from "../../components/Pagination/Pagination";
 import ItemsPerPage from "../../components/ItemsPerPage/ItemsPerPage";
 import CardsList from "../CardsList/CardsList";
 import { IData } from "@/utils/types";
+import DetailedCard from "../DetailedCard/DetailedCard";
 
 function MainSection({ data }: { data: IData }): JSX.Element {
-  // const isLoadingCards = useSelector(selectIsCardsLoading);
-  // const id = useSearchParams().get('mushroom');
   const router = useRouter();
   const page = router.query.page || "1";
+  const id = router.query.mushroom;
+  console.log(data.detailedCard);
 
   return (
     <div className={styles.mainContainer}>
-      {/* <div className={id ? styles.cardsContainer : ''}> */}
-      <div className={styles.cardsList}>
-        {/* {id && (
+      <div className={id ? styles.cardsContainer : ""}>
+        <div className={styles.cardsList}>
+          {id && (
             <div
               className={styles.overlay}
               onClick={() => {
-                setSearchParams((searchParams) => {
-                  searchParams.delete('mushroom');
-                  return searchParams;
-                });
+                delete router.query.mushroom;
+                router.push({ pathname: router.pathname, query: router.query });
               }}
             />
-          )} */}
-        <ItemsPerPage count={data.totalCount} />
-        <Pagination
-          totalPages={Number(data.totalPages)}
-          currentPage={Number(page)}
-        />
-        <CardsList cards={data.cards} />
+          )}
+          <ItemsPerPage count={data.totalCount} />
+          <Pagination
+            totalPages={Number(data.totalPages)}
+            currentPage={Number(page)}
+          />
+          <CardsList cards={data.cards} />
+        </div>
+        {id ? <DetailedCard data={data.detailedCard} /> : null}
       </div>
     </div>
-    // </div>
   );
 }
 

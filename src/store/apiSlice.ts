@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICard } from "../utils/types";
 import { HYDRATE } from "next-redux-wrapper";
 import { setCardsList, setTotalCount, setTotalPages } from "./cardList/cardListSlice";
+import { setDetailedCard } from "./details/detailsSlice";
 
 export const apiSlice = createApi({
   reducerPath: "cardsApi",
@@ -49,6 +50,11 @@ export const apiSlice = createApi({
     }),
     getDetailedCard: builder.query<ICard, string>({
       query: (id) => `/catalog/${id}`,
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        const data = await queryFulfilled;
+
+        dispatch(setDetailedCard({ detailedCard: data.data }));
+      },
     }),
   }),
 });

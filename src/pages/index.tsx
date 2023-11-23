@@ -4,12 +4,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { IData } from "@/utils/types";
 import { GetServerSideProps } from "next";
-import { getCards, getRunningQueriesThunk } from "@/store/apiSlice";
+import {
+  getCards,
+  getDetailedCard,
+  getRunningQueriesThunk,
+} from "@/store/apiSlice";
 import Layout from "@/components/Layout/Layout";
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (context) => {
-    const { search, page, limit } = context.query;
+    const { search, page, limit, mushroom } = context.query;
 
     await store.dispatch(
       getCards.initiate({
@@ -19,6 +23,10 @@ export const getServerSideProps: GetServerSideProps =
       })
     );
 
+    if (mushroom) {
+      await store.dispatch(getDetailedCard.initiate(mushroom.toString()));
+    }
+
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return {
@@ -26,6 +34,7 @@ export const getServerSideProps: GetServerSideProps =
         cards: store.getState().cards.cardsList,
         totalCount: store.getState().cards.totalCount,
         totalPages: store.getState().cards.totalPages,
+        detailedCard: store.getState().details.detailedCard
       },
     };
   });
