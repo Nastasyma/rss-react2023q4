@@ -14,7 +14,7 @@ export default defineConfig({
       reportsDirectory: './src/__tests__/coverage',
       all: true,
       include: ['**/*.tsx'],
-      exclude: ['**/_app.tsx', '**/_document.tsx'],
+      exclude: ['src/pages/index.tsx', '**/_app.tsx', '**/_document.tsx'],
     },
   },
   resolve: {

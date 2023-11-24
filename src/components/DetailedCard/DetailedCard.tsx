@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ICard } from '@/utils/types';
 import { useRouter } from 'next/router';
 
-interface DetailedCardProps {
+export interface DetailedCardProps {
   data?: ICard;
 }
 
