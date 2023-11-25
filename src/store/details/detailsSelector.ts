@@ -1,3 +1,4 @@
+import { ICard } from '@/utils/types';
 import { RootState } from '../store';
 
-export const selectDetailsId = (state: RootState): number => state.details.cardDetailsId;
+export const selectDetails = (state: RootState): ICard => state.details.detailedCard;
