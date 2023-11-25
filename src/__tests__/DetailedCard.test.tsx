@@ -28,7 +28,7 @@ describe('DetailedCard component', () => {
   });
 
   it('displays a loading indicator while fetching data', () => {
-    const mockRouter = {
+    const router = {
       query: {
         page: '1',
         search: 'test',
@@ -39,7 +39,7 @@ describe('DetailedCard component', () => {
     const mockComponent = () => <div>Mock Component</div>;
     const mockProps = { pageProps: {} };
 
-    render(<App Component={mockComponent} router={mockRouter} {...mockProps} />, {
+    render(<App Component={mockComponent} router={router} {...mockProps} />, {
       wrapper: Loading,
     });
 
@@ -71,6 +71,7 @@ describe('DetailedCard component', () => {
     await waitFor(async () => {
       expect(screen.queryByTestId('detailed-card')).toBeInTheDocument();
       fireEvent.click(screen.getByText('Close'));
+
       setTimeout(() => {
         expect(screen.queryByTestId('detailed-card')).not.toBeInTheDocument();
       }, 100);
