@@ -3,11 +3,12 @@ import { reducer } from './appStore';
 import { apiSlice } from './apiSlice';
 import { createWrapper } from 'next-redux-wrapper';
 
-export const store = () => configureStore({
-  reducer: reducer,
-  devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
-});
+export const store = () =>
+  configureStore({
+    reducer: reducer,
+    devTools: true,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  });
 
 export type AppStore = ReturnType<typeof store>;
 export type RootState = ReturnType<AppStore['getState']>;
