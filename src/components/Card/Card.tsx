@@ -1,9 +1,7 @@
 import styles from './Card.module.scss';
 import { ICard } from '../../utils/types';
-import KnifeIcon from '../../assets/images/knife-and-spoon.svg?react';
-import TreeIcon from '../../assets/images/tree.svg?react';
-import SeasonsIcon from '../../assets/images/seansons.svg?react';
-import { useSearchParams } from 'react-router-dom';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface CardProps {
   data: ICard;
@@ -11,33 +9,54 @@ interface CardProps {
 
 function Card({ data }: CardProps): JSX.Element {
   const { title, edibility, image, habitat, season, description, id } = data;
-  const [, setSearchParams] = useSearchParams();
+  const router = useRouter();
 
   return (
     <div
       className={styles.card}
       data-testid="card"
       onClick={() => {
-        setSearchParams((searchParams) => {
-          searchParams.set('mushroom', id.toString());
-          return searchParams;
+        router.push({
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            mushroom: String(id),
+          },
         });
       }}
     >
       <div className={styles.cardImg}>
-        <img src={image} alt={`${title} image`} />
+        <Image src={image} alt={`${title} image`} width={260} height={260} priority={true} />
       </div>
       <h2>{title}</h2>
       <div className={styles.cardIcon}>
-        <KnifeIcon />
+        <Image
+          src="/assets/images/knife-and-spoon.svg"
+          alt="Knife and spoon icon"
+          width={20}
+          height={20}
+          priority={true}
+        />
         <span>{edibility}</span>
       </div>
       <div className={styles.cardIcon}>
-        <TreeIcon />
+        <Image
+          src="assets/images/tree.svg"
+          alt="Tree icon"
+          width={20}
+          height={20}
+          priority={true}
+        />
         <span>{habitat}</span>
       </div>
       <div className={styles.cardIcon}>
-        <SeasonsIcon />
+        <Image
+          src="assets/images/seasons.svg"
+          alt="Seasons icon"
+          width={20}
+          height={20}
+          priority={true}
+        />
         <span>{season}</span>
       </div>
       <div className={styles.cardDescription}>{description}</div>

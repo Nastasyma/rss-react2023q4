@@ -1,41 +1,53 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { expect, it, describe, vi } from 'vitest';
+import { expect, it, describe, vi, MockedFunction, beforeEach } from 'vitest';
 import Pagination from '../components/Pagination/Pagination';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { NextRouter } from 'next/router';
+import { mockRouter } from '@/utils/mocks';
+
+const useRouter = vi.spyOn(require('next/router'), 'useRouter');
 
 describe('Pagination component', () => {
-  it('when clicking on the "Next" button, updates URL query parameter', () => {
-    const setSearchParamsMock = vi.fn();
+  let pushMock: MockedFunction<NextRouter['push']>;
 
+  beforeEach(() => {
+    pushMock = vi.fn();
+    useRouter.mockReturnValue({
+      push: pushMock,
+    });
+  });
+
+  it('when clicking on the "Next" button, updates URL query parameter', () => {
     render(
-      <Provider store={store}>
-        <Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />
-      </Provider>
+      <RouterContext.Provider value={mockRouter}>
+        <Pagination totalPages={5} currentPage={2} />
+      </RouterContext.Provider>
     );
 
     const nextPageButton = screen.getByText('Next');
-
     fireEvent.click(nextPageButton);
 
-    expect(setSearchParamsMock).toHaveBeenCalled();
-    expect(setSearchParamsMock.mock.calls[0][0](new URLSearchParams()).get('page')).toBe('3');
+    expect(pushMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: { page: '3' },
+      })
+    );
   });
 
   it('when clicking on the "Prev" button, updates URL query parameter', () => {
-    const setSearchParamsMock = vi.fn();
-
     render(
-      <Provider store={store}>
-        <Pagination totalPages={5} currentPage={2} setSearchParams={setSearchParamsMock} />
-      </Provider>
+      <RouterContext.Provider value={mockRouter}>
+        <Pagination totalPages={5} currentPage={2} />
+      </RouterContext.Provider>
     );
 
     const prevPageButton = screen.getByText('Prev');
-
     fireEvent.click(prevPageButton);
 
-    expect(setSearchParamsMock).toHaveBeenCalled();
-    expect(setSearchParamsMock.mock.calls[0][0](new URLSearchParams()).get('page')).toBe('1');
+    expect(pushMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: { page: '1' },
+      })
+    );
   });
 });

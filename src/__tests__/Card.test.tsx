@@ -1,25 +1,32 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { expect, it, vi } from 'vitest';
+import { MockedFunction, beforeEach, expect, it, vi } from 'vitest';
 import { describe } from 'node:test';
 import Card from '../components/Card/Card';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import CardPage from '../pages/CardPage/CardPage';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
 import MainSection from '../components/MainSection/MainSection';
-import { mockCardData, mockCardsData } from '../utils/mockCards';
-import { apiSlice } from '../store/apiSlice';
+import { mockCardData, mockData, mockRouter } from '../utils/mocks';
+import { NextRouter } from 'next/router';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+const useRouter = vi.spyOn(require('next/router'), 'useRouter');
 
 describe('Card component', () => {
+  let pushMock: MockedFunction<NextRouter['push']>;
+
+  beforeEach(() => {
+    pushMock = vi.fn();
+    useRouter.mockReturnValue({
+      push: pushMock,
+      query: {
+        page: '1',
+        search: 'test',
+        limit: '4',
+        mushroom: '5',
+      },
+    });
+  });
+
   it('card component renders the relevant card data', () => {
-    const { getByText, getByAltText } = render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Card data={mockCardData} />
-        </BrowserRouter>
-      </Provider>
-    );
+    const { getByText, getByAltText } = render(<Card data={mockCardData} />);
 
     expect(getByText('Mushroom')).toBeInTheDocument();
     expect(getByText('Edible')).toBeInTheDocument();
@@ -28,15 +35,9 @@ describe('Card component', () => {
 
   it('clicking on a card opens a detailed card component', async () => {
     render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path={'/'} element={<MainSection />}>
-              <Route path="" element={<CardPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Provider>
+      <RouterContext.Provider value={mockRouter}>
+        <MainSection data={mockData} />
+      </RouterContext.Provider>
     );
 
     await waitFor(async () => {
@@ -48,39 +49,5 @@ describe('Card component', () => {
       const detailedCardElement = screen.queryByTestId('detailed-card');
       expect(detailedCardElement).toBeInTheDocument();
     });
-  });
-
-  it('clicking on a card triggers an additional API call to fetch detailed information', async () => {
-    vi.spyOn(apiSlice, 'useGetCardsQuery').mockReturnValue({
-      data: {
-        cards: mockCardsData,
-        totalCount: mockCardsData.length,
-      },
-      refetch: vi.fn(),
-    });
-
-    vi.spyOn(apiSlice, 'useGetDetailedCardQuery').mockReturnValue({
-      data: mockCardData,
-      refetch: vi.fn(),
-    });
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path={'/'} element={<MainSection />}>
-              <Route path="" element={<CardPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Provider>
-    );
-
-    await waitFor(() => {
-      const cardElement = screen.getAllByTestId('card')[0];
-      fireEvent.click(cardElement);
-    });
-
-    await waitFor(() => expect(apiSlice.useGetDetailedCardQuery).toHaveBeenCalled());
   });
 });

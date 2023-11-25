@@ -1,27 +1,25 @@
-## Redux. RTK.
+## React. Next.JS/SSR/SSG
 
-Task should be based on the previous task.
+### Disclaimer:
+
+In this task you going to use Next.js Pages API instead of brand-new APP dir API. The main motivation of it is stability and wide community around this solution. Pages API still supportable by Next.JS team. This decision will help you avoid unnecessary problems and questions regarding server-side components. Anyway, if you are interested in deep dive into APP API you can read about it [here](https://nextjs.org/docs/app/building-your-application/routing) and [here](https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md).
 
 ### What should be done:
 
 1. Create a separate branch for this task from the previous branch task.
-2. Redux Integration
-   - Integrate Redux into your application. You'll need to set up the Redux store and reducers using Redux Toolkit.
-3. Connect Components. Connect the relevant components to the Redux store. Components should be able to access and modify the following data:
-   - Save search value on CTA (Call to Action) button click.
-   - Save items per page.
-   - RTK Query Implementation: Use Redux Toolkit Query (RTK Query) to make API calls and cache the results. This will modify your previous API call implementation.
-4. Loading Flags
-   - Implement separate loading flags in the Redux store for the main page and details page. These flags should indicate whether data is being loaded.
-5. Test Updates
-   - Update your tests to accommodate the changes introduced by Redux and RTK Query.
-   - Test the functionality related to Redux state and API calls.
+2. Migrate the app to the Next.JS retaining the functionality.
+   - You must enable server-side rendering for all the pages.
+3. Switch from react-router to Next.JS router (react-router lib must be removed).
+4. Update tests to make it work with Next.JS.
+5. You must use **Pages API** instead of **new APP API**.
 
 ### Questions
 
 You should be using Discord as the main mean of the communication.
-Also we will try to collect your questions regarding the 4th Module using special form, which will be provided via the Discord with the 4th Module start. Questions will be collected in Module 04 section of the same spreadsheet. Please, check answers carefully before posting the question, may be your question has been answered already.
+Also, we will try to collect your questions regarding the 5th Module using special form, which will be provided via the Discord with the 6th Module start. Questions will be collected in Module 06 section of the same spreadsheet. Please, check answers carefully before posting the question, may be your question has been answered already.
 We will try to conduct a session for each module providing answers for some questions.
+
+Please **check the answers carefully before posting** a question, as your question might have already been answered. We will strive to hold a session for each module, providing answers to some of the questions.
 
 ### Score
 
@@ -53,12 +51,11 @@ Run app and check that the functionality is working (cross-check)
 
 ##### Student can get 100 points:
 
-- Redux is integrated to the app with the help of Redux Toolkit - **30 points**
-- Search is saved in the store - **5 points**
-- Items per page is saved in the store - **5 points**
-- Loading indicators are shown, loading flags are saved in the store, - **10 points**
-- When either search or items per page is changed, application makes a new call using RTK Query to fetch the data - **25 points**
-- Tests had been modified to test the functionality using Redux and RTK Query - **25 points**
+- The app migrated to the Next.JS - **25 points**
+- All retaining functionality works as expected from previous tasks - **25 points**
+- Pages API has been used for all pages - **20 points**
+- All pages with state receive it via getServerSideProps - **10 points**
+- Tests had been modified to work with SSR - **20 points**
 
 ##### Penalties:
 
@@ -69,6 +66,8 @@ Run app and check that the functionality is working (cross-check)
 - Presence of _code-smells_ (God-object, chunks of duplicate code), commented code sections: **-10 points per each**
 - Usage of component libraries, e.g. Material UI, Ant Design: **-100 points**
 - Test coverage is less than 80%: **-30 points**
+- Next.js isn't used: **-100 points**
+- Pages API isn't used: **-50 points**
 - Commits after the deadline: **-40 points**
 
 ### Repository requirements
@@ -83,8 +82,9 @@ Run app and check that the functionality is working (cross-check)
 
 ### Theory
 
-- Redux Toolkit Docs - [Start with configureStore](https://redux-toolkit.js.org/api/configureStore)
-- RTK Query - [Overview](https://redux-toolkit.js.org/rtk-query/overview)
-- [Redux - Writing tests](https://redux.js.org/usage/writing-tests)
-- [How to test RTK Query with react testing library](https://dev.to/ifeanyichima/-testing-components-with-a-request-for-rtk-query-using-msw-and-react-testing-library-5a8n)
-- React Testing Library - [Mock API Calls - Mock Service Worker](https://www.youtube.com/watch?v=oMv2eAGWtZU)
+- [SSR vs SSG](https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation)
+- [Next.JS](https://nextjs.org/)
+- [Pages API](https://nextjs.org/docs/pages)
+- [RTK with server side rendering](https://redux-toolkit.js.org/rtk-query/usage/server-side-rendering)
+- [RTK Query + Next.JS example](https://github.com/phryneas/ssr-experiments/tree/main/nextjs-blog)
+- [Webinar: Next.js - Your next step in React](https://www.youtube.com/watch?v=_iAApVcgr88)

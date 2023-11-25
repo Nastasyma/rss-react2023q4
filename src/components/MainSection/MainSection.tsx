@@ -1,63 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from './MainSection.module.scss';
-import CardsList from '../../components/CardsList/CardsList';
-import LoadingIcon from '../../assets/images/gear-spinner.svg?react';
 import Pagination from '../../components/Pagination/Pagination';
-import { Outlet, useSearchParams } from 'react-router-dom';
 import ItemsPerPage from '../../components/ItemsPerPage/ItemsPerPage';
-import { AppDispatch } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { apiSlice } from '../../store/apiSlice';
-import {
-  setCardsList,
-  setIsMainLoading,
-  setItemsPerPage,
-  setPage,
-} from '../../store/cardList/cardListSlice';
-import { selectIsCardsLoading } from '../../store/cardList/cardListSelector';
-import { selectSearchText } from '../../store/search/searchTextSelector';
+import CardsList from '../CardsList/CardsList';
+import { IData } from '@/utils/types';
+import DetailedCard from '../DetailedCard/DetailedCard';
 
-function MainSection(): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
-  const isLoadingCards = useSelector(selectIsCardsLoading);
-  const searchText = useSelector(selectSearchText);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalCountHeader, setTotalCountHeader] = useState<string | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
-  const id = searchParams.get('mushroom');
-  const limit = searchParams.get('limit') || '0';
-
-  const { data, isFetching } = apiSlice.useGetCardsQuery({
-    searchText,
-    page: currentPage,
-    itemsPerPage: parseInt(limit),
-  });
-
-  useEffect(() => {
-    if (data) {
-      setTotalCountHeader(data.totalCount.toString());
-      const calculatedTotalPages = !isNaN(parseInt(limit))
-        ? Math.ceil(data.totalCount / parseInt(limit))
-        : 0;
-      setTotalPages(calculatedTotalPages);
-    }
-  }, [data, limit, dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      setCardsList({
-        cardsList: data?.cards || [],
-      })
-    );
-
-    dispatch(setIsMainLoading({ isMainLoading: isFetching }));
-  }, [data, dispatch, currentPage, limit, searchText, isFetching]);
-
-  useEffect(() => {
-    dispatch(setItemsPerPage({ itemsPerPage: parseInt(searchParams.get('limit') || '0') }));
-    dispatch(setPage({ page: parseInt(searchParams.get('page') || '0') }));
-  }, [searchParams, dispatch]);
+function MainSection({ data }: { data: IData }): JSX.Element {
+  const router = useRouter();
+  const id = router.query.mushroom;
+  const page = router.query.page || '1';
 
   return (
     <div className={styles.mainContainer}>
@@ -67,30 +19,16 @@ function MainSection(): JSX.Element {
             <div
               className={styles.overlay}
               onClick={() => {
-                setSearchParams((searchParams) => {
-                  searchParams.delete('mushroom');
-                  return searchParams;
-                });
+                delete router.query.mushroom;
+                router.push({ pathname: router.pathname, query: router.query });
               }}
             />
           )}
-          <ItemsPerPage count={totalCountHeader} />
-          {isLoadingCards ? (
-            <div className={styles.loadingContainer}>
-              <LoadingIcon className={styles.loadingIcon} />
-            </div>
-          ) : (
-            <>
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                setSearchParams={setSearchParams}
-              />
-              <CardsList />
-            </>
-          )}
+          <ItemsPerPage count={data.totalCount} />
+          <Pagination totalPages={Number(data.totalPages)} currentPage={Number(page)} />
+          <CardsList cards={data.cards} />
         </div>
-        {id ? <Outlet /> : ''}
+        {id ? <DetailedCard data={data.detailedCard} /> : null}
       </div>
     </div>
   );

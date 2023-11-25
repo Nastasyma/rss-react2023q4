@@ -1,3 +1,22 @@
+.cardContainer {
+  width: 100%;
+  width: 500px;
+  display: flex;
+  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1000px) {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    transform: translate(50%);
+    z-index: 2;
+    max-width: 350px;
+    padding-top: 0;
+  }
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -40,6 +59,7 @@
 
       img {
         width: 100%;
+        height: auto;
         display: flex;
         border-radius: 50%;
       }

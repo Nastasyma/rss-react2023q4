@@ -37,11 +37,6 @@
       top: 12px;
       cursor: pointer;
 
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-
       &:hover {
         opacity: 0.8;
       }
@@ -63,9 +58,7 @@
         background-color: var(--color-button-hover);
       }
 
-      svg {
-        width: 20px;
-        height: 20px;
+      .searchIcon {
         filter: invert(100%);
       }
     }

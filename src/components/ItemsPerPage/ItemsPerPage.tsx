@@ -1,29 +1,27 @@
-import { useSearchParams } from 'react-router-dom';
 import styles from './ItemsPerPage.module.scss';
-import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
-import { setItemsPerPage, setPage } from '../../store/cardList/cardListSlice';
+import { useRouter } from 'next/router';
 
 interface ItemsPerPageProps {
-  count: string | null;
+  count?: number;
 }
 
 function ItemsPerPage(props: ItemsPerPageProps): JSX.Element {
   const { count } = props;
-  const dispatch: AppDispatch = useDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const itemsPerPage = parseInt(searchParams.get('limit') || '0');
+  const router = useRouter();
+  const itemsPerPage = parseInt((router.query.limit as string) || '4');
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
     if (value !== itemsPerPage) {
-      setSearchParams((searchParams) => {
-        searchParams.set('page', '1');
-        searchParams.set('limit', value.toString());
-        return searchParams;
+      const queryParams = {
+        ...router.query,
+        page: '1',
+        limit: String(value),
+      };
+      router.push({
+        pathname: router.pathname,
+        query: queryParams,
       });
-      dispatch(setItemsPerPage({ itemsPerPage: value }));
-      dispatch(setPage({ page: 1 }));
     }
   };
 

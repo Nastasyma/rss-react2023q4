@@ -7,6 +7,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",

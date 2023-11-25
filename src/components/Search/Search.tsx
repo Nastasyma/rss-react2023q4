@@ -1,19 +1,12 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styles from './Search.module.scss';
-import SearchIcon from '../../assets/images/search.svg?react';
-import CrossIcon from '../../assets/images/cross.svg?react';
-import { useSearchParams } from 'react-router-dom';
-import { AppDispatch } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchText } from '../../store/search/searchTextSlice';
-import { selectSearchText } from '../../store/search/searchTextSelector';
-import { setPage } from '../../store/cardList/cardListSlice';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 function Search(): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
-  const searchText = useSelector(selectSearchText);
   const [inputValue, setInputValue] = useState('');
-  const [, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const searchText = router.query.search?.toString() || '';
 
   useEffect(() => {
     setInputValue(searchText);
@@ -29,14 +22,19 @@ function Search(): JSX.Element {
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    localStorage.setItem('search-text-mushrooms', inputValue);
     event.preventDefault();
-    setSearchParams((searchParams) => {
-      searchParams.set('page', '1');
-      return searchParams;
+    const query = { ...router.query };
+    query.page = '1';
+    query.search = inputValue;
+
+    if (inputValue === '') {
+      delete query.search;
+    }
+
+    router.push({
+      pathname: router.pathname,
+      query,
     });
-    dispatch(setPage({ page: 1 }));
-    dispatch(setSearchText({ searchText: inputValue }));
   };
 
   return (
@@ -56,11 +54,24 @@ function Search(): JSX.Element {
             onClick={handleClearInput}
             data-testid="clear-button"
           >
-            <CrossIcon />
+            <Image
+              src="/assets/images/cross.svg"
+              alt="clear"
+              width={16}
+              height={16}
+              priority={true}
+            />
           </button>
         )}
         <button type="submit" className={styles.searchBtn} data-testid="submit-button">
-          <SearchIcon />
+          <Image
+            src="/assets/images/search.svg"
+            alt="search"
+            width={20}
+            height={20}
+            className={styles.searchIcon}
+            priority={true}
+          />
         </button>
       </form>
     </div>

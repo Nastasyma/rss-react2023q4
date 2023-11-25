@@ -1,11 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr()],
+  plugins: [react()],
   test: {
     globals: true,
     environment: 'jsdom',
@@ -15,7 +13,8 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/__tests__/coverage',
       all: true,
-      exclude: ['src/main.tsx', 'src/utils/types.ts', 'src/vite-env.d.ts', '.eslintrc.cjs'],
+      include: ['**/*.tsx'],
+      exclude: ['src/pages/index.tsx', '**/_app.tsx', '**/_document.tsx'],
     },
   },
   resolve: {

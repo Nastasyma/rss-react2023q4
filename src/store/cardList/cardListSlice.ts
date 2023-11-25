@@ -1,18 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICard } from '../../utils/types';
+import { HYDRATE } from 'next-redux-wrapper';
 
 type CardList = {
   cardsList: ICard[];
-  itemsPerPage: number;
-  page: number;
-  isMainLoading: boolean;
+  totalPages: number;
+  totalCount: number;
 };
 
 const initialState: CardList = {
   cardsList: [],
-  itemsPerPage: 0,
-  page: 0,
-  isMainLoading: false,
+  totalPages: 0,
+  totalCount: 0,
 };
 
 export const cardsListSlice = createSlice({
@@ -23,21 +22,25 @@ export const cardsListSlice = createSlice({
       const { cardsList } = action.payload;
       state.cardsList = cardsList;
     },
-    setIsMainLoading: (state, action) => {
-      const { isMainLoading } = action.payload;
-      state.isMainLoading = isMainLoading;
+    setTotalPages: (state, action) => {
+      const { totalPages } = action.payload;
+      state.totalPages = totalPages;
     },
-    setItemsPerPage: (state, action) => {
-      const { itemsPerPage } = action.payload;
-      state.itemsPerPage = itemsPerPage;
+    setTotalCount: (state, action) => {
+      const { totalCount } = action.payload;
+      state.totalCount = totalCount;
     },
-    setPage: (state, action) => {
-      const { page } = action.payload;
-      state.page = page;
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload.cardsList,
+      };
     },
   },
 });
 
-export const { reducer: cardsListReducer } = cardsListSlice;
+export const { reducer: cardsListReducer, actions } = cardsListSlice;
 
-export const { setCardsList, setIsMainLoading, setItemsPerPage, setPage } = cardsListSlice.actions;
+export const { setCardsList, setTotalPages, setTotalCount } = cardsListSlice.actions;

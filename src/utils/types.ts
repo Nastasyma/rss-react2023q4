@@ -7,3 +7,10 @@ export interface ICard {
   season: string;
   description: string;
 }
+
+export interface IData {
+  cards?: ICard[];
+  totalCount?: number;
+  totalPages?: number;
+  detailedCard?: ICard;
+}

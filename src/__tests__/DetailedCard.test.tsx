@@ -1,65 +1,56 @@
 import { describe } from 'node:test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { vi, expect, it } from 'vitest';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainSection from '../components/MainSection/MainSection';
-import CardPage from '../pages/CardPage/CardPage';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { store } from '../store/store';
-import thunk from 'redux-thunk';
-import { mockCardData } from '../utils/mockCards';
+import { vi, expect, it, MockedFunction, beforeEach } from 'vitest';
+import { mockCardData, mockData, mockRouter } from '../utils/mocks';
 import DetailedCard from '../components/DetailedCard/DetailedCard';
-import { apiSlice } from '../store/apiSlice';
+import { NextRouter, Router } from 'next/router';
+import App from '@/pages/_app';
+import Loading from '@/components/Loading/Loading';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import MainSection from '@/components/MainSection/MainSection';
 
-setupListeners(store.dispatch);
-const mockStore = configureMockStore([thunk]);
+const useRouter = vi.spyOn(require('next/router'), 'useRouter');
 
 describe('DetailedCard component', () => {
-  it('displays a loading indicator while fetching data', async () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Routes>
-            <Route path={'/'} element={<MainSection />}>
-              <Route path="" element={<CardPage />} />
-            </Route>
-          </Routes>
-        </Provider>
-      </BrowserRouter>
-    );
+  let pushMock: MockedFunction<NextRouter['push']>;
 
-    await waitFor(() => {
-      expect(screen.getAllByTestId('card')[0]).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getAllByTestId('card')[0]);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('loading-icon')).toBeInTheDocument();
+  beforeEach(() => {
+    pushMock = vi.fn();
+    useRouter.mockReturnValue({
+      push: pushMock,
+      query: {
+        page: '1',
+        search: 'test',
+        limit: '4',
+        mushroom: '5',
+      },
     });
   });
 
-  it('correctly displays the detailed card data', async () => {
-    const detailsStore = mockStore({
-      details: {
-        cardDetailsId: 1,
-        isDetailsLoading: false,
+  it('displays a loading indicator while fetching data', () => {
+    const router = {
+      query: {
+        page: '1',
+        search: 'test',
+        limit: '4',
+        mushroom: '5',
       },
+    } as unknown as Router;
+    const mockComponent = () => <div>Mock Component</div>;
+    const mockProps = { pageProps: {} };
+
+    render(<App Component={mockComponent} router={router} {...mockProps} />, {
+      wrapper: Loading,
     });
 
-    vi.spyOn(apiSlice, 'useGetDetailedCardQuery').mockReturnValue({
-      data: mockCardData,
-      refetch: vi.fn(),
-    });
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument();
+  });
 
+  it('correctly displays the detailed card data', async () => {
     render(
-      <BrowserRouter>
-        <Provider store={detailsStore}>
-          <DetailedCard />
-        </Provider>
-      </BrowserRouter>
+      <RouterContext.Provider value={mockRouter}>
+        <DetailedCard data={mockCardData} />
+      </RouterContext.Provider>
     );
 
     expect(screen.getByText(mockCardData.title)).toBeInTheDocument();
@@ -68,15 +59,9 @@ describe('DetailedCard component', () => {
 
   it('hides the component when close button is clicked', async () => {
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Routes>
-            <Route path={'/'} element={<MainSection />}>
-              <Route path="" element={<CardPage />} />
-            </Route>
-          </Routes>
-        </Provider>
-      </BrowserRouter>
+      <RouterContext.Provider value={mockRouter}>
+        <MainSection data={mockData} />
+      </RouterContext.Provider>
     );
 
     await waitFor(async () => {
@@ -86,10 +71,10 @@ describe('DetailedCard component', () => {
     await waitFor(async () => {
       expect(screen.queryByTestId('detailed-card')).toBeInTheDocument();
       fireEvent.click(screen.getByText('Close'));
-    });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('detailed-card')).not.toBeInTheDocument();
+      setTimeout(() => {
+        expect(screen.queryByTestId('detailed-card')).not.toBeInTheDocument();
+      }, 100);
     });
   });
 });

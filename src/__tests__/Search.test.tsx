@@ -1,55 +1,45 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { expect, it, describe } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { expect, it, describe, vi, beforeEach, MockedFunction } from 'vitest';
 import Search from '../components/Search/Search';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
-import { BrowserRouter } from 'react-router-dom';
+import { NextRouter } from 'next/router';
+
+const useRouter = vi.spyOn(require('next/router'), 'useRouter');
 
 describe('Search component', () => {
-  it('saves the entered value to local storage when clicking the search button', () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search />
-        </Provider>
-      </BrowserRouter>
-    );
+  let pushMock: MockedFunction<NextRouter['push']>;
 
-    const inputElement = screen.getByPlaceholderText('Search');
-    const button = screen.getByTestId('submit-button');
-
-    fireEvent.change(inputElement, { target: { value: 'test' } });
-    fireEvent.click(button);
-
-    expect(localStorage.getItem('search-text-mushrooms')).toBe('test');
-  });
-
-  it('retrieves the value from local storage upon mounting', async () => {
-    localStorage.setItem('search-text-mushrooms', 'test');
-
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    const inputElement = screen.getByPlaceholderText('Search') as HTMLInputElement;
-
-    await waitFor(() => {
-      expect(inputElement.value).toBe('test');
+  beforeEach(() => {
+    pushMock = vi.fn();
+    useRouter.mockReturnValue({
+      push: pushMock,
+      query: {
+        search: 'search',
+      },
     });
   });
 
-  it('clears the input value when clicking the clear button', () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search />
-        </Provider>
-      </BrowserRouter>
+  it('updates the URL query parameter after clicking the submit button', () => {
+    render(<Search />);
+
+    const searchInput = screen.getByPlaceholderText('Search') as HTMLInputElement;
+    const submitButton = screen.getByTestId('submit-button');
+
+    fireEvent.change(searchInput, { target: { value: 'test' } });
+
+    fireEvent.click(submitButton);
+
+    expect(pushMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: {
+          page: '1',
+          search: 'test',
+        },
+      })
     );
+  });
+
+  it('clears the input value when clicking the clear button', () => {
+    render(<Search />);
 
     const searchInput = screen.getByPlaceholderText('Search') as HTMLInputElement;
     const clearButton = screen.getByTestId('clear-button');

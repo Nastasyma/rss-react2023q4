@@ -1,11 +1,17 @@
 import styles from './NoResults.module.scss';
-import MushhromGif from '../../../assets/images/mushroom.gif';
+import Image from 'next/image';
 
 function NoResults(): JSX.Element {
   return (
     <div className={styles.noResultsContainer} data-testid="no-results">
       <h2>No results found</h2>
-      <img src={MushhromGif} alt="mushroom gif" />
+      <Image
+        src="/assets/images/mushroom.gif"
+        alt="mushroom gif"
+        width={450}
+        height={450}
+        priority={true}
+      />
     </div>
   );
 }

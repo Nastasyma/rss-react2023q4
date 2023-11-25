@@ -1,36 +1,35 @@
-import { useSearchParams } from 'react-router-dom';
 import styles from './DetailedCard.module.scss';
-import { selectDetailsId } from '../../store/details/detailsSelector';
-import { useSelector } from 'react-redux';
-import { apiSlice } from '../../store/apiSlice';
+import Image from 'next/image';
+import { ICard } from '@/utils/types';
+import { useRouter } from 'next/router';
 
-function DetailedCard(): JSX.Element {
-  const [, setSearchParams] = useSearchParams();
-  const id = useSelector(selectDetailsId);
+export interface DetailedCardProps {
+  data?: ICard;
+}
 
-  const { data } = apiSlice.useGetDetailedCardQuery(id?.toString() || '');
-
+function DetailedCard({ data }: DetailedCardProps): JSX.Element {
+  const router = useRouter();
   return (
-    <div className={styles.card}>
-      <div className={styles.cardInfo}>
-        <button
-          className={styles.closeBtn}
-          data-testid="close-btn"
-          type="button"
-          onClick={() => {
-            setSearchParams((searchParams) => {
-              searchParams.delete('mushroom');
-              return searchParams;
-            });
-          }}
-        >
-          Close
-        </button>
-        <div className={styles.cardImg}>
-          <img src={data?.image} alt={`${data?.title} image`} />
+    <div className={styles.cardContainer} data-testid="detailed-card">
+      <div className={styles.card}>
+        <div className={styles.cardInfo}>
+          <button
+            className={styles.closeBtn}
+            data-testid="close-btn"
+            type="button"
+            onClick={() => {
+              delete router.query.mushroom;
+              router.push({ pathname: router.pathname, query: router.query });
+            }}
+          >
+            Close
+          </button>
+          <div className={styles.cardImg}>
+            <Image src={data?.image || ''} alt={`${data?.title} image`} width={350} height={350} />
+          </div>
+          <h2>{data?.title}</h2>
+          <div className={styles.cardDescription}>{data?.description}</div>
         </div>
-        <h2>{data?.title}</h2>
-        <div className={styles.cardDescription}>{data?.description}</div>
       </div>
     </div>
   );
