@@ -1,4 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../components/FormWrapper/FormWrapper';
 import { Input } from '../../components/Input/Input';
 import styles from './ReactHookFormPage.module.scss';
@@ -8,6 +9,8 @@ import { SelectInput } from '../../components/SelectInput/SelectInput';
 import { CounriesInput } from '../../components/CountriesInput.tsx/CountriesInput';
 import { PhotoInput } from '../../components/PhotoInput/PhotoInput';
 import { AcceptInput } from '../../components/AcceptInput/AcceptInput';
+import { formSchema } from '../../utils/formSchema';
+import { ObjectSchema } from 'yup';
 
 interface ReactHookFormFields {
   name: string;
@@ -37,7 +40,7 @@ function ReactHookFormPage() {
     control,
     formState: { errors },
   } = useForm<ReactHookFormFields>({
-    // resolver: yupResolver(signInSchema as ObjectSchema<ReactHookFormFields>),
+    resolver: yupResolver(formSchema as ObjectSchema<ReactHookFormFields>),
     mode: 'onChange',
     defaultValues: initReactHookForm,
   });
@@ -47,8 +50,8 @@ function ReactHookFormPage() {
   };
 
   return (
-    <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={false}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={false}>
         <Controller
           name="name"
           control={control}
@@ -191,8 +194,8 @@ function ReactHookFormPage() {
             );
           }}
         />
-      </form>
-    </FormWrapper>
+      </FormWrapper>
+    </form>
   );
 }
 
