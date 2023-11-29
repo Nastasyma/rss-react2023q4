@@ -20,7 +20,7 @@ export interface PasswordInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   (
     {
       id,
@@ -73,5 +73,3 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     );
   }
 );
-
-export { PasswordInput };

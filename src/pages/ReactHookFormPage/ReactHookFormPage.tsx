@@ -3,8 +3,11 @@ import { FormWrapper } from '../../components/FormWrapper/FormWrapper';
 import { Input } from '../../components/Input/Input';
 import styles from './ReactHookFormPage.module.scss';
 import { countries } from '../../utils/countries';
-import { useState } from 'react';
 import { PasswordInput } from '../../components/PasswordInput/PasswordInput';
+import { SelectInput } from '../../components/SelectInput/SelectInput';
+import { CounriesInput } from '../../components/CountriesInput.tsx/CountriesInput';
+import { PhotoInput } from '../../components/PhotoInput/PhotoInput';
+import { AcceptInput } from '../../components/AcceptInput/AcceptInput';
 
 interface ReactHookFormFields {
   name: string;
@@ -14,6 +17,8 @@ interface ReactHookFormFields {
   confirmPassword: string;
   gender: string;
   countries: string;
+  picture: string;
+  accept: boolean;
 }
 
 const initReactHookForm = {
@@ -24,10 +29,9 @@ const initReactHookForm = {
   confirmPassword: '',
   gender: 'Male',
   countries: '',
+  accept: false,
 };
 function ReactHookFormPage() {
-  const [errorMessage, setErrorMessage] = useState('');
-
   const {
     handleSubmit,
     control,
@@ -39,7 +43,6 @@ function ReactHookFormPage() {
   });
 
   const onSubmit: SubmitHandler<ReactHookFormFields> = (data) => {
-    setErrorMessage('');
     console.log(data);
   };
 
@@ -135,62 +138,56 @@ function ReactHookFormPage() {
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
             return (
-              <>
-                <label htmlFor="6" className={styles.label}>
-                  Gender:
-                  <select id="6" placeholder="Gender" {...field} className={styles.input}>
-                    <option value="" disabled selected>
-                      Select gender
-                    </option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </label>
-              </>
+              <SelectInput
+                id="6"
+                label="Gender:"
+                options={[
+                  { value: 'Male', label: 'Male' },
+                  { value: 'Female', label: 'Female' },
+                ]}
+                {...field}
+                error={errors.gender}
+              />
             );
+          }}
+        />
+        <Controller
+          name="picture"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }): JSX.Element => {
+            return <PhotoInput id="7" label="Upload picture:" {...field} error={errors.picture} />;
           }}
         />
         <Controller
           name="countries"
           control={control}
           rules={{ required: true }}
-          render={(): JSX.Element => {
+          render={({ field }): JSX.Element => {
             return (
-              <>
-                <label htmlFor="7" className={styles.label}>
-                  Countries:
-                  <input
-                    id="7"
-                    type="text"
-                    placeholder="Country"
-                    list="countries"
-                    className={styles.input}
-                  />
-                  <datalist id="countries">
-                    {countries.map((country, index) => (
-                      <option key={index} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </datalist>
-                </label>
-              </>
+              <CounriesInput
+                id="8"
+                label="Countries:"
+                placeholder="Select country..."
+                countries={countries}
+                {...field}
+                error={errors.countries}
+              />
             );
           }}
         />
         <Controller
-          name="countries"
+          name="accept"
           control={control}
           rules={{ required: true }}
-          render={(): JSX.Element => {
+          render={({ field }): JSX.Element => {
             return (
-              <>
-                <label htmlFor="8" className={styles.accept}>
-                  Accept T&C:
-                  <input id="8" type="checkbox" className={styles.input} />
-                  {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
-                </label>
-              </>
+              <AcceptInput
+                id="9"
+                label="Accept terms and conditions:"
+                {...field}
+                error={errors.accept}
+              />
             );
           }}
         />

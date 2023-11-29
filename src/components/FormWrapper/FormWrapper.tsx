@@ -21,7 +21,6 @@ function FormWrapper({
 
       {children}
 
-      <div className={`${styles.line}`} />
       <Button type="submit" height="48px" width="80%" disabled={disableBtn}>
         {buttonText}
       </Button>
