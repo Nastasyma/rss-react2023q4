@@ -24,13 +24,16 @@
   --color-button-hover: #{$color-button-hover};
   --color-link-active: #{$color-link-active};
   --color-error-text: #{$color-error-text};
+  --color-disabled-bg: #{$color-disabled-bg};
+  --color-primary-border: #{$color-black-light};
+  --color-hover-border: #{$color-black-dark};
+  --color-error: #{$color-error};
   --width-main-container: #{$width-main-container};
 }
 
 #root {
   width: 100%;
   margin: 0 auto;
-  text-align: center;
 }
 
 body {
