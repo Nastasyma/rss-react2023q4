@@ -23,17 +23,19 @@ export const AcceptInput = forwardRef<HTMLInputElement, AcceptInputProps>(
     });
     return (
       <label htmlFor={id} className={styles.label}>
-        {label && <span>{label}</span>}
-        <input
-          id={id}
-          name={name}
-          ref={ref}
-          defaultValue={defaultValue}
-          onChange={onChange}
-          {...otherProps}
-          type="checkbox"
-          className={inputStyle}
-        />
+        <div className={styles.checkboxContainer}>
+          {label && <span>{label}</span>}
+          <input
+            id={id}
+            name={name}
+            ref={ref}
+            defaultValue={defaultValue}
+            onChange={onChange}
+            {...otherProps}
+            type="checkbox"
+            className={inputStyle}
+          />
+        </div>
         {error && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
         )}

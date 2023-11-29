@@ -7,27 +7,16 @@ import styles from './PhotoInput.module.scss';
 export interface PhotoInputProps {
   id: string;
   name: string;
-  placeholder?: string;
   label?: string;
+  error?: FieldError;
   value?: string;
   defaultValue?: string;
-  error?: FieldError;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const PhotoInput = forwardRef<HTMLInputElement, PhotoInputProps>(
   (
-    {
-      id,
-      name,
-      placeholder,
-      label,
-      value,
-      defaultValue,
-      error,
-      onChange,
-      ...otherProps
-    }: PhotoInputProps,
+    { id, name, label, error, onChange, value, defaultValue, ...otherProps }: PhotoInputProps,
     ref
   ): JSX.Element => {
     const inputStyle = cn(styles.input, {
@@ -40,12 +29,11 @@ export const PhotoInput = forwardRef<HTMLInputElement, PhotoInputProps>(
           id={id}
           name={name}
           ref={ref}
-          value={value}
-          defaultValue={defaultValue}
           onChange={onChange}
+          defaultValue={defaultValue}
+          value={value || ''}
           {...otherProps}
           type="file"
-          placeholder={placeholder}
           className={inputStyle}
         />
         {error && (

@@ -20,7 +20,7 @@ interface ReactHookFormFields {
   confirmPassword: string;
   gender: string;
   countries: string;
-  picture: string;
+  picture: FileList;
   accept: boolean;
 }
 
@@ -159,7 +159,18 @@ function ReactHookFormPage() {
           control={control}
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
-            return <PhotoInput id="7" label="Upload picture:" {...field} error={errors.picture} />;
+            console.log(field.value);
+            const value =
+              field.value instanceof FileList ? field.value[0]?.name || '' : field.value;
+            return (
+              <PhotoInput
+                id="7"
+                label="Upload picture:"
+                {...field}
+                value={value}
+                error={errors.picture}
+              />
+            );
           }}
         />
         <Controller
