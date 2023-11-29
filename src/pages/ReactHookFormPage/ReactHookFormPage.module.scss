@@ -1,3 +1,10 @@
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .label {
   width: 100%;
   display: flex;
@@ -19,4 +26,13 @@
       outline: none;
     }
   }
+}
+
+.accept {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 10px;
+  gap: 10px;
 }
