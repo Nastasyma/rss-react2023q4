@@ -9,19 +9,22 @@ export interface PhotoInputProps {
   name: string;
   label?: string;
   error?: FieldError;
-  value?: string;
-  defaultValue?: string;
+  value?: FileList;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const PhotoInput = forwardRef<HTMLInputElement, PhotoInputProps>(
-  (
-    { id, name, label, error, onChange, value, defaultValue, ...otherProps }: PhotoInputProps,
-    ref
-  ): JSX.Element => {
+  ({ id, name, label, error, onChange }: PhotoInputProps, ref): JSX.Element => {
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (onChange) {
+        onChange(e);
+      }
+    };
+
     const inputStyle = cn(styles.input, {
       [styles.inputError]: error,
     });
+
     return (
       <label htmlFor={id} className={styles.label}>
         {label && <span>{label}</span>}
@@ -29,10 +32,7 @@ export const PhotoInput = forwardRef<HTMLInputElement, PhotoInputProps>(
           id={id}
           name={name}
           ref={ref}
-          onChange={onChange}
-          defaultValue={defaultValue}
-          value={value || ''}
-          {...otherProps}
+          onChange={handleFileChange}
           type="file"
           className={inputStyle}
         />

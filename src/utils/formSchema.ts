@@ -12,6 +12,7 @@ export const formSchema = yup.object().shape({
   age: yup
     .number()
     .required('Age is required')
+    .typeError('Age must be a number')
     .positive('Age must be a positive number')
     .test('isNumber', 'Age must be a number', (value) => !isNaN(value)),
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -74,11 +75,11 @@ export const formSchema = yup.object().shape({
   picture: yup
     .mixed<FileList>()
     .required('Picture is required')
-    .test('fileSize', 'File size is too large', (value) => {
+    .test('fileSize', 'File size must be no larger than 2MB', (value) => {
       if (!value) return true;
-      return value && value[0].size <= 2_000_000;
+      return value && value[0].size <= 2000000;
     })
-    .test('fileType', 'Invalid file format', (value) => {
+    .test('fileType', 'Invalid file format. Supported formats: JPG, JPEG, PNG', (value) => {
       if (!value) return true;
       return value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value[0].type);
     }),

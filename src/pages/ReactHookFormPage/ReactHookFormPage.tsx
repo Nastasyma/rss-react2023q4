@@ -49,9 +49,11 @@ function ReactHookFormPage() {
     console.log(data);
   };
 
+  const disableSubmit = Object.values(errors).length > 0;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={false}>
+      <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={disableSubmit}>
         <Controller
           name="name"
           control={control}
@@ -81,6 +83,7 @@ function ReactHookFormPage() {
                 placeholder="Age"
                 label="Age:"
                 {...field}
+                value={field.value || ''}
                 error={errors.age}
               />
             );
@@ -159,15 +162,14 @@ function ReactHookFormPage() {
           control={control}
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
-            console.log(field.value);
-            const value =
-              field.value instanceof FileList ? field.value[0]?.name || '' : field.value;
             return (
               <PhotoInput
                 id="7"
                 label="Upload picture:"
                 {...field}
-                value={value}
+                onChange={(e) => {
+                  field.onChange(e.target.files);
+                }}
                 error={errors.picture}
               />
             );

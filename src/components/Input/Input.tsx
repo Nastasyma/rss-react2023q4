@@ -11,6 +11,7 @@ export interface IInputProps {
   label?: string;
   defaultValue?: string;
   error?: FieldError;
+  value?: string | number;
   type?: 'text' | 'email' | 'number';
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -24,6 +25,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
       defaultValue,
       error,
       type = 'number',
+      value,
       onChange,
       ...otherProps
     }: IInputProps,
@@ -43,6 +45,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
             className={inputStyle}
             defaultValue={defaultValue}
             type={type}
+            value={value}
             {...otherProps}
             onChange={onChange}
           />
@@ -54,6 +57,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
             className={inputStyle}
             defaultValue={defaultValue}
             type={type}
+            value={value}
             {...otherProps}
           />
         )}

@@ -13,6 +13,7 @@
   --font-weight-regular: #{$font-weight-regular};
   --font-weight-medium: #{$font-weight-medium};
   --font-weight-bold: #{$font-weight-bold};
+  --font-size-small: #{$font-size-small};
   --font-size-primary: #{$font-size-primary};
   --font-size-middle: #{$font-size-middle};
   --font-size-h2: #{$font-size-h2};
@@ -34,6 +35,7 @@
 #root {
   width: 100%;
   margin: 0 auto;
+  font-family: var(--font-family-primary);
 }
 
 body {
