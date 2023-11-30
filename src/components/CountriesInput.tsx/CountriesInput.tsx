@@ -8,12 +8,12 @@ import { selectCountries } from '../../store/countries/countriesSelector';
 
 export interface CounriesInputProps {
   id: string;
-  name: string;
+  name?: string;
   placeholder?: string;
   label?: string;
   value?: string;
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -61,8 +61,13 @@ export const CounriesInput = forwardRef<HTMLInputElement, CounriesInputProps>(
             </option>
           ))}
         </datalist>
-        {error && (
+
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );

@@ -11,12 +11,12 @@ import HiddenEyeIcon from '../../assets/images/hidden-eye.svg?react';
 
 export interface PasswordInputProps {
   id: string;
-  name: string;
+  name?: string;
   placeholder?: string;
   label?: string;
   value?: string;
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -66,8 +66,13 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             {icon}
           </button>
         </div>
-        {error && (
+
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );

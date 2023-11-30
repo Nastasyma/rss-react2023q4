@@ -75,13 +75,13 @@ export const formSchema = yup.object().shape({
   picture: yup
     .mixed<FileList>()
     .required('Picture is required')
-    .test('fileSize', 'File size must be no larger than 2MB', (value) => {
-      if (!value) return true;
-      return value && value[0].size <= 2000000;
+    .test('fileType', 'Invalid file format. Supported formats: JPEG, PNG', (value) => {
+      if (!value.length) return false;
+      return value && ['image/jpeg', 'image/png'].includes(value[0].type);
     })
-    .test('fileType', 'Invalid file format. Supported formats: JPG, JPEG, PNG', (value) => {
-      if (!value) return true;
-      return value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value[0].type);
+    .test('fileSize', 'File size must be no larger than 3MB', (value) => {
+      if (!value.length) return false;
+      return value && value[0].size <= 3000000;
     }),
   country: yup.string().required('Country is required'),
   accept: yup.boolean().oneOf([true], 'Acceptance is required'),

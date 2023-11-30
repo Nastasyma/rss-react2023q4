@@ -10,10 +10,10 @@ export interface IInputProps {
   placeholder: string;
   label?: string;
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | string;
   value?: string | number;
   type?: 'text' | 'email' | 'number';
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
@@ -62,8 +62,12 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
           />
         )}
 
-        {error && (
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );

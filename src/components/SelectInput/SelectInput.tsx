@@ -11,13 +11,13 @@ interface Option {
 
 export interface SelectInputProps {
   id: string;
-  name: string;
+  name?: string;
   placeholder?: string;
   label?: string;
   value?: string;
   options: Option[];
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -60,8 +60,13 @@ export const SelectInput = forwardRef<HTMLSelectElement, SelectInputProps>(
             </option>
           ))}
         </select>
-        {error && (
+
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );

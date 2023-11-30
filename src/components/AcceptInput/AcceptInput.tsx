@@ -6,10 +6,10 @@ import styles from './AcceptInput.module.scss';
 
 export interface AcceptInputProps {
   id: string;
-  name: string;
+  name?: string;
   label?: string;
   defaultValue?: string;
-  error?: FieldError;
+  error?: FieldError | string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -36,8 +36,13 @@ export const AcceptInput = forwardRef<HTMLInputElement, AcceptInputProps>(
             className={inputStyle}
           />
         </div>
-        {error && (
+
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );

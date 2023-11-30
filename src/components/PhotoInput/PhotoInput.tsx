@@ -6,10 +6,9 @@ import styles from './PhotoInput.module.scss';
 
 export interface PhotoInputProps {
   id: string;
-  name: string;
+  name?: string;
   label?: string;
-  error?: FieldError;
-  value?: FileList;
+  error?: FieldError | string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -36,8 +35,13 @@ export const PhotoInput = forwardRef<HTMLInputElement, PhotoInputProps>(
           type="file"
           className={inputStyle}
         />
-        {error && (
+
+        {error && typeof error !== 'string' && (
           <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
         )}
       </label>
     );
