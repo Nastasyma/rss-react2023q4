@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { CountriesSlice } from './countries/countriesSlice';
-import { reactHookFormSlice } from './reactHookForm/reactHookFormSlice';
+import { formSlice } from './form/formSlice';
 
 export const reducer = combineReducers({
   countries: CountriesSlice.reducer,
-  reactHookForm: reactHookFormSlice.reducer,
+  form: formSlice.reducer,
 });

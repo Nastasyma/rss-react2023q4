@@ -12,18 +12,9 @@ import { formSchema } from '../../utils/formSchema';
 import { ObjectSchema } from 'yup';
 import { AppDispatch } from '../../store/store';
 import { useDispatch } from 'react-redux';
-import {
-  setReactHookFormAccept,
-  setReactHookFormAge,
-  setReactHookFormConfirmPassword,
-  setReactHookFormCountry,
-  setReactHookFormEmail,
-  setReactHookFormGender,
-  setReactHookFormName,
-  setReactHookFormPassword,
-  setReactHookFormPicture,
-} from '../../store/reactHookForm/reactHookFormSlice';
+import { setFormData } from '../../store/form/formSlice';
 import { useNavigate } from 'react-router-dom';
+import { IData } from '../../utils/types';
 
 interface ReactHookFormFields {
   name: string;
@@ -32,7 +23,7 @@ interface ReactHookFormFields {
   password: string;
   confirmPassword: string;
   gender: string;
-  countries: string;
+  country: string;
   picture: FileList;
   accept: boolean;
 }
@@ -44,7 +35,7 @@ const initReactHookForm = {
   password: '',
   confirmPassword: '',
   gender: 'Male',
-  countries: '',
+  country: '',
   accept: false,
 };
 function ReactHookFormPage() {
@@ -62,16 +53,16 @@ function ReactHookFormPage() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ReactHookFormFields> = async (data) => {
-    dispatch(setReactHookFormName(data.name));
-    dispatch(setReactHookFormAge(data.age));
-    dispatch(setReactHookFormEmail(data.email));
-    dispatch(setReactHookFormPassword(data.password));
-    dispatch(setReactHookFormConfirmPassword(data.confirmPassword));
-    dispatch(setReactHookFormGender(data.gender));
-    dispatch(setReactHookFormCountry(data.countries));
-    dispatch(setReactHookFormAccept(data.accept));
-    const pictureBase64 = await readFileAsDataURL(data.picture[0]);
-    dispatch(setReactHookFormPicture(pictureBase64));
+    const pictureFile = data.picture[0];
+    const pictureBase64 = await readFileAsDataURL(pictureFile);
+
+    const formData: IData = {
+      ...data,
+      picture: pictureBase64,
+      borderStyle: '4px solid #2f955d',
+    };
+
+    dispatch(setFormData(formData));
 
     navigate('/', { state: { from: 'react-hook-form' } });
   };
@@ -215,17 +206,17 @@ function ReactHookFormPage() {
           }}
         />
         <Controller
-          name="countries"
+          name="country"
           control={control}
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
             return (
               <CounriesInput
                 id="8"
-                label="Countries:"
+                label="Country:"
                 placeholder="Select country..."
                 {...field}
-                error={errors.countries}
+                error={errors.country}
               />
             );
           }}

@@ -8,4 +8,5 @@ export interface IData {
   picture: string;
   country: string;
   accept: boolean;
+  borderStyle?: string;
 }

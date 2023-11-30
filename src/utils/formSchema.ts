@@ -83,6 +83,6 @@ export const formSchema = yup.object().shape({
       if (!value) return true;
       return value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value[0].type);
     }),
-  countries: yup.string().required('Country is required'),
+  country: yup.string().required('Country is required'),
   accept: yup.boolean().oneOf([true], 'Acceptance is required'),
 });
