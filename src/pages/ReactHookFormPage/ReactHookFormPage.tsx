@@ -42,7 +42,7 @@ function ReactHookFormPage() {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ReactHookFormFields>({
     resolver: yupResolver(formSchema as ObjectSchema<ReactHookFormFields>),
     mode: 'onChange',
@@ -67,8 +67,6 @@ function ReactHookFormPage() {
     navigate('/', { state: { from: 'react-hook-form' } });
   };
 
-  const disableSubmit = Object.values(errors).length > 0;
-
   const readFileAsDataURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -83,7 +81,7 @@ function ReactHookFormPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={disableSubmit}>
+      <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={!isValid}>
         <Controller
           name="name"
           control={control}

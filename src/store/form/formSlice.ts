@@ -1,22 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IData } from '../../utils/types';
 
-const initialState: IData = {
-  name: 'Jhon Doe',
-  age: 33,
-  email: 'info@gmail.com',
-  password: 'qwerty123',
-  confirmPassword: 'qwerty123',
-  gender: 'Male',
-  picture: '',
-  country: 'Australia',
-  accept: true,
-};
+const initialState: IData[] = [];
 
 export const formSlice = createSlice({
   name: 'form',
   initialState: {
-    formDataList: [initialState],
+    formDataList: initialState,
   },
   reducers: {
     setFormData: (state, action: PayloadAction<IData>) => {

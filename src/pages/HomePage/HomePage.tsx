@@ -9,20 +9,22 @@ function HomePage(): JSX.Element {
   const formDataList = useAppSelector((state) => state.form.formDataList);
 
   useEffect(() => {
-    const lastIndex = formDataList.length - 1;
+    if (formDataList.length > 0) {
+      const lastIndex = formDataList.length - 1;
 
-    const timeoutId = setTimeout(() => {
-      dispatch(setBorderStyle({ index: lastIndex, borderStyle: '' }));
-    }, 3000);
+      const timeoutId = setTimeout(() => {
+        dispatch(setBorderStyle({ index: lastIndex, borderStyle: '' }));
+      }, 3000);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
   }, [formDataList, dispatch]);
 
   return (
     <div className={styles.homePage}>
-      {formDataList.length > 0 && (
+      {formDataList.length > 0 ? (
         <div className={styles.formData}>
           {formDataList.map((formData, index) => (
             <div
@@ -64,6 +66,8 @@ function HomePage(): JSX.Element {
             </div>
           ))}
         </div>
+      ) : (
+        <p>No data available</p>
       )}
     </div>
   );
