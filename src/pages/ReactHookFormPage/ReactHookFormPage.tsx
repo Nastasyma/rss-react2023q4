@@ -10,6 +10,19 @@ import { PhotoInput } from '../../components/PhotoInput/PhotoInput';
 import { AcceptInput } from '../../components/AcceptInput/AcceptInput';
 import { formSchema } from '../../utils/formSchema';
 import { ObjectSchema } from 'yup';
+import { AppDispatch } from '../../store/store';
+import { useDispatch } from 'react-redux';
+import {
+  setReactHookFormAccept,
+  setReactHookFormAge,
+  setReactHookFormConfirmPassword,
+  setReactHookFormCountry,
+  setReactHookFormEmail,
+  setReactHookFormGender,
+  setReactHookFormName,
+  setReactHookFormPassword,
+  setReactHookFormPicture,
+} from '../../store/reactHookForm/reactHookFormSlice';
 
 interface ReactHookFormFields {
   name: string;
@@ -44,11 +57,34 @@ function ReactHookFormPage() {
     defaultValues: initReactHookForm,
   });
 
-  const onSubmit: SubmitHandler<ReactHookFormFields> = (data) => {
-    console.log(data);
+  const dispatch: AppDispatch = useDispatch();
+
+  const onSubmit: SubmitHandler<ReactHookFormFields> = async (data) => {
+    dispatch(setReactHookFormName(data.name));
+    dispatch(setReactHookFormAge(data.age));
+    dispatch(setReactHookFormEmail(data.email));
+    dispatch(setReactHookFormPassword(data.password));
+    dispatch(setReactHookFormConfirmPassword(data.confirmPassword));
+    dispatch(setReactHookFormGender(data.gender));
+    dispatch(setReactHookFormCountry(data.countries));
+    dispatch(setReactHookFormAccept(data.accept));
+    const pictureBase64 = await readFileAsDataURL(data.picture[0]);
+    dispatch(setReactHookFormPicture(pictureBase64));
   };
 
   const disableSubmit = Object.values(errors).length > 0;
+
+  const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

@@ -1,6 +1,6 @@
 export interface IData {
   name: string;
-  age: string;
+  age: number;
   email: string;
   password: string;
   confirmPassword: string;
