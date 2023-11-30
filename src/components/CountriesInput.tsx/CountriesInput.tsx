@@ -3,6 +3,8 @@ import { FieldError } from 'react-hook-form';
 import cn from 'classnames';
 import { ChangeEvent, forwardRef } from 'react';
 import styles from './CountriesInput.module.scss';
+import { useSelector } from 'react-redux';
+import { selectCountries } from '../../store/countries/countriesSelector';
 
 export interface CounriesInputProps {
   id: string;
@@ -12,7 +14,6 @@ export interface CounriesInputProps {
   value?: string;
   defaultValue?: string;
   error?: FieldError;
-  countries: string[];
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -26,7 +27,6 @@ export const CounriesInput = forwardRef<HTMLInputElement, CounriesInputProps>(
       value,
       defaultValue,
       error,
-      countries,
       onChange,
       ...otherProps
     }: CounriesInputProps,
@@ -35,6 +35,9 @@ export const CounriesInput = forwardRef<HTMLInputElement, CounriesInputProps>(
     const inputStyle = cn(styles.input, {
       [styles.inputError]: error,
     });
+
+    const countries = useSelector(selectCountries);
+
     return (
       <label htmlFor={id} className={styles.label}>
         {label && <span>{label}</span>}

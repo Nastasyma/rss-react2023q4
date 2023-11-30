@@ -3,7 +3,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../components/FormWrapper/FormWrapper';
 import { Input } from '../../components/Input/Input';
 import styles from './ReactHookFormPage.module.scss';
-import { countries } from '../../utils/countries';
 import { PasswordInput } from '../../components/PasswordInput/PasswordInput';
 import { SelectInput } from '../../components/SelectInput/SelectInput';
 import { CounriesInput } from '../../components/CountriesInput.tsx/CountriesInput';
@@ -185,7 +184,6 @@ function ReactHookFormPage() {
                 id="8"
                 label="Countries:"
                 placeholder="Select country..."
-                countries={countries}
                 {...field}
                 error={errors.countries}
               />

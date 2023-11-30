@@ -1,5 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import { CountriesSlice } from './countries/countriesSlice';
 
 export const reducer = combineReducers({
-  // reducers here
+  countries: CountriesSlice.reducer,
 });
