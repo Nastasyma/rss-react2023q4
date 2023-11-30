@@ -23,6 +23,7 @@ import {
   setReactHookFormPassword,
   setReactHookFormPicture,
 } from '../../store/reactHookForm/reactHookFormSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface ReactHookFormFields {
   name: string;
@@ -58,6 +59,7 @@ function ReactHookFormPage() {
   });
 
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ReactHookFormFields> = async (data) => {
     dispatch(setReactHookFormName(data.name));
@@ -70,6 +72,8 @@ function ReactHookFormPage() {
     dispatch(setReactHookFormAccept(data.accept));
     const pictureBase64 = await readFileAsDataURL(data.picture[0]);
     dispatch(setReactHookFormPicture(pictureBase64));
+
+    navigate('/', { state: { from: 'react-hook-form' } });
   };
 
   const disableSubmit = Object.values(errors).length > 0;

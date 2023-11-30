@@ -2,14 +2,14 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IData } from '../../utils/types';
 
 const initialState: IData = {
-  name: '',
-  age: 0,
-  email: '',
-  password: '',
-  confirmPassword: '',
-  gender: '',
+  name: '---',
+  age: 15,
+  email: '---',
+  password: '---',
+  confirmPassword: '---',
+  gender: '---',
   picture: '',
-  country: '',
+  country: '---',
   accept: false,
 };
 
