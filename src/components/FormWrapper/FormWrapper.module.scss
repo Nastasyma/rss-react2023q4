@@ -4,12 +4,11 @@
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  gap: 2px;
   align-items: center;
   width: 100%;
   max-width: 600px;
   border-radius: 12px;
-  padding: 30px 40px;
+  padding: 20px 40px;
   background-color: var(--color-primary-bg);
 
   .title {

@@ -9,7 +9,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  min-height: 83px;
 
   .input {
     @extend %input;
