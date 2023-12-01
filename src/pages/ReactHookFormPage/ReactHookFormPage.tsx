@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { setFormData } from '../../store/form/formSlice';
 import { useNavigate } from 'react-router-dom';
 import { IData } from '../../utils/types';
+import calculatePasswordStrength from '../../utils/passwordStrength';
 
 interface ReactHookFormFields {
   name: string;
@@ -80,7 +81,7 @@ function ReactHookFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form} autoComplete="on">
       <FormWrapper title="React Hook Form" buttonText="Submit" disableBtn={!isValid}>
         <Controller
           name="name"
@@ -139,14 +140,29 @@ function ReactHookFormPage() {
           control={control}
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
+            const passwordStrength = calculatePasswordStrength(field.value);
             return (
-              <PasswordInput
-                id="4"
-                placeholder="Password"
-                label="Password:"
-                {...field}
-                error={errors.password}
-              />
+              <>
+                <PasswordInput
+                  id="4"
+                  placeholder="Password"
+                  label="Password:"
+                  {...field}
+                  error={errors.password}
+                />
+                {errors.password && (
+                  <div className={styles.passwordStrengthContainer}>
+                    <span className={styles.passwordStrengthLabel}>Password Strength:</span>
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <span
+                        key={index}
+                        className={styles.passwordStrength}
+                        style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             );
           }}
         />

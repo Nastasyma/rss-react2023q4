@@ -67,7 +67,10 @@ function HomePage(): JSX.Element {
           ))}
         </div>
       ) : (
-        <p>No data available</p>
+        <>
+          <h2>No data available</h2>
+          <h3>Please go to the page with the form and fill in the data</h3>
+        </>
       )}
     </div>
   );

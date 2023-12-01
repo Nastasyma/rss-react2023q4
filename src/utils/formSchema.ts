@@ -75,6 +75,9 @@ export const formSchema = yup.object().shape({
   picture: yup
     .mixed<FileList>()
     .required('Picture is required')
+    .test('required', 'Picture is required', (value) => {
+      if (!value.length) return false;
+    })
     .test('fileType', 'Invalid file format. Supported formats: JPEG, PNG', (value) => {
       if (!value.length) return false;
       return value && ['image/jpeg', 'image/png'].includes(value[0].type);

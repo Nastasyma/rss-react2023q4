@@ -14,11 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { useDispatch } from 'react-redux';
 import { setFormData } from '../../store/form/formSlice';
+import calculatePasswordStrength from '../../utils/passwordStrength';
 
 function UncontrolledFormPage() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -43,6 +45,9 @@ function UncontrolledFormPage() {
     const country = countryRef.current?.value;
     const accept = acceptRef.current?.checked;
     const picture = pictureRef.current?.files;
+
+    const passwordStrength = calculatePasswordStrength(password || '');
+    setPasswordStrength(passwordStrength);
 
     try {
       const formData = {
@@ -132,13 +137,27 @@ function UncontrolledFormPage() {
           ref={emailRef}
           error={validationErrors.email}
         />
-        <PasswordInput
-          id="4"
-          placeholder="Password"
-          label="Password:"
-          ref={passwordRef}
-          error={validationErrors.password}
-        />
+        <>
+          <PasswordInput
+            id="4"
+            placeholder="Password"
+            label="Password:"
+            ref={passwordRef}
+            error={validationErrors.password}
+          />
+          {Object.keys(validationErrors).length > 0 && (
+            <div className={styles.passwordStrengthContainer}>
+              <span className={styles.passwordStrengthLabel}>Password Strength:</span>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <span
+                  key={index}
+                  className={styles.passwordStrength}
+                  style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
+                />
+              ))}
+            </div>
+          )}
+        </>
         <PasswordInput
           id="5"
           placeholder="Confirm Password"
