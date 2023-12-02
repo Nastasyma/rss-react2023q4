@@ -145,18 +145,16 @@ function UncontrolledFormPage() {
             ref={passwordRef}
             error={validationErrors.password}
           />
-          {Object.keys(validationErrors).length > 0 && (
-            <div className={styles.passwordStrengthContainer}>
-              <span className={styles.passwordStrengthLabel}>Password Strength:</span>
-              {Array.from({ length: 4 }).map((_, index) => (
-                <span
-                  key={index}
-                  className={styles.passwordStrength}
-                  style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
-                />
-              ))}
-            </div>
-          )}
+          <div className={styles.passwordStrengthContainer}>
+            <span className={styles.passwordStrengthLabel}>Password Strength:</span>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <span
+                key={index}
+                className={styles.passwordStrength}
+                style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
+              />
+            ))}
+          </div>
         </>
         <PasswordInput
           id="5"

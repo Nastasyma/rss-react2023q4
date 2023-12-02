@@ -150,18 +150,16 @@ function ReactHookFormPage() {
                   {...field}
                   error={errors.password}
                 />
-                {errors.password && (
-                  <div className={styles.passwordStrengthContainer}>
-                    <span className={styles.passwordStrengthLabel}>Password Strength:</span>
-                    {Array.from({ length: 4 }).map((_, index) => (
-                      <span
-                        key={index}
-                        className={styles.passwordStrength}
-                        style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
-                      />
-                    ))}
-                  </div>
-                )}
+                <div className={styles.passwordStrengthContainer}>
+                  <span className={styles.passwordStrengthLabel}>Password Strength:</span>
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <span
+                      key={index}
+                      className={styles.passwordStrength}
+                      style={{ background: passwordStrength >= index + 1 ? 'green' : 'gray' }}
+                    />
+                  ))}
+                </div>
               </>
             );
           }}

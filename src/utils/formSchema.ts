@@ -79,9 +79,9 @@ export const formSchema = yup.object().shape({
       if (!value.length) return false;
       return value && ['image/jpeg', 'image/png'].includes(value[0].type);
     })
-    .test('fileSize', 'File size must be no larger than 3MB', (value) => {
+    .test('fileSize', 'File size must be no larger than 1MB', (value) => {
       if (!value.length) return false;
-      return value && value[0].size <= 3000000;
+      return value && value[0].size <= 1000000;
     }),
   country: yup.string().required('Country is required'),
   accept: yup.boolean().oneOf([true], 'Acceptance is required'),
