@@ -6,7 +6,7 @@ import styles from './CountriesInput.module.scss';
 import { useSelector } from 'react-redux';
 import { selectCountries } from '../../store/countries/countriesSelector';
 
-export interface CounriesInputProps {
+export interface CountriesInputProps {
   id: string;
   name?: string;
   placeholder?: string;
@@ -17,7 +17,7 @@ export interface CounriesInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CounriesInput = forwardRef<HTMLInputElement, CounriesInputProps>(
+export const CountriesInput = forwardRef<HTMLInputElement, CountriesInputProps>(
   (
     {
       id,
@@ -29,7 +29,7 @@ export const CounriesInput = forwardRef<HTMLInputElement, CounriesInputProps>(
       error,
       onChange,
       ...otherProps
-    }: CounriesInputProps,
+    }: CountriesInputProps,
     ref
   ): JSX.Element => {
     const inputStyle = cn(styles.input, {

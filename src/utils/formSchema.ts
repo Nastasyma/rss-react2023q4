@@ -26,12 +26,12 @@ export const formSchema = yup.object().shape({
     })
     .test('containsUppercase', 'Password must contain at least 1 uppercase letter', (value) => {
       if (!value) return true;
-      const regex = /[A-Z]/;
+      const regex = /[A-ZА-ЯЁ]/;
       return regex.test(value);
     })
     .test('containsLowercase', 'Password must contain at least 1 lowercase letter', (value) => {
       if (!value) return true;
-      const regex = /[a-z]/;
+      const regex = /[a-zа-яё]/;
       return regex.test(value);
     })
     .test(
@@ -39,7 +39,7 @@ export const formSchema = yup.object().shape({
       'Password must contain at least 1 special character',
       (value) => {
         if (!value) return true;
-        const regex = /\W/;
+        const regex = /[^A-ZА-Яa-zа-я0-9Ёё\s]/;
         return regex.test(value);
       }
     ),
@@ -75,9 +75,6 @@ export const formSchema = yup.object().shape({
   picture: yup
     .mixed<FileList>()
     .required('Picture is required')
-    .test('required', 'Picture is required', (value) => {
-      if (!value.length) return false;
-    })
     .test('fileType', 'Invalid file format. Supported formats: JPEG, PNG', (value) => {
       if (!value.length) return false;
       return value && ['image/jpeg', 'image/png'].includes(value[0].type);

@@ -5,7 +5,7 @@ import { Input } from '../../components/Input/Input';
 import styles from './ReactHookFormPage.module.scss';
 import { PasswordInput } from '../../components/PasswordInput/PasswordInput';
 import { SelectInput } from '../../components/SelectInput/SelectInput';
-import { CounriesInput } from '../../components/CountriesInput.tsx/CountriesInput';
+import { CountriesInput } from '../../components/CountriesInput.tsx/CountriesInput';
 import { PhotoInput } from '../../components/PhotoInput/PhotoInput';
 import { AcceptInput } from '../../components/AcceptInput/AcceptInput';
 import { formSchema } from '../../utils/formSchema';
@@ -225,7 +225,7 @@ function ReactHookFormPage() {
           rules={{ required: true }}
           render={({ field }): JSX.Element => {
             return (
-              <CounriesInput
+              <CountriesInput
                 id="8"
                 label="Country:"
                 placeholder="Select country..."

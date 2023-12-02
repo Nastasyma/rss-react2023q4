@@ -1,16 +1,16 @@
 const calculatePasswordStrength = (password: string) => {
   let strength = 0;
 
-  if (/[A-Z]/.test(password)) {
+  if (/[A-ZА-ЯЁ]/.test(password)) {
     strength += 1;
   }
-  if (/[a-z]/.test(password)) {
+  if (/[a-zа-яё]/.test(password)) {
     strength += 1;
   }
-  if (/[0-9]/.test(password)) {
+  if (/\d/.test(password)) {
     strength += 1;
   }
-  if (/[^A-Za-z0-9]/.test(password)) {
+  if (/[^A-ZА-Яa-zа-я0-9Ёё\s]/.test(password)) {
     strength += 1;
   }
 
