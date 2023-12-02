@@ -53,12 +53,12 @@ export const formSchema = yup.object().shape({
     })
     .test('containsUppercase', 'Password must contain at least 1 uppercase letter', (value) => {
       if (!value) return true;
-      const regex = /[A-Z]/;
+      const regex = /[A-ZА-ЯЁ]/;
       return regex.test(value);
     })
     .test('containsLowercase', 'Password must contain at least 1 lowercase letter', (value) => {
       if (!value) return true;
-      const regex = /[a-z]/;
+      const regex = /[a-zа-яё]/;
       return regex.test(value);
     })
     .test(
@@ -66,7 +66,7 @@ export const formSchema = yup.object().shape({
       'Password must contain at least 1 special character',
       (value) => {
         if (!value) return true;
-        const regex = /\W/;
+        const regex = /[^A-ZА-Яa-zа-я0-9Ёё\s]/;
         return regex.test(value);
       }
     )

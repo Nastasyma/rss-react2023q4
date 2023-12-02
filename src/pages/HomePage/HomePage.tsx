@@ -3,10 +3,11 @@ import { AppDispatch, useAppSelector } from '../../store/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setBorderStyle } from '../../store/form/formSlice';
+import { selectForm } from '../../store/form/formSelector';
 
 function HomePage(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
-  const formDataList = useAppSelector((state) => state.form.formDataList);
+  const formDataList = useAppSelector(selectForm);
 
   useEffect(() => {
     if (formDataList.length > 0) {
