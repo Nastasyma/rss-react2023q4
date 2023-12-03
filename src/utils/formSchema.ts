@@ -15,7 +15,26 @@ export const formSchema = yup.object().shape({
     .typeError('Age must be a number')
     .positive('Age must be a positive number')
     .test('isNumber', 'Age must be a number', (value) => !isNaN(value)),
-  email: yup.string().email('Invalid email').required('Email is required'),
+  email: yup
+    .string()
+    .required('Email is required')
+    .test('contains-at-symbol', "Email address must contain an '@' symbol", (value) => {
+      if (!value) return true;
+      return value.includes('@');
+    })
+    .test(
+      'contains-domain',
+      'Email address must contain a domain name (e.g., example.com)',
+      (value) => {
+        if (!value) return true;
+        const trimmedValue = value.replace(/\s/g, '');
+        const domainRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+        const isValidFormat = domainRegex.test(trimmedValue);
+        const hasDomainName = trimmedValue.split('@')[1]?.length > 0;
+        return isValidFormat && hasDomainName;
+      }
+    )
+    .email('Invalid email address'),
   password: yup
     .string()
     .required('Password is required')
