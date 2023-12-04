@@ -1,0 +1,36 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .formData {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 700px;
+
+    .reactHookFormInfo {
+      display: flex;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .reactHookFormImg {
+    margin: 0 auto;
+    display: block;
+    max-width: 200px;
+  }
+}

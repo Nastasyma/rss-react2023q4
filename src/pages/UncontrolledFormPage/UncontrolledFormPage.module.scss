@@ -1,0 +1,28 @@
+.uncontrolledFormPage {
+  width: 100%;
+  padding: 20px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.passwordStrengthContainer {
+  display: flex;
+  align-items: center;
+
+  .passwordStrengthLabel {
+    margin-right: 6px;
+  }
+
+  .passwordStrength {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 2px;
+    border-radius: 50%;
+  }
+}

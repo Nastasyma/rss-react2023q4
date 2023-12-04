@@ -1,0 +1,80 @@
+import { FieldError } from 'react-hook-form';
+
+import cn from 'classnames';
+
+import { ChangeEvent, forwardRef, useState } from 'react';
+
+import styles from './PasswordInput.module.scss';
+
+import EyeIcon from '../../assets/images/view-eye.svg?react';
+import HiddenEyeIcon from '../../assets/images/hidden-eye.svg?react';
+
+export interface PasswordInputProps {
+  id: string;
+  name?: string;
+  placeholder?: string;
+  label?: string;
+  value?: string;
+  defaultValue?: string;
+  error?: FieldError | string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+  (
+    {
+      id,
+      name,
+      placeholder,
+      label,
+      value,
+      defaultValue,
+      error,
+      onChange,
+      ...otherProps
+    }: PasswordInputProps,
+    ref
+  ): JSX.Element => {
+    const [inputType, setInputType] = useState('password');
+    const inputStyle = cn(styles.input, {
+      [styles.inputError]: error,
+    });
+
+    const handleShowPasswordBtn = (): void => {
+      setInputType((prev) => (prev === 'text' ? 'password' : 'text'));
+    };
+
+    const icon = inputType === 'text' ? <HiddenEyeIcon /> : <EyeIcon />;
+
+    return (
+      <label htmlFor={id} className={styles.label}>
+        {label && <span>{label}</span>}
+        <div className={styles.wrapper}>
+          <input
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            className={inputStyle}
+            defaultValue={defaultValue}
+            type={inputType}
+            ref={ref}
+            {...otherProps}
+            onChange={onChange}
+          />
+          <button className={styles.inputImgWrapper} onClick={handleShowPasswordBtn} type="button">
+            {icon}
+          </button>
+        </div>
+
+        {error && typeof error !== 'string' && (
+          <span className={styles.errorMessage}>{error?.message && `${error.message}`}</span>
+        )}
+
+        {error && typeof error === 'string' && (
+          <span className={styles.errorMessage}>{error && `${error}`}</span>
+        )}
+      </label>
+    );
+  }
+);

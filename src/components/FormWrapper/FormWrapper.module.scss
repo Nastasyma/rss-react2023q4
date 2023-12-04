@@ -1,0 +1,25 @@
+@import '../../styles/variables.scss';
+
+.formWrapper {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 10px 40px 20px 40px;
+  background-color: var(--color-primary-bg);
+
+  .title {
+    text-align: center;
+  }
+
+  .line {
+    width: 100%;
+    max-width: 400px;
+    height: 3px;
+    margin: 10px 0;
+    background-color: var(--color-button-hover);
+  }
+}

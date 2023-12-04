@@ -1,0 +1,13 @@
+.header {
+  width: 100%;
+  padding: 10px 20px;
+  max-width: var(--width-main-container);
+  margin: 0 auto;
+
+  .headerNav {
+    display: flex;
+    justify-content: center;
+    font-size: var(--font-size-middle);
+    gap: 20px;
+  }
+}
